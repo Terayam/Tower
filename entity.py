@@ -11,8 +11,21 @@ class Entity(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = None
 
-        # Set initial draw
+        ########################
+        # Debugging Parameters #
+        ########################
+        self.debug_rect = True
+
+        ######################
+        # Drawing parameters #
+        ######################
+
+        # Set initial draw position
         self.rect = pygame.Rect(0, 0, 0, 0)
+
+        ######################
+        # Physics Parameters #
+        ######################
 
         # Set initial physics position
         self.xPos = 0.0
@@ -49,21 +62,21 @@ class Entity(pygame.sprite.Sprite):
         self.yPos = self.yPos + (self.yVel / elapsed_ms)
 
         # Oppose movement and freeze tiny movements
-        decel_speed = (constants.NORMALDECCEL / elapsed_ms)
+        deccel_speed = (constants.NORMALDECCEL / elapsed_ms)
 
-        if(abs(self.xVel) > decel_speed):
+        if(abs(self.xVel) > deccel_speed):
             if(self.xVel > 0):
-                self.xVel -= decel_speed
+                self.xVel -= deccel_speed
             else:
-                self.xVel += decel_speed
+                self.xVel += deccel_speed
         else:
             self.xVel = 0.0
 
-        if(abs(self.yVel) > decel_speed):
+        if(abs(self.yVel) > deccel_speed):
             if(self.yVel > 0):
-                self.yVel -= decel_speed
+                self.yVel -= deccel_speed
             else:
-                self.yVel += decel_speed
+                self.yVel += deccel_speed
         else:
             self.yVel = 0.0
 
@@ -76,3 +89,10 @@ class Entity(pygame.sprite.Sprite):
         self.set_draw_pos(self.xPos, self.yPos)
 
         screen.blit(self.image, self.rect)
+
+        # Draw the rectangle if enabled
+        if(self.draw_rect):
+            self.draw_rect(screen)
+
+    def draw_rect(self, screen):
+        pygame.draw.rect(screen, constants.DEBUGRECTCOLOR, self.rect, 1)
