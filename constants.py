@@ -1,3 +1,7 @@
+# Path constants
+IMGDIR = 'img'
+LEVELDIR = 'levels'
+
 # Drawing constatnts
 FRAMELIMIT_FPS = 60
 COLORKEY = (255, 0, 255)

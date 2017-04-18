@@ -9,5 +9,4 @@ class Level:
         self.background = None
 
     def set_background(self, filename):
-
         self.background = rm.load_image(filename)

@@ -2,7 +2,6 @@ import pygame
 import constants
 import player
 import rm
-import level
 
 
 class Game:
@@ -23,9 +22,7 @@ class Game:
         self._running = True
 
         # create the background image
-        new_level = level.Level()
-        new_level.set_background('bg.png')
-        self.level_switch(new_level)
+        self.level_switch(rm.load_level('debug1'))
 
         # Create the player object
         self.create_player()
