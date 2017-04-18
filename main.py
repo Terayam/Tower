@@ -2,6 +2,7 @@ import pygame
 import constants
 import player
 import rm
+import level
 
 
 class Game:
@@ -11,7 +12,7 @@ class Game:
         self.screen = None
         self.size = self.width, self.height = 640, 480
         self.entities = []
-        self.background = None
+        self.current_level = None
         self.mainClock = pygame.time.Clock()
 
     def initialize(self):
@@ -22,18 +23,20 @@ class Game:
         self._running = True
 
         # create the background image
-        self.create_background()
+        new_level = level.Level()
+        new_level.set_background('bg.png')
+        self.level_switch(new_level)
 
         # Create the player object
         self.create_player()
 
-    def create_background(self):
+    def level_switch(self, new_level):
 
         # create the surface for the background
-        self.background = rm.load_image('bg.png')
+        self.current_level = new_level
 
         # Perform the intitial background blit
-        self.screen.blit(self.background, (0, 0))
+        self.screen.blit(self.current_level.background, (0, 0))
 
     def create_player(self):
 
@@ -56,7 +59,7 @@ class Game:
     def update(self):
 
         # Get the time since the last update
-        elapsed_ms = self.mainClock.tick_busy_loop(constants.FRAMELIMIT_FPS)
+        elapsed_ms = self.mainClock.tick(constants.FRAMELIMIT_FPS)
 
         # Call update on every object
         for entity in self.entities:
@@ -66,7 +69,7 @@ class Game:
 
         # Call undraw on every object
         for entity in self.entities:
-            entity.undraw(self.screen, self.background)
+            entity.undraw(self.screen, self.current_level.background)
 
         # For now, re-draw the entire background
         # self.screen.blit(self.background, (0,0))
@@ -96,9 +99,6 @@ class Game:
             self.undraw()
             self.update()
             self.draw()
-
-            # Update the main game Clock and limt framerate
-            # self.mainClock.tick_busy_loop(constants.FRAMELIMIT_FPS)
 
         self.quit()
 
