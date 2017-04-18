@@ -19,6 +19,24 @@ def load_image(filename):
     return image
 
 
+def load_all_levels():
+
+    level_list = {}
+
+    # Load each file in level directory
+    for filename in os.listdir(constants.LEVELDIR):
+
+        level = load_level(filename)
+
+        # Add loaded level to list
+        if(level is None):
+            print("Error parsing level from: {0}".format(filename))
+        else:
+            level_list[level.id] = level
+
+    return level_list
+
+
 def load_level(filename):
 
     fullpath = os.path.join(constants.LEVELDIR, filename)
@@ -63,5 +81,8 @@ def parse_level(level_file):
 
         elif(attribute == 'background'):
             new_level.set_background(value)
+
+        elif(attribute == 'next_level'):
+            new_level.next_level = int(value)
 
     return new_level

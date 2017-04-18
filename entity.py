@@ -14,7 +14,7 @@ class Entity(pygame.sprite.Sprite):
         ########################
         # Debugging Parameters #
         ########################
-        self.debug_rect = True
+        self.debug_rect = False
 
         ######################
         # Drawing parameters #
@@ -91,7 +91,7 @@ class Entity(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
         # Draw the rectangle if enabled
-        if(self.draw_rect):
+        if(self.debug_rect):
             self.draw_rect(screen)
 
     def draw_rect(self, screen):

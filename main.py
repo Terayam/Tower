@@ -11,6 +11,7 @@ class Game:
         self.screen = None
         self.size = self.width, self.height = 640, 480
         self.entities = []
+        self.levels = {}
         self.current_level = None
         self.mainClock = pygame.time.Clock()
 
@@ -21,8 +22,11 @@ class Game:
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE)
         self._running = True
 
+        # Load all levels
+        self.levels = rm.load_all_levels()
+
         # create the background image
-        self.level_switch(rm.load_level('debug1'))
+        self.level_switch(self.levels[1])
 
         # Create the player object
         self.create_player()
