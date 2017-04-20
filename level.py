@@ -1,4 +1,4 @@
-import rm
+import pyglet
 
 
 class Level:
@@ -10,4 +10,7 @@ class Level:
         self.next_level = 0
 
     def set_background(self, filename):
-        self.background = rm.load_image(filename)
+        self.background = pyglet.image.load(filename)
+
+    def draw(self):
+        self.background.blit(0, 0)

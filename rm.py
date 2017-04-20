@@ -1,22 +1,6 @@
-import pygame
 import os
 import constants
 import level
-
-
-def load_image(filename):
-
-    fullpath = os.path.join(constants.IMGDIR, filename)
-
-    try:
-        image = pygame.image.load(fullpath)
-    except pygame.error:
-        print('Cannot load image:', filename)
-        raise SystemExit
-
-    image.set_colorkey(constants.COLORKEY, pygame.RLEACCEL)
-
-    return image
 
 
 def load_all_levels():
