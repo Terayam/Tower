@@ -16,6 +16,10 @@ class Game(pyglet.window.Window):
         self.levels = {}
         self.current_level = None
 
+        # Scehdule the update function
+        pyglet.clock.schedule_interval(self.update,
+                                       1 / constants.FRAMELIMIT_FPS)
+
         # Load all levels
         self.levels = rm.load_all_levels()
 
@@ -41,28 +45,8 @@ class Game(pyglet.window.Window):
 
         # Add the player to the entity list
         self.entities.append(self.player)
-    #
-    # def handle_event(self, event):
-    #
-    #     if(event.type == pygame.QUIT):
-    #         self._running = False
-    #
-    #     # if the event was a keytype, pass to player
-    #     self.player.handle_event(event)
-
-    def undraw_all_entities(self):
-
-        # Call undraw on every object
-        for entity in self.entities:
-            entity.undraw(self, self.current_level.background)
-
-        # For now, re-draw the entire background
-        # self.screen.blit(self.background, (0,0))
 
     def update(self, dt):
-
-        # Undraw everything before moving them
-        self.undraw_all_entities()
 
         # Call update on every object
         for entity in self.entities:
@@ -72,13 +56,6 @@ class Game(pyglet.window.Window):
 
         # Draw main sprite group
         self.sprite_batch.draw()
-
-        # Call draw on every object
-        # for entity in self.entities:
-        #     entity.draw()
-
-        # # Flip the display
-        # pygame.display.flip()
 
     def on_draw(self):
 
@@ -90,21 +67,20 @@ class Game(pyglet.window.Window):
 
         # Flip is called automatically by the event loop
 
+    def on_key_press(self, symbol, modifiers):
+
+        # Send keypresses onto the player class
+        self.player.handle_key_press(symbol)
+
+    def on_key_release(self, symbol, modifiers):
+
+        # Send keypresses onto the player class
+        self.player.handle_key_release(symbol)
+
     def run(self):
 
         # Run Pyglet
         pyglet.app.run()
-
-        # while(self._running):
-        #
-        #     for event in pygame.event.get():
-        #         self.handle_event(event)
-        #
-        #     self.undraw()
-        #     self.update()
-        #     self.draw()
-        #
-        # self.quit()
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import pyglet
 import entity
 import constants
 import math
@@ -16,35 +17,33 @@ class Player(entity.Entity):
         self.moveUp = False
         self.moveDown = False
 
-    def handle_event(self, event):
-        pass
-        # if(event.type == pygame.KEYDOWN):
-        #
-        #     if(event.key == pygame.K_a):
-        #         self.moveLeft = True
-        #     elif(event.key == pygame.K_d):
-        #         self.moveRight = True
-        #     elif(event.key == pygame.K_w):
-        #         self.moveUp = True
-        #     elif(event.key == pygame.K_s):
-        #         self.moveDown = True
-        #     else:
-        #         pass
-        #
-        # if(event.type == pygame.KEYUP):
-        #
-        #     if(event.key == pygame.K_a):
-        #         self.moveLeft = False
-        #     elif(event.key == pygame.K_d):
-        #         self.moveRight = False
-        #     elif(event.key == pygame.K_w):
-        #         self.moveUp = False
-        #     elif(event.key == pygame.K_s):
-        #         self.moveDown = False
-        #     else:
-        #         pass
+    def handle_key_press(self, symbol):
 
-    def update(self, elapsed_ms):
+        if(symbol == pyglet.window.key.A):
+            self.moveLeft = True
+        elif(symbol == pyglet.window.key.D):
+            self.moveRight = True
+        elif(symbol == pyglet.window.key.W):
+            self.moveUp = True
+        elif(symbol == pyglet.window.key.S):
+            self.moveDown = True
+        else:
+            pass
+
+    def handle_key_release(self, symbol):
+
+        if(symbol == pyglet.window.key.A):
+            self.moveLeft = False
+        elif(symbol == pyglet.window.key.D):
+            self.moveRight = False
+        elif(symbol == pyglet.window.key.W):
+            self.moveUp = False
+        elif(symbol == pyglet.window.key.S):
+            self.moveDown = False
+        else:
+            pass
+
+    def update(self, elapsed_s):
 
         # accelerate in the direction of movement
         if(self.moveRight):
@@ -54,14 +53,14 @@ class Player(entity.Entity):
         else:
             self.xAcc = 0
 
-        if(self.moveDown):
+        if(self.moveUp):
             self.yAcc = constants.MOVEACCEL
-        elif(self.moveUp):
+        elif(self.moveDown):
             self.yAcc = -constants.MOVEACCEL
         else:
             self.yAcc = 0
 
-        entity.Entity.update(self, elapsed_ms)
+        super(Player, self).update(elapsed_s)
 
         # Cap maximum speed of player
         self.cap_normal_moves_speed()
