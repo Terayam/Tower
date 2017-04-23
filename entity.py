@@ -1,6 +1,5 @@
 import pyglet
 import constants
-import math
 
 
 class Entity(pyglet.sprite.Sprite):
