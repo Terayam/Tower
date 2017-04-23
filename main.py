@@ -11,6 +11,7 @@ class Game(pyglet.window.Window):
         # Call the base class initialize
         super(Game, self).__init__(*args, **kwargs)
 
+        self.sprite_batch = pyglet.graphics.Batch()
         self.entities = []
         self.levels = {}
         self.current_level = None
@@ -35,7 +36,8 @@ class Game(pyglet.window.Window):
 
     def create_player(self):
 
-        self.player = player.Player(pyglet.image.load('img/guy.png'))
+        self.player = player.Player(pyglet.image.load('img/guy.png'),
+                                    batch=self.sprite_batch)
 
         # Add the player to the entity list
         self.entities.append(self.player)
@@ -68,9 +70,12 @@ class Game(pyglet.window.Window):
 
     def draw_all_entities(self):
 
+        # Draw main sprite group
+        self.sprite_batch.draw()
+
         # Call draw on every object
-        for entity in self.entities:
-            entity.draw()
+        # for entity in self.entities:
+        #     entity.draw()
 
         # # Flip the display
         # pygame.display.flip()
