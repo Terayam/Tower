@@ -20,9 +20,9 @@ class Game(pyglet.window.Window):
 
         # create the background image
         self.level_switch(self.levels[1])
-    #
-    #     # Create the player object
-    #     self.create_player()
+
+        # Create the player object
+        self.create_player()
 
     def level_switch(self, new_level):
 
@@ -33,15 +33,12 @@ class Game(pyglet.window.Window):
         self.current_level.draw()
         # self.screen.blit(self.current_level.background, (0, 0))
 
-    # def create_player(self):
-    #
-    #     self.player = player.Player()
-    #
-    #     # load a sprite for the player
-    #     self.player.set_image(rm.load_image('guy.png'))
-    #
-    #     # Add the player to the entity list
-    #     self.entities.append(self.player)
+    def create_player(self):
+
+        self.player = player.Player(pyglet.image.load('img/guy.png'))
+
+        # Add the player to the entity list
+        self.entities.append(self.player)
     #
     # def handle_event(self, event):
     #
@@ -73,7 +70,7 @@ class Game(pyglet.window.Window):
 
         # Call draw on every object
         for entity in self.entities:
-            entity.draw(self.screen)
+            entity.draw()
 
         # # Flip the display
         # pygame.display.flip()
@@ -87,7 +84,6 @@ class Game(pyglet.window.Window):
         self.draw_all_entities()
 
         # Flip is called automatically by the event loop
-
 
     def run(self):
 

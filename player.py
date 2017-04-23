@@ -1,15 +1,14 @@
 import entity
 import constants
-import pygame
 import math
 
 
 class Player(entity.Entity):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
 
         # Call the base class initializer
-        entity.Entity.__init__(self)
+        super(Player, self).__init__(*args, **kwargs)
 
         # Initialize state variables
         self.moveLeft = False
@@ -18,32 +17,32 @@ class Player(entity.Entity):
         self.moveDown = False
 
     def handle_event(self, event):
-
-        if(event.type == pygame.KEYDOWN):
-
-            if(event.key == pygame.K_a):
-                self.moveLeft = True
-            elif(event.key == pygame.K_d):
-                self.moveRight = True
-            elif(event.key == pygame.K_w):
-                self.moveUp = True
-            elif(event.key == pygame.K_s):
-                self.moveDown = True
-            else:
-                pass
-
-        if(event.type == pygame.KEYUP):
-
-            if(event.key == pygame.K_a):
-                self.moveLeft = False
-            elif(event.key == pygame.K_d):
-                self.moveRight = False
-            elif(event.key == pygame.K_w):
-                self.moveUp = False
-            elif(event.key == pygame.K_s):
-                self.moveDown = False
-            else:
-                pass
+        pass
+        # if(event.type == pygame.KEYDOWN):
+        #
+        #     if(event.key == pygame.K_a):
+        #         self.moveLeft = True
+        #     elif(event.key == pygame.K_d):
+        #         self.moveRight = True
+        #     elif(event.key == pygame.K_w):
+        #         self.moveUp = True
+        #     elif(event.key == pygame.K_s):
+        #         self.moveDown = True
+        #     else:
+        #         pass
+        #
+        # if(event.type == pygame.KEYUP):
+        #
+        #     if(event.key == pygame.K_a):
+        #         self.moveLeft = False
+        #     elif(event.key == pygame.K_d):
+        #         self.moveRight = False
+        #     elif(event.key == pygame.K_w):
+        #         self.moveUp = False
+        #     elif(event.key == pygame.K_s):
+        #         self.moveDown = False
+        #     else:
+        #         pass
 
     def update(self, elapsed_ms):
 

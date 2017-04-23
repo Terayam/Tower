@@ -1,15 +1,14 @@
-import pygame
+import pyglet
 import constants
 import math
 
 
-class Entity(pygame.sprite.Sprite):
+class Entity(pyglet.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
 
         # Call the sprite initializer, but don't set an image
-        pygame.sprite.Sprite.__init__(self)
-        self.image = None
+        super(Entity, self).__init__(*args, **kwargs)
 
         ########################
         # Debugging Parameters #
@@ -20,16 +19,14 @@ class Entity(pygame.sprite.Sprite):
         # Drawing parameters #
         ######################
 
-        # Set initial draw position
-        self.rect = pygame.Rect(0, 0, 0, 0)
-
         ######################
         # Physics Parameters #
         ######################
+        self.subpixel = True
 
         # Set initial physics position
-        self.xPos = 0.0
-        self.yPos = 0.0
+        self.x = 0.0
+        self.y = 0.0
 
         # Set initial velocity
         self.xVel = 0.0
@@ -41,12 +38,11 @@ class Entity(pygame.sprite.Sprite):
 
     def set_draw_pos(self, xPos, yPos):
         # Move drawing rectangle to current physics point
-        self.rect.x = math.floor(self.xPos)
-        self.rect.y = math.floor(self.yPos)
+        self.x = math.floor(self.xPos)
+        self.y = math.floor(self.yPos)
 
     def set_image(self, image):
         self.image = image
-        self.rect = image.get_rect()
 
     def handle_event(self, event):
         pass
@@ -58,8 +54,8 @@ class Entity(pygame.sprite.Sprite):
         self.yVel = self.yVel + (self.yAcc / elapsed_ms)
 
         # Update position
-        self.xPos = self.xPos + (self.xVel / elapsed_ms)
-        self.yPos = self.yPos + (self.yVel / elapsed_ms)
+        self.x = self.xPos + (self.xVel / elapsed_ms)
+        self.y = self.yPos + (self.yVel / elapsed_ms)
 
         # Oppose movement and freeze tiny movements
         deccel_speed = (constants.NORMALDECCEL / elapsed_ms)
@@ -83,16 +79,16 @@ class Entity(pygame.sprite.Sprite):
     def undraw(self, screen, background):
         screen.blit(background, self.rect, self.rect)
 
-    def draw(self, screen):
-
-        # Update drawing position to current physics location
-        self.set_draw_pos(self.xPos, self.yPos)
-
-        screen.blit(self.image, self.rect)
+    # def draw(self, screen):
+    #
+    #     # Update drawing position to current physics location
+    #     self.set_draw_pos(self.xPos, self.yPos)
+    #
+    #     self.image.blit()
 
         # Draw the rectangle if enabled
-        if(self.debug_rect):
-            self.draw_rect(screen)
+        # if(self.debug_rect):
+        #     self.draw_rect(screen)
 
-    def draw_rect(self, screen):
-        pygame.draw.rect(screen, constants.DEBUGRECTCOLOR, self.rect, 1)
+    # def draw_rect(self, screen):
+        # pygame.draw.rect(screen, constants.DEBUGRECTCOLOR, self.rect, 1)
