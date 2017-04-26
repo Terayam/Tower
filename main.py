@@ -2,6 +2,7 @@ import pyglet
 import constants
 import player
 import rm
+import joystick_handler
 
 
 class Game(pyglet.window.Window):
@@ -16,6 +17,11 @@ class Game(pyglet.window.Window):
         self.levels = {}
         self.current_level = None
 
+        # Check for a joystick
+        self.joystick = None
+        self.joystick_handler = joystick_handler.Joystick_handler()
+        self.setup_joystick()
+
         # Scehdule the update function
         pyglet.clock.schedule_interval(self.update,
                                        1 / constants.FRAMELIMIT_FPS)
@@ -28,6 +34,17 @@ class Game(pyglet.window.Window):
 
         # Create the player object
         self.create_player()
+
+    def setup_joystick(self):
+
+        # Load all joysicks
+        joysticks = pyglet.input.get_joysticks()
+
+        # If joysticks found, load and open the first one.
+        if(joysticks):
+            self.joystick = joysticks[0]
+            self.joystick.open()
+            self.joystick_handler.set_joystick(self.joystick)
 
     def level_switch(self, new_level):
 
@@ -47,6 +64,13 @@ class Game(pyglet.window.Window):
         self.entities.append(self.player)
 
     def update(self, dt):
+
+        # Update joystick events
+        if(self.joystick):
+            self.joystick_handler.update_joystate()
+
+        # Give joystate to Player
+        self.player.read_joystate(self.joystick_handler)
 
         # Call update on every object
         for entity in self.entities:

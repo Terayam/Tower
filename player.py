@@ -43,6 +43,13 @@ class Player(entity.Entity):
         else:
             pass
 
+    def read_joystate(self, joystick_handler):
+
+        self.moveLeft = joystick_handler.moveLeft
+        self.moveRight = joystick_handler.moveRight
+        self.moveUp = joystick_handler.moveUp
+        self.moveDown = joystick_handler.moveDown
+
     def update(self, elapsed_s):
 
         # accelerate in the direction of movement
