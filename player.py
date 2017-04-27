@@ -12,6 +12,12 @@ class Player(entity.Entity):
         # Call the base class initializer
         super(Player, self).__init__(*args, **kwargs)
 
+        # Movement keys
+        self.moveLeftDigital = False
+        self.moveRightDigital = False
+        self.moveUpDigital = False
+        self.moveDownDigital = False
+
         # Initialize state variables
         self.hMove = 0.0
         self.vMove = 0.0
@@ -19,44 +25,44 @@ class Player(entity.Entity):
     def handle_key_press(self, symbol):
 
         if(symbol == pyglet.window.key.A):
-            self.hMove = -1.0
+            self.moveLeftDigital = True
         elif(symbol == pyglet.window.key.D):
-            self.hMove = 1.0
+            self.moveRightDigital = True
         elif(symbol == pyglet.window.key.W):
-            self.vMove = 1.0
+            self.moveUpDigital = True
         elif(symbol == pyglet.window.key.S):
-            self.vMove = -1.0
-        else:
-            pass
+            self.moveDownDigital = True
 
     def handle_key_release(self, symbol):
 
         if(symbol == pyglet.window.key.A):
-            self.hMove = 0.0
+            self.moveLeftDigital = False
         elif(symbol == pyglet.window.key.D):
-            self.hMove = 0.0
+            self.moveRightDigital = False
         elif(symbol == pyglet.window.key.W):
-            self.vMove = 0.0
+            self.moveUpDigital = False
         elif(symbol == pyglet.window.key.S):
-            self.vMove = 0.0
-        else:
-            pass
+            self.moveDownDigital = False
 
     def read_joystate(self, joystick_handler):
+
+        self.moveLeftDigital |= joystick_handler.moveLeft
+        self.moveRightDigital |= joystick_handler.moveRight
+        self.moveUpDigital |= joystick_handler.moveUp
+        self.moveDownDigital |= joystick_handler.moveDown
 
         temp_hMove = 0.0
         temp_vMove = 0.0
 
-        if(joystick_handler.moveLeft):
+        if(self.moveLeftDigital):
             temp_hMove = -1.0
-        elif(joystick_handler.moveRight):
+        elif(self.moveRightDigital):
             temp_hMove = 1.0
-        elif(joystick_handler.moveUp):
+
+        if(self.moveUpDigital):
             temp_vMove = 1.0
-        elif(joystick_handler.moveDown):
+        elif(self.moveDownDigital):
             temp_vMove = -1.0
-        else:
-            pass
 
         self.hMove = util.biggest([temp_hMove, joystick_handler.x])
         self.vMove = util.biggest([temp_vMove, joystick_handler.y])
