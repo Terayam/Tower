@@ -1,3 +1,7 @@
+import math
+import constants
+
+
 class Joystick_handler():
 
     def __init__(self):
@@ -7,6 +11,8 @@ class Joystick_handler():
         self.moveRight = False
         self.moveUp = False
         self.moveDown = False
+        self.x = 0.0
+        self.y = 0.0
 
         self.joystick = None
 
@@ -18,49 +24,36 @@ class Joystick_handler():
 
         if(self.joystick):
 
-            moveLeftHat = False
-            moveRightHat = False
-            moveUpHat = False
-            moveDownHat = False
-
-            moveLeftAna = False
-            moveRightAna = False
-            moveUpAna = False
-            moveDownAna = False
-
             # Check hat X position
             if(self.joystick.hat_x > 0):
-                moveLeftHat = False
-                moveRightHat = True
+                self.moveLeft = False
+                self.moveRight = True
             elif(self.joystick.hat_x < 0):
-                moveLeftHat = True
-                moveRightHat = False
+                self.moveLeft = True
+                self.moveRight = False
+            else:
+                self.moveLeft = False
+                self.moveRight = False
 
             # check hat Y position
             if(self.joystick.hat_y > 0):
-                moveUpHat = True
-                moveDownHat = False
+                self.moveUp = True
+                self.moveDown = False
             elif(self.joystick.hat_y < 0):
-                moveUpHat = False
-                moveDownHat = True
+                self.moveUp = False
+                self.moveDown = True
+            else:
+                self.moveUp = False
+                self.moveDown = False
 
-            # Check X axis position
-            if(self.joystick.x < -0.5):
-                moveLeftAna = True
-                moveRightAna = False
-            elif(self.joystick.x > 0.5):
-                moveLeftAna = False
-                moveRightAna = True
+            # Update analog state
+            self.x = self.joystick.x
+            self.y = -self.joystick.y  # Joystick direction is inverted
 
-            # Check y axis position
-            if(self.joystick.y < -0.5):
-                moveUpAna = True
-                moveDownAna = False
-            elif(self.joystick.y > 0.5):
-                moveUpAna = False
-                moveDownAna = True
+            # Joystick deadzone, circle shaped
+            total_deflection = math.sqrt((self.x * self.x) + \
+                                         (self.y * self.y))
 
-            self.moveLeft = moveLeftHat or moveLeftAna
-            self.moveRight = moveRightHat or moveRightAna
-            self.moveUp = moveUpHat or moveUpAna
-            self.moveDown = moveDownHat or moveDownAna
+            if(total_deflection < constants.JS_DEADZONE):
+                self.x = 0
+                self.y = 0

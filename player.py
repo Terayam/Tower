@@ -2,6 +2,7 @@ import pyglet
 import entity
 import constants
 import math
+import util
 
 
 class Player(entity.Entity):
@@ -12,57 +13,67 @@ class Player(entity.Entity):
         super(Player, self).__init__(*args, **kwargs)
 
         # Initialize state variables
-        self.moveLeft = False
-        self.moveRight = False
-        self.moveUp = False
-        self.moveDown = False
+        self.hMove = 0.0
+        self.vMove = 0.0
 
     def handle_key_press(self, symbol):
 
         if(symbol == pyglet.window.key.A):
-            self.moveLeft = True
+            self.hMove = -1.0
         elif(symbol == pyglet.window.key.D):
-            self.moveRight = True
+            self.hMove = 1.0
         elif(symbol == pyglet.window.key.W):
-            self.moveUp = True
+            self.vMove = 1.0
         elif(symbol == pyglet.window.key.S):
-            self.moveDown = True
+            self.vMove = -1.0
         else:
             pass
 
     def handle_key_release(self, symbol):
 
         if(symbol == pyglet.window.key.A):
-            self.moveLeft = False
+            self.hMove = 0.0
         elif(symbol == pyglet.window.key.D):
-            self.moveRight = False
+            self.hMove = 0.0
         elif(symbol == pyglet.window.key.W):
-            self.moveUp = False
+            self.vMove = 0.0
         elif(symbol == pyglet.window.key.S):
-            self.moveDown = False
+            self.vMove = 0.0
         else:
             pass
 
     def read_joystate(self, joystick_handler):
 
-        self.moveLeft = joystick_handler.moveLeft
-        self.moveRight = joystick_handler.moveRight
-        self.moveUp = joystick_handler.moveUp
-        self.moveDown = joystick_handler.moveDown
+        temp_hMove = 0.0
+        temp_vMove = 0.0
+
+        if(joystick_handler.moveLeft):
+            temp_hMove = -1.0
+        elif(joystick_handler.moveRight):
+            temp_hMove = 1.0
+        elif(joystick_handler.moveUp):
+            temp_vMove = 1.0
+        elif(joystick_handler.moveDown):
+            temp_vMove = -1.0
+        else:
+            pass
+
+        self.hMove = util.biggest([temp_hMove, joystick_handler.x])
+        self.vMove = util.biggest([temp_vMove, joystick_handler.y])
 
     def update(self, elapsed_s):
 
         # accelerate in the direction of movement
-        if(self.moveRight):
+        if(self.hMove > 0.0):
             self.xAcc = constants.MOVEACCEL
-        elif(self.moveLeft):
+        elif(self.hMove < 0.0):
             self.xAcc = -constants.MOVEACCEL
         else:
             self.xAcc = 0
 
-        if(self.moveUp):
+        if(self.vMove > 0.0):
             self.yAcc = constants.MOVEACCEL
-        elif(self.moveDown):
+        elif(self.vMove < 0.0):
             self.yAcc = -constants.MOVEACCEL
         else:
             self.yAcc = 0
@@ -74,10 +85,5 @@ class Player(entity.Entity):
 
     def cap_normal_moves_speed(self):
 
-        # Get magnitude of ve,ocity vector
-        mag = math.sqrt((self.xVel * self.xVel) + (self.yVel * self.yVel))
-
-        # If magnitude  if greater than max, scale components proportionally
-        if(mag > constants.MAXSPEED):
-            self.xVel = (constants.MAXSPEED / mag) * self.xVel
-            self.yVel = (constants.MAXSPEED / mag) * self.yVel
+        self.xVel = util.smallest([constants.MAXSPEED * self.hMove, self.xVel])
+        self.yVel = util.smallest([constants.MAXSPEED * self.vMove, self.yVel])
