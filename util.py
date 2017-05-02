@@ -1,3 +1,6 @@
+import random
+
+
 def biggest(list):
     big = list[0]
 
@@ -16,3 +19,11 @@ def smallest(list):
             small = number
 
     return small
+
+
+def random_color():
+
+    color = [random.randrange(255) for x in range(3)]
+    color.append(255)
+
+    return tuple(color)

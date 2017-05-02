@@ -1,5 +1,6 @@
 import pyglet
 import constants
+import rect
 
 
 class Entity(pyglet.sprite.Sprite):
@@ -12,7 +13,6 @@ class Entity(pyglet.sprite.Sprite):
         ########################
         # Debugging Parameters #
         ########################
-        self.debug_rect = False
 
         ######################
         # Drawing parameters #
@@ -24,8 +24,7 @@ class Entity(pyglet.sprite.Sprite):
         self.subpixel = True
 
         # Set initial physics position
-        self.x = 0.0
-        self.y = 0.0
+        self.bbox = rect.Rect()
 
         # Set initial velocity
         self.xVel = 0.0
@@ -38,6 +37,10 @@ class Entity(pyglet.sprite.Sprite):
     def set_image(self, image):
         self.image = image
 
+    def bbox_to_image(self):
+        self.bbox.w = self.width
+        self.bbox.h = self.height
+
     def update(self, elapsed_s):
 
         # Update velocity
@@ -47,6 +50,10 @@ class Entity(pyglet.sprite.Sprite):
         # Update position
         self.x = self.x + (self.xVel * elapsed_s)
         self.y = self.y + (self.yVel * elapsed_s)
+
+        # Update bbox position
+        self.bbox.x = self.x
+        self.bbox.y = self.y
 
         # Oppose movement and freeze tiny movements
         deccel_speed = (constants.NORMALDECCEL * elapsed_s)

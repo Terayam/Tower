@@ -11,6 +11,10 @@ class Player(entity.Entity):
         # Call the base class initializer
         super(Player, self).__init__(*args, **kwargs)
 
+        # default bbox to image
+        super(Player, self).bbox_to_image()
+        self.bbox.color = util.random_color()
+
         # Movement keys
         self.moveLeftDigital = False
         self.moveRightDigital = False

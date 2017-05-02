@@ -1,4 +1,5 @@
 import math
+import pyglet
 
 
 class Rect():
@@ -9,6 +10,14 @@ class Rect():
         self.w = 0
         self.h = 0
 
+        self.color = (255, 255, 255, 255)
+
+    def draw(self):
+
+        pattern = pyglet.image.SolidColorImagePattern(color=self.color)
+        image = pattern.create_image(self.w, self.h)
+        image.blit(self.x, self.y)
+
     # Easy-access functions
     def left(self):
         return self.x
@@ -16,23 +25,23 @@ class Rect():
     def right(self):
         return self.x + self.w
 
-    def top(self):
+    def bottom(self):
         return self.y
 
-    def bottom(self):
+    def top(self):
         return self.y + self.h
 
-    def tl(self):
+    def bl(self):
         return (self.x, self.y)
 
     def tr(self):
         return (self.right(), self.y)
 
-    def bl(self):
-        return (self.x, self.bottom())
+    def tl(self):
+        return (self.x, self.top())
 
     def br(self):
-        return (self.right(), self.bottom())
+        return (self.right(), self.y)
 
     def h_center(self):
         return (self.x + (self.w / 2))
@@ -50,31 +59,31 @@ class Rect():
     def set_right(self, x):
         self.x = (x - self.w)
 
-    def set_top(self, y):
+    def set_bottom(self, y):
         self.y = y
 
-    def set_bottom(self, y):
+    def set_top(self, y):
         self.y = (y - self.h)
 
     def set_center(self, pt):
         self.x = (pt[0] - (self.w / 2))
         self.y = (pt[1] - (self.h / 2))
 
-    def set_tl(self, pt):
-        self.x = pt[0]
-        self.y = pt[1]
-
-    def set_tr(self, pt):
-        self.set_right(pt[0])
-        self.y = pt[1]
-
     def set_bl(self, pt):
         self.x = pt[0]
-        self.set_bottom(pt[1])
+        self.y = pt[1]
 
     def set_br(self, pt):
         self.set_right(pt[0])
-        self.set_bottom(pt[1])
+        self.y = pt[1]
+
+    def set_tl(self, pt):
+        self.x = pt[0]
+        self.set_top(pt[1])
+
+    def set_tr(self, pt):
+        self.set_top(pt[0])
+        self.set_right(pt[1])
 
     # Geometry functions
     def area(self):

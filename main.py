@@ -17,6 +17,11 @@ class Game(pyglet.window.Window):
         self.levels = {}
         self.current_level = None
 
+        ########################
+        # Debugging Parameters #
+        ########################
+        self.debug_bbox = True
+
         # Check for a joystick
         self.joystick = None
         self.joystick_handler = joystick_handler.Joystick_handler()
@@ -85,6 +90,11 @@ class Game(pyglet.window.Window):
 
         # Draw the current level
         self.current_level.draw()
+
+        # Draw bboxes if debug enabled
+        if(self.debug_bbox):
+            for ent in self.entities:
+                ent.bbox.draw()
 
         # Draw entities
         self.draw_all_entities()
