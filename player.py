@@ -1,7 +1,6 @@
 import pyglet
 import entity
 import constants
-import math
 import util
 
 
@@ -75,16 +74,4 @@ class Player(entity.Entity):
         super(Player, self).update(elapsed_s)
 
         # Cap maximum speed of player
-        self.cap_normal_moves_speed()
-
-    def cap_normal_moves_speed(self):
-
-        if(self.xVel > constants.MAXSPEED):
-            self.xVel = constants.MAXSPEED
-        elif(self.xVel < -constants.MAXSPEED):
-            self.xVel = -constants.MAXSPEED
-
-        if(self.yVel > constants.MAXSPEED):
-            self.yVel = constants.MAXSPEED
-        elif(self.yVel < -constants.MAXSPEED):
-            self.yVel = -constants.MAXSPEED
+        super(Player, self).cap_normal_move_speed(constants.MAXPLAYERSPEED)

@@ -13,7 +13,7 @@ MINSPEED = 1 / (10 * FRAMELIMIT_FPS)  # Slowest speed possible is 1px/10Frames
 
 # Player constatnts
 MOVEACCEL = 600
-MAXSPEED = 200
+MAXPLAYERSPEED = 200
 
 # Input constatnts
 JS_DEADZONE = 0.25
