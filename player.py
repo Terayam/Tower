@@ -46,23 +46,22 @@ class Player(entity.Entity):
 
     def read_joystate(self, joystick_handler):
 
-        self.moveLeftDigital |= joystick_handler.moveLeft
-        self.moveRightDigital |= joystick_handler.moveRight
-        self.moveUpDigital |= joystick_handler.moveUp
-        self.moveDownDigital |= joystick_handler.moveDown
-
         temp_hMove = 0.0
         temp_vMove = 0.0
 
-        if(self.moveLeftDigital):
+        if(self.moveLeftDigital or joystick_handler.moveLeft):
             temp_hMove = -1.0
-        elif(self.moveRightDigital):
+        elif(self.moveRightDigital or joystick_handler.moveRight):
             temp_hMove = 1.0
+        else:
+            temp_hMove = 0.0
 
-        if(self.moveUpDigital):
+        if(self.moveUpDigital or joystick_handler.moveUp):
             temp_vMove = 1.0
-        elif(self.moveDownDigital):
+        elif(self.moveDownDigital or joystick_handler.moveDown):
             temp_vMove = -1.0
+        else:
+            temp_vMove = 0.0
 
         self.hMove = util.biggest([temp_hMove, joystick_handler.x])
         self.vMove = util.biggest([temp_vMove, joystick_handler.y])
@@ -70,19 +69,8 @@ class Player(entity.Entity):
     def update(self, elapsed_s):
 
         # accelerate in the direction of movement
-        if(self.hMove > 0.0):
-            self.xAcc = constants.MOVEACCEL
-        elif(self.hMove < 0.0):
-            self.xAcc = -constants.MOVEACCEL
-        else:
-            self.xAcc = 0
-
-        if(self.vMove > 0.0):
-            self.yAcc = constants.MOVEACCEL
-        elif(self.vMove < 0.0):
-            self.yAcc = -constants.MOVEACCEL
-        else:
-            self.yAcc = 0
+        self.xAcc = constants.MOVEACCEL * self.hMove
+        self.yAcc = constants.MOVEACCEL * self.vMove
 
         super(Player, self).update(elapsed_s)
 
