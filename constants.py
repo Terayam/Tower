@@ -17,3 +17,4 @@ MAXSPEED = 200
 
 # Input constatnts
 JS_DEADZONE = 0.25
+ANALOG_GAIN = 2.5

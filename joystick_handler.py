@@ -57,3 +57,16 @@ class Joystick_handler():
             if(total_deflection < constants.JS_DEADZONE):
                 self.x = 0
                 self.y = 0
+
+            self.x = self.x * constants.ANALOG_GAIN
+            self.y = self.y * constants.ANALOG_GAIN
+
+            if(self.x > 1.0):
+                self.x = 1.0
+            elif(self.x < -1.0):
+                self.x = -1.0
+
+            if(self.y > 1.0):
+                self.y = 1.0
+            elif(self.y < -1.0):
+                self.y = -1.0

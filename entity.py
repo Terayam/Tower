@@ -51,21 +51,34 @@ class Entity(pyglet.sprite.Sprite):
         # Oppose movement and freeze tiny movements
         deccel_speed = (constants.NORMALDECCEL * elapsed_s)
 
-        if(abs(self.xVel) > deccel_speed):
-            if(self.xVel > 0):
-                self.xVel -= deccel_speed
-            else:
-                self.xVel += deccel_speed
-        else:
-            self.xVel = 0.0
+        if(self.xVel > 0):
+            self.xVel -= deccel_speed
 
-        if(abs(self.yVel) > deccel_speed):
-            if(self.yVel > 0):
-                self.yVel -= deccel_speed
-            else:
-                self.yVel += deccel_speed
+            # Stop moving if direction changed
+            if(self.xVel < 0):
+                self.xVel = 0
+
         else:
-            self.yVel = 0.0
+            self.xVel += deccel_speed
+
+            # Stop moving if direction changed
+            if(self.xVel > 0):
+                self.xVel = 0
+
+        if(self.yVel > 0):
+            self.yVel -= deccel_speed
+
+            # Stop moving if direction changed
+            if(self.yVel < 0):
+                self.yVel = 0
+
+        else:
+            self.yVel += deccel_speed
+
+            # Stop moving if direction changed
+            if(self.yVel > 0):
+                self.yVel = 0
+
 
     def undraw(self, screen, background):
         screen.blit(background, self.rect, self.rect)
