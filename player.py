@@ -91,5 +91,12 @@ class Player(entity.Entity):
 
     def cap_normal_moves_speed(self):
 
-        self.xVel = util.smallest([constants.MAXSPEED * self.hMove, self.xVel])
-        self.yVel = util.smallest([constants.MAXSPEED * self.vMove, self.yVel])
+        if(self.xVel > constants.MAXSPEED):
+            self.xVel = constants.MAXSPEED
+        elif(self.xVel < -constants.MAXSPEED):
+            self.xVel = -constants.MAXSPEED
+
+        if(self.yVel > constants.MAXSPEED):
+            self.yVel = constants.MAXSPEED
+        elif(self.yVel < -constants.MAXSPEED):
+            self.yVel = -constants.MAXSPEED
