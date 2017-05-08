@@ -41,6 +41,15 @@ class Entity(pyglet.sprite.Sprite):
         self.bbox.w = self.width
         self.bbox.h = self.height
 
+    def collide(self, other):
+
+        # Get the rectangle overlap
+        overlap = self.bbox.union(other)
+
+        if(overlap):
+            overlap.color = (255, 0, 0, 255)
+            overlap.draw()
+
     def update(self, elapsed_s):
 
         # Update velocity

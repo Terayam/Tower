@@ -15,7 +15,8 @@ class Rect():
     def draw(self):
 
         pattern = pyglet.image.SolidColorImagePattern(color=self.color)
-        image = pattern.create_image(self.w, self.h)
+        image = pattern.create_image(math.ceil(self.w),
+                                     math.ceil(self.h))
         image.blit(self.x, self.y)
 
     # Easy-access functions
@@ -97,3 +98,36 @@ class Rect():
 
     def radius(self):
         return (self.diag() / 2)
+
+    # Name: Union
+    # Description: Returns the rectangular overlaping
+    #              segment of this rectangle and the passed-in
+    #              rectangle.
+    def union(self, b):
+
+        # Set the properties of the rectangle if a collision is
+        # occurring, otherwise return None
+        if((self.x < b.right()) and
+           (self.right() > b.x) and
+           (self.top() > b.y) and
+           (self.y < b.top())):
+
+            c = Rect()
+
+            # Origin of the overlap is always the greatest X
+            # and greatest Y
+            c.x = max(self.x, b.x)
+            c.y = max(self.y, b.y)
+
+            # This is the top-right corner of the rectangle
+            # and will be translated into W, H
+            x2 = min(self.right(), b.right())
+            y2 = min(self.top(), b.top())
+
+            c.w = x2 - c.x
+            c.h = y2 - c.y
+
+            return c
+
+        else:
+            return None

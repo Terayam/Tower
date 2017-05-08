@@ -3,6 +3,8 @@ import constants
 import player
 import rm
 import joystick_handler
+import rect
+import util
 
 
 class Game(pyglet.window.Window):
@@ -39,6 +41,14 @@ class Game(pyglet.window.Window):
 
         # Create the player object
         self.create_player()
+
+        # Create a rectangle to test collisions width
+        self.test_rect = rect.Rect()
+        self.test_rect.x = 150
+        self.test_rect.y = 250
+        self.test_rect.w = 100
+        self.test_rect.h = 120
+        self.test_rect.color = util.random_color()
 
     def setup_joystick(self):
 
@@ -98,6 +108,12 @@ class Game(pyglet.window.Window):
 
         # Draw entities
         self.draw_all_entities()
+
+        # draw the test rectangle
+        self.test_rect.draw()
+
+        # collide the player with the test rectangle
+        self.player.collide(self.test_rect)
 
         # Flip is called automatically by the event loop
 
