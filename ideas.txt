@@ -1,3 +1,6 @@
+Controls:
+    - Not full analog on the joystick.  Just two stages
+
 Health Mechanic:
     - Idea 1: Far Cry health system. 4 stages of healthbar
       can only recover to the current stage of health
