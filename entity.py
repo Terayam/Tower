@@ -44,11 +44,51 @@ class Entity(pyglet.sprite.Sprite):
     def collide(self, other):
 
         # Get the rectangle overlap
-        overlap = self.bbox.union(other)
+        overlap = self.bbox.union(other.bbox)
 
         if(overlap):
+
+            # DEBUG #
             overlap.color = (255, 0, 0, 255)
             overlap.draw()
+
+            # This sprite acts upon other sprites
+            self.collide_with_player(other, overlap)
+
+    def collide_with_player(self, player, overlap):
+        pass
+
+    def exit_collision(self, overlap):
+
+        # Self move responding to the overlap
+
+        # Primarily a Horizontal overlap
+        if(overlap.h > overlap.w):
+
+            # Overlap is left, move right
+            if(overlap.x > self.x):
+                self.x = self.x - overlap.w
+
+            # Overlap is right, move left
+            else:
+                self.x = overlap.right()
+
+            # Stop X movement
+            self.xVel = 0.0
+
+        # Primarily a Vertical overlap
+        else:
+
+            # Overlap is below, move up
+            if(overlap.y > self.y):
+                self.y = self.y - overlap.h
+
+            # Overlap is above, move down
+            else:
+                self.y = overlap.top()
+
+            # Stop Y movement
+            self.yVel = 0.0
 
     def update(self, elapsed_s):
 

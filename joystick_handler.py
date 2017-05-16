@@ -51,7 +51,7 @@ class Joystick_handler():
             self.y = -self.joystick.y  # Joystick direction is inverted
 
             # Joystick deadzone, circle shaped
-            total_deflection = math.sqrt((self.x * self.x) + \
+            total_deflection = math.sqrt((self.x * self.x) +
                                          (self.y * self.y))
 
             if(total_deflection < constants.JS_DEADZONE):
