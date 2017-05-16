@@ -16,7 +16,6 @@ class Game(pyglet.window.Window):
         super(Game, self).__init__(*args, **kwargs)
 
         self.sprite_batch = pyglet.graphics.Batch()
-        self.entities = []
         self.levels = {}
         self.current_level = None
 
@@ -50,15 +49,15 @@ class Game(pyglet.window.Window):
         self.walls = []
 
         for i in range(4):
-            new_wall = wall.Wall(wallimage)
+            new_wall = wall.Wall(wallimage, batch=self.sprite_batch)
             new_wall.x = random.randrange(640)
             new_wall.y = random.randrange(480)
+            new_wall.bbox.x = new_wall.x
+            new_wall.bbox.y = new_wall.y
             new_wall.bbox.w = random.randrange(20, 300)
             new_wall.bbox.h = random.randrange(20, 300)
             new_wall.bbox.color = util.random_color()
             self.walls.append(new_wall)
-
-        self.entities = self.entities + self.walls
 
     def setup_joystick(self):
 
@@ -85,9 +84,6 @@ class Game(pyglet.window.Window):
         self.player = player.Player(pyglet.image.load('img/guy.png'),
                                     batch=self.sprite_batch)
 
-        # Add the player to the entity list
-        self.entities.append(self.player)
-
     def update(self, dt):
 
         # Update joystick events
@@ -98,12 +94,17 @@ class Game(pyglet.window.Window):
         self.player.read_joystate(self.joystick_handler)
 
         # Call update on every object
-        for ent in self.entities:
-            ent.update(dt)
+        self.player.update(dt)
 
-        # collide the player with the test rectangles
-        for wall in self.walls:
-            self.player.collide(wall)
+        # collide the player with the walls
+        for w in self.walls:
+            self.player.collide(w)
+
+        # Collide enemies and enemy projectiles with player projectiles
+
+        # Collide enemies and enemy projectiles with walls
+
+        # Collide the player with enemies and projectiles
 
     def draw_all_entities(self):
 
@@ -117,8 +118,15 @@ class Game(pyglet.window.Window):
 
         # Draw bboxes if debug enabled
         if(self.debug_bbox):
-            for ent in self.entities:
-                ent.bbox.draw()
+
+            # draw all wall bounding boxes
+            for w in self.walls:
+                w.bbox.draw()
+
+            # Draw player bounding boox
+            self.player.bbox.draw()
+
+            # Draw bboxes of enemies and projectiles
 
         # Draw entities
         self.draw_all_entities()
