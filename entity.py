@@ -22,6 +22,7 @@ class Entity(pyglet.sprite.Sprite):
         # Physics Parameters #
         ######################
         self.subpixel = True
+        self.collidable = False
 
         # Set initial physics position
         self.bbox = rect.Rect()
@@ -100,18 +101,20 @@ class Entity(pyglet.sprite.Sprite):
     #######################
     def collide(self, other):
 
-        # Get the rectangle overlap
-        overlap = self.bbox.union(other.bbox)
+        # Don't collide if either sprite is not collidable
+        if(self.collidable and other.collidable):
+            # Get the rectangle overlap
+            overlap = self.bbox.union(other.bbox)
 
-        if(overlap):
+            if(overlap):
 
-            # DEBUG #
-            overlap.color = (255, 0, 0, 255)
-            overlap.draw()
+                # DEBUG #
+                overlap.color = (255, 0, 0, 255)
+                overlap.draw()
 
-            # This sprite acts upon other sprites
-            self.collide_with_player(other, overlap)
-            self.collide_with_wall(other, overlap)
+                # This sprite acts upon other sprites
+                self.collide_with_player(other, overlap)
+                self.collide_with_wall(other, overlap)
 
     def collide_with_player(self, player, overlap):
         pass

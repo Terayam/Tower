@@ -15,6 +15,8 @@ class Player(entity.Entity):
         super(Player, self).bbox_to_image()
         self.bbox.color = util.random_color()
 
+        self.collidable = True
+
         # Movement keys
         self.moveLeftDigital = False
         self.moveRightDigital = False
