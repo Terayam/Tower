@@ -1,3 +1,6 @@
+Setting:
+    - Mastodon's Blood Mountain + Between the Buried and Me's Colors?
+
 Controls:
     - Not full analog on the joystick.  Just two stages
 
