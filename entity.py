@@ -124,7 +124,7 @@ class Entity(pyglet.sprite.Sprite):
 
     def exit_collision(self, overlap):
 
-        # Self move responding to the overlap
+        # Self moves coresponding to the overlap
 
         # Primarily a Horizontal overlap
         if(overlap.h > overlap.w):
