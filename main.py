@@ -5,6 +5,7 @@ import rm
 import joystick_handler
 import wall
 import util
+import random
 
 
 class Game(pyglet.window.Window):
@@ -45,15 +46,19 @@ class Game(pyglet.window.Window):
         # Create a rectangle to test collisions width
         pattern = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0))
         wallimage = pattern.create_image(1, 1)
-        self.test_rect = wall.Wall(wallimage)
-        self.test_rect.x = 150
-        self.test_rect.y = 250
-        self.test_rect.bbox.x = 150
-        self.test_rect.bbox.y = 250
-        self.test_rect.bbox.w = 100
-        self.test_rect.bbox.h = 120
-        self.test_rect.bbox.color = util.random_color()
-        self.entities.append(self.test_rect)
+
+        self.walls = []
+
+        for i in range(4):
+            new_wall = wall.Wall(wallimage)
+            new_wall.x = random.randrange(640)
+            new_wall.y = random.randrange(480)
+            new_wall.bbox.w = random.randrange(20, 300)
+            new_wall.bbox.h = random.randrange(20, 300)
+            new_wall.bbox.color = util.random_color()
+            self.walls.append(new_wall)
+
+        self.entities = self.entities + self.walls
 
     def setup_joystick(self):
 
@@ -96,8 +101,9 @@ class Game(pyglet.window.Window):
         for ent in self.entities:
             ent.update(dt)
 
-        # collide the player with the test rectangle
-        self.player.collide(self.test_rect)
+        # collide the player with the test rectangles
+        for wall in self.walls:
+            self.player.collide(wall)
 
     def draw_all_entities(self):
 
