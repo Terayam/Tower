@@ -13,6 +13,7 @@ class Entity(pyglet.sprite.Sprite):
         ########################
         # Debugging Parameters #
         ########################
+        self.debug_overlap = False
 
         ######################
         # Drawing parameters #
@@ -114,8 +115,9 @@ class Entity(pyglet.sprite.Sprite):
             if(overlap):
 
                 # DEBUG #
-                overlap.color = (255, 0, 0, 255)
-                overlap.draw()
+                if(self.debug_overlap):
+                    overlap.color = (255, 0, 0, 255)
+                    overlap.draw()
 
                 # This sprite acts upon other sprites
                 self.collide_with_player(other, overlap)
