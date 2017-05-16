@@ -61,9 +61,8 @@ class Entity(pyglet.sprite.Sprite):
         self.x = self.x + (self.xVel * elapsed_s)
         self.y = self.y + (self.yVel * elapsed_s)
 
-        # Update bbox position
-        self.bbox.x = self.x
-        self.bbox.y = self.y
+        # Update bbox position since we moved normal X position
+        self.update_bbox()
 
         # Oppose movement and freeze tiny movements
         deccel_speed = (constants.NORMALDECCEL * elapsed_s)
@@ -83,6 +82,12 @@ class Entity(pyglet.sprite.Sprite):
                 self.yVel += deccel_speed
         else:
             self.yVel = 0.0
+
+    def update_bbox(self):
+
+        # Update bbox position
+        self.bbox.x = self.x
+        self.bbox.y = self.y
 
     def cap_normal_move_speed(self, max_speed):
 
@@ -139,6 +144,7 @@ class Entity(pyglet.sprite.Sprite):
 
             # Stop X movement
             self.xVel = 0.0
+            self.xAcc = 0.0
 
         # Primarily a Vertical overlap
         else:
@@ -153,3 +159,7 @@ class Entity(pyglet.sprite.Sprite):
 
             # Stop Y movement
             self.yVel = 0.0
+            self.yAcc = 0.0
+
+        # Update bbox position since we moved normal X position
+        self.update_bbox()
