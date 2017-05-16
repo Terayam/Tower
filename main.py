@@ -3,7 +3,6 @@ import constants
 import player
 import rm
 import joystick_handler
-import entity
 import wall
 import util
 
@@ -98,8 +97,7 @@ class Game(pyglet.window.Window):
             ent.update(dt)
 
         # collide the player with the test rectangle
-        # self.player.collide(self.test_rect)
-        self.test_rect.collide(self.player)
+        self.player.collide(self.test_rect)
 
     def draw_all_entities(self):
 

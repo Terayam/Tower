@@ -79,3 +79,9 @@ class Player(entity.Entity):
 
         # Cap maximum speed of player
         super(Player, self).cap_normal_move_speed(constants.MAXPLAYERSPEED)
+
+    ################################
+    # Collision Response functions #
+    ################################
+    def collide_with_wall(self, player, overlap):
+        self.exit_collision(overlap)

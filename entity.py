@@ -34,6 +34,9 @@ class Entity(pyglet.sprite.Sprite):
         self.xAcc = 0.0
         self.yAcc = 0.0
 
+    #####################
+    # Drawing functions #
+    #####################
     def set_image(self, image):
         self.image = image
 
@@ -41,55 +44,12 @@ class Entity(pyglet.sprite.Sprite):
         self.bbox.w = self.width
         self.bbox.h = self.height
 
-    def collide(self, other):
+    def undraw(self, screen, background):
+        screen.blit(background, self.rect, self.rect)
 
-        # Get the rectangle overlap
-        overlap = self.bbox.union(other.bbox)
-
-        if(overlap):
-
-            # DEBUG #
-            overlap.color = (255, 0, 0, 255)
-            overlap.draw()
-
-            # This sprite acts upon other sprites
-            self.collide_with_player(other, overlap)
-
-    def collide_with_player(self, player, overlap):
-        pass
-
-    def exit_collision(self, overlap):
-
-        # Self move responding to the overlap
-
-        # Primarily a Horizontal overlap
-        if(overlap.h > overlap.w):
-
-            # Overlap is left, move right
-            if(overlap.x > self.x):
-                self.x = self.x - overlap.w
-
-            # Overlap is right, move left
-            else:
-                self.x = overlap.right()
-
-            # Stop X movement
-            self.xVel = 0.0
-
-        # Primarily a Vertical overlap
-        else:
-
-            # Overlap is below, move up
-            if(overlap.y > self.y):
-                self.y = self.y - overlap.h
-
-            # Overlap is above, move down
-            else:
-                self.y = overlap.top()
-
-            # Stop Y movement
-            self.yVel = 0.0
-
+    #####################
+    # Physics functions #
+    #####################
     def update(self, elapsed_s):
 
         # Update velocity
@@ -123,9 +83,6 @@ class Entity(pyglet.sprite.Sprite):
         else:
             self.yVel = 0.0
 
-    def undraw(self, screen, background):
-        screen.blit(background, self.rect, self.rect)
-
     def cap_normal_move_speed(self, max_speed):
 
         if(self.xVel > max_speed):
@@ -137,3 +94,59 @@ class Entity(pyglet.sprite.Sprite):
             self.yVel = max_speed
         elif(self.yVel < -max_speed):
             self.yVel = -max_speed
+
+    #######################
+    # Collision functions #
+    #######################
+    def collide(self, other):
+
+        # Get the rectangle overlap
+        overlap = self.bbox.union(other.bbox)
+
+        if(overlap):
+
+            # DEBUG #
+            overlap.color = (255, 0, 0, 255)
+            overlap.draw()
+
+            # This sprite acts upon other sprites
+            self.collide_with_player(other, overlap)
+            self.collide_with_wall(other, overlap)
+
+    def collide_with_player(self, player, overlap):
+        pass
+
+    def collide_with_wall(self, player, overlap):
+        pass
+
+    def exit_collision(self, overlap):
+
+        # Self move responding to the overlap
+
+        # Primarily a Horizontal overlap
+        if(overlap.h > overlap.w):
+
+            # Overlap is left, move right
+            if(overlap.x > self.x):
+                self.x = self.x - overlap.w
+
+            # Overlap is right, move left
+            else:
+                self.x = overlap.right()
+
+            # Stop X movement
+            self.xVel = 0.0
+
+        # Primarily a Vertical overlap
+        else:
+
+            # Overlap is below, move up
+            if(overlap.y > self.y):
+                self.y = self.y - overlap.h
+
+            # Overlap is above, move down
+            else:
+                self.y = overlap.top()
+
+            # Stop Y movement
+            self.yVel = 0.0

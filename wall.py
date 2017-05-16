@@ -12,6 +12,3 @@ class Wall(entity.Entity):
         # default bbox to image
         super(Wall, self).bbox_to_image()
         self.bbox.color = util.random_color()
-
-    def collide_with_player(self, player, overlap):
-        player.exit_collision(overlap)
