@@ -1,6 +1,8 @@
 import os
 import constants
 import level
+import wall
+import pyglet
 
 
 def load_all_levels():
@@ -69,4 +71,37 @@ def parse_level(level_file):
         elif(attribute == 'next_level'):
             new_level.next_level = int(value)
 
+        elif(attribute == 'wall'):
+
+            new_level.walls.append(parse_wall(value))
+
     return new_level
+
+
+def parse_wall(wall_string):
+
+    # Split string on commas
+    split_string = wall_string.split(',')
+
+    if(len(split_string) is not 4):
+        print('Error parsing wall in: "', wall_string, '"')
+        return None
+
+    pattern = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0))
+    wall_image = pattern.create_image(1, 1)
+
+    new_wall = wall.Wall(wall_image)
+
+    # Split string on commas
+    split_string = wall_string.split(',')
+
+    new_wall.bbox.x = int(split_string[0])
+    new_wall.x = int(split_string[0])
+    new_wall.bbox.y = int(split_string[1])
+    new_wall.y = int(split_string[1])
+    new_wall.bbox.w = int(split_string[2])
+    new_wall.bbox.h = int(split_string[3])
+
+
+
+    return new_wall

@@ -36,28 +36,17 @@ class Game(pyglet.window.Window):
         # Load all levels
         self.levels = rm.load_all_levels()
 
-        # create the background image
-        self.level_switch(self.levels[1])
+        # Set current level
+        # First level is at key 1
+        self.current_level = self.levels[1]
+
+        # HACK #
+        # Set wall walls to the current sprite batch
+        for w in self.current_level.walls:
+            w.batch = self.sprite_batch
 
         # Create the player object
         self.create_player()
-
-        # Create a rectangle to test collisions width
-        pattern = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0))
-        wallimage = pattern.create_image(1, 1)
-
-        self.walls = []
-
-        for i in range(4):
-            new_wall = wall.Wall(wallimage, batch=self.sprite_batch)
-            new_wall.x = random.randrange(640)
-            new_wall.y = random.randrange(480)
-            new_wall.bbox.x = new_wall.x
-            new_wall.bbox.y = new_wall.y
-            new_wall.bbox.w = random.randrange(20, 300)
-            new_wall.bbox.h = random.randrange(20, 300)
-            new_wall.bbox.color = util.random_color()
-            self.walls.append(new_wall)
 
     def setup_joystick(self):
 
@@ -69,15 +58,6 @@ class Game(pyglet.window.Window):
             self.joystick = joysticks[0]
             self.joystick.open()
             self.joystick_handler.set_joystick(self.joystick)
-
-    def level_switch(self, new_level):
-
-        # create the surface for the background
-        self.current_level = new_level
-
-        # Perform the intitial background blit
-        self.current_level.draw()
-        # self.screen.blit(self.current_level.background, (0, 0))
 
     def create_player(self):
 
@@ -97,7 +77,7 @@ class Game(pyglet.window.Window):
         self.player.update(dt)
 
         # collide the player with the walls
-        for w in self.walls:
+        for w in self.current_level.walls:
             self.player.collide(w)
 
         # Collide enemies and enemy projectiles with player projectiles
@@ -120,7 +100,7 @@ class Game(pyglet.window.Window):
         if(self.debug_bbox):
 
             # draw all wall bounding boxes
-            for w in self.walls:
+            for w in self.current_level.walls:
                 w.bbox.draw()
 
             # Draw player bounding boox

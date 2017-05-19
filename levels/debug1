@@ -1,3 +1,4 @@
 id: 1
 background: img/bg.png
 next_level: 2
+wall: 100, 100, 200, 300
