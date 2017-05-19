@@ -40,11 +40,6 @@ class Game(pyglet.window.Window):
         # First level is at key 1
         self.current_level = self.levels[1]
 
-        # HACK #
-        # Set wall walls to the current sprite batch
-        for w in self.current_level.walls:
-            w.batch = self.sprite_batch
-
         # Create the player object
         self.create_player()
 

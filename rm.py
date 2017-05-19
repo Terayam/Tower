@@ -75,6 +75,9 @@ def parse_level(level_file):
 
             new_level.walls.append(parse_wall(value))
 
+    # Refresh walls sprite batch
+    new_level.reset_walls_sprite_group()
+
     return new_level
 
 
