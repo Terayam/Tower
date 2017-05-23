@@ -28,6 +28,11 @@ class Entity(pyglet.sprite.Sprite):
         self.xAcc = 0.0
         self.yAcc = 0.0
 
+        ###############################
+        # Default Behavior Parameters #
+        ###############################
+        self.tracking_gain = 1.0
+
         ######################
         # Drawing parameters #
         ######################
@@ -54,13 +59,10 @@ class Entity(pyglet.sprite.Sprite):
     #####################
     # Physics functions #
     #####################
-    def behave(self):
-        pass
-
     def update(self, elapsed_s):
 
         # Perform automated behaviors
-        self.behave()
+        self.behave(elapsed_s)
 
         # Update velocity
         self.xVel = self.xVel + (self.xAcc * elapsed_s)
@@ -172,3 +174,23 @@ class Entity(pyglet.sprite.Sprite):
 
         # Update bbox position since we moved normal X position
         self.update_bbox()
+
+    ######################
+    # Behavior Functions #
+    ######################
+    def behave(self, elapsed_s):
+        pass
+
+    def track_target(self, elapsed_s):
+
+        # Don't do anything if I don't have a target
+        # (Target is expected to be an entity)
+        if(self.target):
+
+            # Find the vector towards the target
+            dx = self.target.x - self.x
+            dy = self.target.y - self.y
+
+            # Apply a gain to accelerate
+            self.xAcc = dx * self.tracking_gain
+            self.yAcc = dy * self.tracking_gain
