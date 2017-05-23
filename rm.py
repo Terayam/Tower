@@ -104,7 +104,5 @@ def parse_wall(wall_string):
     new_wall.y = int(split_string[1])
     new_wall.bbox.w = int(split_string[2])
     new_wall.bbox.h = int(split_string[3])
-
-
-
+    
     return new_wall

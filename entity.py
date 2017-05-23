@@ -13,7 +13,7 @@ class Entity(pyglet.sprite.Sprite):
         ########################
         # Debugging Parameters #
         ########################
-        self.debug_overlap = False
+        self.debug_overlap = True
 
         ######################
         # Drawing parameters #
@@ -52,7 +52,13 @@ class Entity(pyglet.sprite.Sprite):
     #####################
     # Physics functions #
     #####################
+    def behave(self):
+        pass
+
     def update(self, elapsed_s):
+
+        # Perform automated behaviors
+        self.behave()
 
         # Update velocity
         self.xVel = self.xVel + (self.xAcc * elapsed_s)

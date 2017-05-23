@@ -1,6 +1,7 @@
 import pyglet
 import constants
 import player
+import entity
 import rm
 import joystick_handler
 
@@ -40,6 +41,15 @@ class Game(pyglet.window.Window):
         # Create the player object
         self.create_player()
 
+        # Create an enemy to test with
+        self.test_enemy = entity.Entity(pyglet.image.load('img/enemy.png'),
+                                        batch=self.sprite_batch)
+
+        self.test_enemy.x = 120
+        self.test_enemy.y = 320
+        self.test_enemy.bbox_to_image()
+        self.test_enemy.collidable = True
+
     def setup_joystick(self):
 
         # Load all joysicks
@@ -65,7 +75,10 @@ class Game(pyglet.window.Window):
         # Give joystate to Player
         self.player.read_joystate(self.joystick_handler)
 
-        # Call update on every object
+        # Call update on all enemies and projectiles
+        self.test_enemy.update(dt)
+
+        # Call update on the player
         self.player.update(dt)
 
         # collide the player with the walls
@@ -77,6 +90,7 @@ class Game(pyglet.window.Window):
         # Collide enemies and enemy projectiles with walls
 
         # Collide the player with enemies and projectiles
+        self.player.collide(self.test_enemy)
 
     def draw_all_entities(self):
 
@@ -99,6 +113,7 @@ class Game(pyglet.window.Window):
             self.player.bbox.draw()
 
             # Draw bboxes of enemies and projectiles
+            self.test_enemy.bbox.draw()
 
         # Draw entities
         self.draw_all_entities()
