@@ -83,14 +83,14 @@ class Game(pyglet.window.Window):
 
         # collide the player with the walls
         for w in self.current_level.walls:
-            self.player.collide(w)
+            w.collide(self.player)
 
         # Collide enemies and enemy projectiles with player projectiles
 
         # Collide enemies and enemy projectiles with walls
 
         # Collide the player with enemies and projectiles
-        self.player.collide(self.test_enemy)
+        self.test_enemy.collide(self.player)
 
     def draw_all_entities(self):
 

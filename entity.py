@@ -1,6 +1,7 @@
 import pyglet
 import constants
 import rect
+import util
 
 
 class Entity(pyglet.sprite.Sprite):
@@ -9,15 +10,6 @@ class Entity(pyglet.sprite.Sprite):
 
         # Call the sprite initializer, but don't set an image
         super(Entity, self).__init__(*args, **kwargs)
-
-        ########################
-        # Debugging Parameters #
-        ########################
-        self.debug_overlap = True
-
-        ######################
-        # Drawing parameters #
-        ######################
 
         ######################
         # Physics Parameters #
@@ -35,6 +27,16 @@ class Entity(pyglet.sprite.Sprite):
         # Set initial acceleration
         self.xAcc = 0.0
         self.yAcc = 0.0
+
+        ######################
+        # Drawing parameters #
+        ######################
+        self.bbox.color = util.random_color()
+
+        ########################
+        # Debugging Parameters #
+        ########################
+        self.debug_overlap = True
 
     #####################
     # Drawing functions #
@@ -115,24 +117,23 @@ class Entity(pyglet.sprite.Sprite):
 
         # Don't collide if either sprite is not collidable
         if(self.collidable and other.collidable):
+
             # Get the rectangle overlap
             overlap = self.bbox.union(other.bbox)
 
-            if(overlap):
+            if(overlap and self.debug_overlap):
+                overlap.color = (255, 0, 0, 255)
+                overlap.draw()
 
-                # DEBUG #
-                if(self.debug_overlap):
-                    overlap.color = (255, 0, 0, 255)
-                    overlap.draw()
+        # Base class doesn't do anything with the collision
 
-                # This sprite acts upon other sprites
-                self.collide_with_player(other, overlap)
-                self.collide_with_wall(other, overlap)
-
-    def collide_with_player(self, player, overlap):
+    def collide_with_player(self, overlap):
         pass
 
-    def collide_with_wall(self, player, overlap):
+    def collide_with_wall(self, overlap):
+        pass
+
+    def collide_with_enemy(self, overlap):
         pass
 
     def exit_collision(self, overlap):
