@@ -131,3 +131,9 @@ class Rect():
 
         else:
             return None
+
+    def str(self):
+        return 'x: {0}, y:{1}, w: {2}, h: {3}'.format(self.x,
+                                                      self.y,
+                                                      self.w,
+                                                      self.h)
