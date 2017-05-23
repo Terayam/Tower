@@ -3,9 +3,6 @@ import constants
 import player
 import rm
 import joystick_handler
-import wall
-import util
-import random
 
 
 class Game(pyglet.window.Window):
