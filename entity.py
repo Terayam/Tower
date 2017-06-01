@@ -34,6 +34,7 @@ class Entity(pyglet.sprite.Sprite):
         ###############################
         self.tracking_accel = 0.0
         self.min_tracking_distance = 0
+        self.max_tracking_distance = 0
 
         ######################
         # Drawing parameters #
@@ -196,17 +197,22 @@ class Entity(pyglet.sprite.Sprite):
             # Normalize magnitude so only using direction
             mag = math.sqrt((dx * dx) + (dy * dy))
 
-            # Stop moving if within minimum tracking distance
-            # Also, protect from zero division
-            if(abs(mag) > self.min_tracking_distance):
+            # Set default acceleration to zero
+            # So we stop outside the tracking deadzones
+            self.xAcc = 0
+            self.yAcc = 0
 
-                dx = dx / mag
-                dy = dy / mag
+            # Don't track if outside the tracking deadzones
+            if((mag < self.max_tracking_distance) or
+               (self.max_tracking_distance == 0)):
 
-                # Apply a gain to accelerate
-                self.xAcc = dx * self.tracking_accel
-                self.yAcc = dy * self.tracking_accel
+                # Stop moving if within minimum tracking distance
+                # Also, protect from zero division
+                if(mag > self.min_tracking_distance):
 
-            else:
-                self.xAcc = 0
-                self.yAcc = 0
+                    dx = dx / mag
+                    dy = dy / mag
+
+                    # Apply a gain to accelerate
+                    self.xAcc = dx * self.tracking_accel
+                    self.yAcc = dy * self.tracking_accel
