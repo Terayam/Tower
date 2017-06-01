@@ -32,7 +32,8 @@ class Entity(pyglet.sprite.Sprite):
         ###############################
         # Default Behavior Parameters #
         ###############################
-        self.tracking_gain = 1.0
+        self.tracking_accel = 0.0
+        self.min_tracking_distance = 0
 
         ######################
         # Drawing parameters #
@@ -94,8 +95,6 @@ class Entity(pyglet.sprite.Sprite):
                 self.yVel += deccel_speed
         else:
             self.yVel = 0.0
-
-        #print('deccel: {0}'.format(deccel_speed))
 
     def update_bbox(self):
 
@@ -197,11 +196,17 @@ class Entity(pyglet.sprite.Sprite):
             # Normalize magnitude so only using direction
             mag = math.sqrt((dx * dx) + (dy * dy))
 
-            # Don't update accelerations if magnitude is zero
-            if(abs(mag) > 0):
+            # Stop moving if within minimum tracking distance
+            # Also, protect from zero division
+            if(abs(mag) > self.min_tracking_distance):
+
                 dx = dx / mag
                 dy = dy / mag
 
                 # Apply a gain to accelerate
-                self.xAcc = dx * self.tracking_gain
-                self.yAcc = dy * self.tracking_gain
+                self.xAcc = dx * self.tracking_accel
+                self.yAcc = dy * self.tracking_accel
+
+            else:
+                self.xAcc = 0
+                self.yAcc = 0
