@@ -207,12 +207,18 @@ class Entity(pyglet.sprite.Sprite):
                (self.max_tracking_distance == 0)):
 
                 # Stop moving if within minimum tracking distance
-                # Also, protect from zero division
-                if(mag > self.min_tracking_distance):
+                if((mag > self.min_tracking_distance) or
+                   (self.min_tracking_distance == 0)):
 
-                    dx = dx / mag
-                    dy = dy / mag
+                    # Protect from zero divide
+                    if(mag == 0):
+                        self.xAcc = 0
+                        self.yAcc = 0
 
-                    # Apply a gain to accelerate
-                    self.xAcc = dx * self.tracking_accel
-                    self.yAcc = dy * self.tracking_accel
+                    else:
+                        dx = dx / mag
+                        dy = dy / mag
+
+                        # Apply a gain to accelerate
+                        self.xAcc = dx * self.tracking_accel
+                        self.yAcc = dy * self.tracking_accel
