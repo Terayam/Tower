@@ -1,3 +1,4 @@
+import math
 import pyglet
 import constants
 import rect
@@ -93,6 +94,8 @@ class Entity(pyglet.sprite.Sprite):
                 self.yVel += deccel_speed
         else:
             self.yVel = 0.0
+
+        #print('deccel: {0}'.format(deccel_speed))
 
     def update_bbox(self):
 
@@ -191,6 +194,14 @@ class Entity(pyglet.sprite.Sprite):
             dx = self.target.x - self.x
             dy = self.target.y - self.y
 
-            # Apply a gain to accelerate
-            self.xAcc = dx * self.tracking_gain
-            self.yAcc = dy * self.tracking_gain
+            # Normalize magnitude so only using direction
+            mag = math.sqrt((dx * dx) + (dy * dy))
+
+            # Don't update accelerations if magnitude is zero
+            if(abs(mag) > 0):
+                dx = dx / mag
+                dy = dy / mag
+
+                # Apply a gain to accelerate
+                self.xAcc = dx * self.tracking_gain
+                self.yAcc = dy * self.tracking_gain

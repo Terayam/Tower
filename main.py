@@ -51,7 +51,7 @@ class Game(pyglet.window.Window):
         self.test_enemy.collidable = True
         self.test_enemy.target = self.player
         self.test_enemy.behave = self.test_enemy.track_target
-        self.test_enemy.tracking_gain = 4
+        self.test_enemy.tracking_gain = 600
 
     def setup_joystick(self):
 
