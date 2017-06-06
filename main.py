@@ -54,6 +54,7 @@ class Game(pyglet.window.Window):
         self.test_enemy.tracking_accel = 600
         self.test_enemy.min_tracking_distance = 5
         self.test_enemy.max_tracking_distance = 150
+        self.test_enemy.coef_friction = 100
 
     def setup_joystick(self):
 
