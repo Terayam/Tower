@@ -98,23 +98,26 @@ class Entity(pyglet.sprite.Sprite):
     ###########################################################################
     def friction(self, elapsed_s):
 
-        deccel_speed = (self.coef_friction * elapsed_s)
+        # Protect against negative frictions
+        if(self.coef_friction > 0):
 
-        if(abs(self.xVel) > deccel_speed):
-            if(self.xVel > 0):
-                self.xVel -= deccel_speed
-            else:
-                self.xVel += deccel_speed
-        else:
-            self.xVel = 0.0
+            deccel_speed = (self.coef_friction * elapsed_s)
 
-        if(abs(self.yVel) > deccel_speed):
-            if(self.yVel > 0):
-                self.yVel -= deccel_speed
+            if(abs(self.xVel) > deccel_speed):
+                if(self.xVel > 0):
+                    self.xVel -= deccel_speed
+                else:
+                    self.xVel += deccel_speed
             else:
-                self.yVel += deccel_speed
-        else:
-            self.yVel = 0.0
+                self.xVel = 0.0
+
+            if(abs(self.yVel) > deccel_speed):
+                if(self.yVel > 0):
+                    self.yVel -= deccel_speed
+                else:
+                    self.yVel += deccel_speed
+            else:
+                self.yVel = 0.0
 
     def update_bbox(self):
 
