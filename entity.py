@@ -72,11 +72,11 @@ class Entity(pyglet.sprite.Sprite):
         # Update velocity and position
         self.update_vel_pos(elapsed_s)
 
-        # Update bounding boxes
-        self.update_bbox()
-
         # Slow down
         self.friction(elapsed_s)
+
+        # Update bounding boxes
+        self.update_bbox()
 
     ###########################################################################
     # Name: Update Vel Pos
