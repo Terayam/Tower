@@ -29,6 +29,9 @@ class Entity(pyglet.sprite.Sprite):
         self.xAcc = 0.0
         self.yAcc = 0.0
 
+        # Coefficient of friction
+        self.coef_friction = 0.0
+
         ###############################
         # Default Behavior Parameters #
         ###############################
@@ -73,9 +76,6 @@ class Entity(pyglet.sprite.Sprite):
         # Update bbox position since we moved normal X position
         self.update_bbox()
 
-        # Decellerate
-        self.friction(elapsed_s)
-
     ###########################################################################
     # Name: Update Vel Pos
     # Description: Update current velocity and position based on acceleration
@@ -96,7 +96,7 @@ class Entity(pyglet.sprite.Sprite):
     ###########################################################################
     def friction(self, elapsed_s):
 
-        deccel_speed = (constants.NORMALDECCEL * elapsed_s)
+        deccel_speed = (self.coef_friction * elapsed_s)
 
         if(abs(self.xVel) > deccel_speed):
             if(self.xVel > 0):
