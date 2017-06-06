@@ -27,6 +27,9 @@ class Player(entity.Entity):
         self.hMove = 0.0
         self.vMove = 0.0
 
+        # Physics constants
+        self.coef_friction = constants.NORMALDECCEL
+
     def handle_key_press(self, symbol):
 
         if(symbol == pyglet.window.key.A):
@@ -80,7 +83,7 @@ class Player(entity.Entity):
         super(Player, self).update(elapsed_s)
 
         # Cap maximum speed of player
-        super(Player, self).cap_normal_move_speed(constants.MAXPLAYERSPEED)
+        self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
 
     ################################
     # Collision Response functions #

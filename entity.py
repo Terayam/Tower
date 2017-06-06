@@ -1,6 +1,5 @@
 import math
 import pyglet
-import constants
 import rect
 import util
 
@@ -28,6 +27,9 @@ class Entity(pyglet.sprite.Sprite):
         # Set initial acceleration
         self.xAcc = 0.0
         self.yAcc = 0.0
+
+        # Coefficient of friction
+        self.coef_friction = 0.0
 
         ###############################
         # Default Behavior Parameters #
@@ -67,6 +69,21 @@ class Entity(pyglet.sprite.Sprite):
         # Perform automated behaviors
         self.behave(elapsed_s)
 
+        # Update velocity and position
+        self.update_vel_pos(elapsed_s)
+
+        # Update bounding boxes
+        self.update_bbox()
+
+        # Slow down
+        self.friction(elapsed_s)
+
+    ###########################################################################
+    # Name: Update Vel Pos
+    # Description: Update current velocity and position based on acceleration
+    ###########################################################################
+    def update_vel_pos(self, elapsed_s):
+
         # Update velocity
         self.xVel = self.xVel + (self.xAcc * elapsed_s)
         self.yVel = self.yVel + (self.yAcc * elapsed_s)
@@ -75,11 +92,13 @@ class Entity(pyglet.sprite.Sprite):
         self.x = self.x + (self.xVel * elapsed_s)
         self.y = self.y + (self.yVel * elapsed_s)
 
-        # Update bbox position since we moved normal X position
-        self.update_bbox()
+    ###########################################################################
+    # Name: Friction
+    # Description: Oppose movement and freeze tiny movements
+    ###########################################################################
+    def friction(self, elapsed_s):
 
-        # Oppose movement and freeze tiny movements
-        deccel_speed = (constants.NORMALDECCEL * elapsed_s)
+        deccel_speed = (self.coef_friction * elapsed_s)
 
         if(abs(self.xVel) > deccel_speed):
             if(self.xVel > 0):
