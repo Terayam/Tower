@@ -80,13 +80,17 @@ class Player(entity.Entity):
         self.xAcc = constants.MOVEACCEL * self.hMove
         self.yAcc = constants.MOVEACCEL * self.vMove
 
-        super(Player, self).update(elapsed_s)
+        # Update velocty and position
+        self.update_vel_pos(elapsed_s)
 
         # Decellerate
         self.friction(elapsed_s)
 
         # Cap maximum speed of player
         self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
+
+        # Update bbox position since we moved normal X position
+        self.update_bbox()
 
     ################################
     # Collision Response functions #

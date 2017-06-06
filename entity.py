@@ -66,15 +66,7 @@ class Entity(pyglet.sprite.Sprite):
     # Physics functions #
     #####################
     def update(self, elapsed_s):
-
-        # Perform automated behaviors
-        self.behave(elapsed_s)
-
-        # Update velocty and position
-        self.update_vel_pos(elapsed_s)
-
-        # Update bbox position since we moved normal X position
-        self.update_bbox()
+        pass
 
     ###########################################################################
     # Name: Update Vel Pos
