@@ -14,6 +14,8 @@ class BgmPlayer:
         self.pyglet_player.eos_action = pyglet.media.Player.EOS_LOOP
 
     def change_source(self, source):
+
+        # Clear the current source and start the next one
         self.pyglet_player.next_source()
         self.pyglet_player.queue(source)
 
