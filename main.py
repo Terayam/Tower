@@ -4,6 +4,7 @@ import player
 import entity
 import rm
 import joystick_handler
+import bgmPlayer
 
 
 class Game(pyglet.window.Window):
@@ -15,6 +16,9 @@ class Game(pyglet.window.Window):
 
         # Initialize media player
         rm.initialize_media()
+        self.bgm = bgmPlayer.BgmPlayer()
+        self.bgm.change_source(pyglet.media.load('./sound/sample_song.wav', streaming=False))
+        self.bgm.play()
 
         self.sprite_batch = pyglet.graphics.Batch()
         self.levels = {}
