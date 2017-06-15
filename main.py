@@ -13,6 +13,9 @@ class Game(pyglet.window.Window):
         # Call the base class initialize
         super(Game, self).__init__(*args, **kwargs)
 
+        # Initialize media player
+        rm.initialize_media()
+
         self.sprite_batch = pyglet.graphics.Batch()
         self.levels = {}
         self.current_level = None

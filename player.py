@@ -2,6 +2,7 @@ import pyglet
 import entity
 import constants
 import util
+import rm
 
 
 class Player(entity.Entity):
@@ -11,11 +12,15 @@ class Player(entity.Entity):
         # Call the base class initializer
         super(Player, self).__init__(*args, **kwargs)
 
+        # Load file resources
+        self.collide_sound = rm.load_sfx('./sound/joo.wav')
+
         # default bbox to image
         super(Player, self).bbox_to_image()
         self.bbox.color = util.random_color()
 
         self.collidable = True
+        self.collision_reset = True
 
         # Movement keys
         self.moveLeftDigital = False
@@ -108,3 +113,7 @@ class Player(entity.Entity):
 
     def collide_with_wall(self, player, overlap):
         self.exit_collision(overlap)
+
+        if(self.collision_reset):
+            self.collide_sound.play()
+            self.collision_reset = False
