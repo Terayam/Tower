@@ -11,6 +11,12 @@ class Entity(pyglet.sprite.Sprite):
         # Call the sprite initializer, but don't set an image
         super(Entity, self).__init__(*args, **kwargs)
 
+        ############################
+        # State Machine Parameters #
+        ############################
+        self.current_state = 'default'
+        self.state_behaviors = self.setup_stateMachine()
+
         ######################
         # Physics Parameters #
         ######################
@@ -53,6 +59,16 @@ class Entity(pyglet.sprite.Sprite):
         ########################
         self.debug_overlap = True
 
+    ###########################
+    # State Machine Functions #
+    ###########################
+    def setup_stateMachine(self):
+
+        state_behaviors = {}
+        state_behaviors['default'] = self.behave
+
+        return state_behaviors
+
     #####################
     # Drawing functions #
     #####################
@@ -77,8 +93,8 @@ class Entity(pyglet.sprite.Sprite):
     #####################
     def update(self, elapsed_s):
 
-        # Perform automated behaviors
-        self.behave(elapsed_s)
+        # Perform State Machine Behavior
+        self.state_behaviors[self.current_state](elapsed_s)
 
         # Update velocity and position
         self.update_vel_pos(elapsed_s)

@@ -58,7 +58,7 @@ class Game(pyglet.window.Window):
         self.test_enemy.bbox_to_image()
         self.test_enemy.collidable = True
         self.test_enemy.target = self.player
-        self.test_enemy.behave = self.test_enemy.track_target
+        self.test_enemy.state_behaviors['default'] = self.test_enemy.track_target
         self.test_enemy.tracking_accel = 600
         self.test_enemy.min_tracking_distance = 5
         self.test_enemy.max_tracking_distance = 150
