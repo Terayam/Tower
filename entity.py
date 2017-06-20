@@ -94,7 +94,8 @@ class Entity(pyglet.sprite.Sprite):
     def update(self, elapsed_s):
 
         # Perform State Machine Behavior
-        self.state_behaviors[self.current_state](elapsed_s)
+        if(self.current_state in self.state_behaviors):
+            self.state_behaviors[self.current_state](elapsed_s)
 
         # Update velocity and position
         self.update_vel_pos(elapsed_s)

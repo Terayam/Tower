@@ -63,6 +63,7 @@ class Game(pyglet.window.Window):
         self.test_enemy.min_tracking_distance = 5
         self.test_enemy.max_tracking_distance = 150
         self.test_enemy.coef_friction = 100
+        self.test_enemy.collidable = True
 
     def setup_joystick(self):
 
@@ -104,7 +105,7 @@ class Game(pyglet.window.Window):
         # Collide enemies and enemy projectiles with walls
 
         # Collide the player with enemies and projectiles
-        self.test_enemy.collide(self.player)
+        self.player.collide(self.test_enemy)
 
     def draw_all_entities(self):
 

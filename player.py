@@ -122,7 +122,7 @@ class Player(entity.Entity):
 
                 # Call the collide with player function
                 # of the other sprite with this sprite
-                other.collide_with_player(self, overlap)
+                other.collide_with_player(overlap)
 
     def collide_with_wall(self, player, overlap):
         self.exit_collision(overlap)
