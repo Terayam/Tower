@@ -1,7 +1,7 @@
 import pyglet
 import constants
 import player
-import entity
+import debt
 import rm
 import joystick_handler
 import bgmPlayer
@@ -50,20 +50,9 @@ class Game(pyglet.window.Window):
         self.create_player()
 
         # Create an enemy to test with
-        self.test_enemy = entity.Entity(pyglet.image.load('img/enemy.png'),
-                                        batch=self.sprite_batch)
-
-        self.test_enemy.x = 120
-        self.test_enemy.y = 320
-        self.test_enemy.bbox_to_image()
-        self.test_enemy.collidable = True
+        self.test_enemy = debt.Debt(pyglet.image.load('img/enemy.png'),
+                                    batch=self.sprite_batch)
         self.test_enemy.target = self.player
-        self.test_enemy.state_behaviors['default'] = self.test_enemy.track_target
-        self.test_enemy.tracking_accel = 600
-        self.test_enemy.min_tracking_distance = 5
-        self.test_enemy.max_tracking_distance = 150
-        self.test_enemy.coef_friction = 100
-        self.test_enemy.collidable = True
 
     def setup_joystick(self):
 

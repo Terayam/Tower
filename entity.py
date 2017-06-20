@@ -65,7 +65,6 @@ class Entity(pyglet.sprite.Sprite):
     def setup_stateMachine(self):
 
         state_behaviors = {}
-        state_behaviors['default'] = self.behave
 
         return state_behaviors
 
@@ -231,9 +230,6 @@ class Entity(pyglet.sprite.Sprite):
     ######################
     # Behavior Functions #
     ######################
-    def behave(self, elapsed_s):
-        pass
-
     def track_target(self, elapsed_s):
 
         # Don't do anything if I don't have a target
