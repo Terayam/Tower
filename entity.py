@@ -43,6 +43,11 @@ class Entity(pyglet.sprite.Sprite):
         ######################
         self.bbox.color = util.random_color()
 
+        ####################
+        # Sound Parameters #
+        ####################
+        self.sound_dict = self.load_sfx()
+
         ########################
         # Debugging Parameters #
         ########################
@@ -60,6 +65,12 @@ class Entity(pyglet.sprite.Sprite):
 
     def undraw(self, screen, background):
         screen.blit(background, self.rect, self.rect)
+
+    ###################
+    # Sound Functions #
+    ###################
+    def load_sfx(self):
+        return {}
 
     #####################
     # Physics functions #

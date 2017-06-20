@@ -12,15 +12,11 @@ class Player(entity.Entity):
         # Call the base class initializer
         super(Player, self).__init__(*args, **kwargs)
 
-        # Load file resources
-        self.collide_sound = rm.load_sfx('./sound/joo.wav')
-
         # default bbox to image
         super(Player, self).bbox_to_image()
         self.bbox.color = util.random_color()
 
         self.collidable = True
-        self.collision_reset = True
 
         # Movement keys
         self.moveLeftDigital = False
@@ -34,6 +30,23 @@ class Player(entity.Entity):
 
         # Physics constants
         self.coef_friction = constants.NORMALDECCEL
+
+    ###################
+    # Sound Functions #
+    ###################
+    def load_sfx(self):
+
+        # Create a new dictionary of sounds
+        sound_dict = {}
+
+        sound_dict['collide'] = rm.load_sfx('./sound/joo.wav')
+
+        return sound_dict
+
+
+    ####################
+    # Inputs Functions #
+    ####################
 
     def handle_key_press(self, symbol):
 
@@ -114,6 +127,4 @@ class Player(entity.Entity):
     def collide_with_wall(self, player, overlap):
         self.exit_collision(overlap)
 
-        if(self.collision_reset):
-            self.collide_sound.play()
-            self.collision_reset = False
+        self.sound_dict['collide'].play()
