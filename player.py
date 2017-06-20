@@ -17,6 +17,7 @@ class Player(entity.Entity):
         self.bbox.color = util.random_color()
 
         self.collidable = True
+        self.collide_latch = False
 
         # Movement keys
         self.moveLeftDigital = False
@@ -42,7 +43,6 @@ class Player(entity.Entity):
         sound_dict['collide'] = rm.load_sfx('./sound/joo.wav')
 
         return sound_dict
-
 
     ####################
     # Inputs Functions #
@@ -127,4 +127,6 @@ class Player(entity.Entity):
     def collide_with_wall(self, player, overlap):
         self.exit_collision(overlap)
 
-        self.sound_dict['collide'].play()
+        if(not self.collide_latch):
+            self.sound_dict['collide'].play()
+            self.collide_latch = True
