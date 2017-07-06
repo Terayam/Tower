@@ -6,10 +6,31 @@ import util
 
 class Entity(pyglet.sprite.Sprite):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, filename=None, gridX=0, gridY=0, batch=None):
+
+        # If the filename was None, create a flat-colored image
+        if(filename is None):
+            pattern = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0))
+            image = pattern.create_image(1, 1)
+
+        else:
+
+            # Convert Grid into normal image
+            if((gridX > 0) and (gridY > 0)):
+                fullImage = pyglet.image.load(filename)
+                spriteSheet = pyglet.image.ImageGrid(fullImage, gridX, gridY)
+                image = spriteSheet[0]
+
+            else:
+                spriteSheet = None
+                image = pyglet.image.load(filename)
+
+            # Don't set up the sprite if there was a loading error
+            if(image is None):
+                print("Error loading image file: {0}".format(filename))
 
         # Call the sprite initializer, but don't set an image
-        super(Entity, self).__init__(*args, **kwargs)
+        super(Entity, self).__init__(img=image, batch=batch)
 
         ############################
         # State Machine Parameters #

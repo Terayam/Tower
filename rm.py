@@ -113,10 +113,7 @@ def parse_wall(wall_string):
         print('Error parsing wall in: "', wall_string, '"')
         return None
 
-    pattern = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0))
-    wall_image = pattern.create_image(1, 1)
-
-    new_wall = wall.Wall(wall_image)
+    new_wall = wall.Wall()
 
     # Split string on commas
     split_string = wall_string.split(',')

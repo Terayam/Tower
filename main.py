@@ -50,7 +50,7 @@ class Game(pyglet.window.Window):
         self.create_player()
 
         # Create an enemy to test with
-        self.test_enemy = debt.Debt(pyglet.image.load('img/enemy.png'),
+        self.test_enemy = debt.Debt('img/enemy.png',
                                     batch=self.sprite_batch)
         self.test_enemy.target = self.player
 
@@ -67,7 +67,9 @@ class Game(pyglet.window.Window):
 
     def create_player(self):
 
-        self.player = player.Player(pyglet.image.load('img/guy.png'),
+        self.player = player.Player('img/guy.png',
+                                    gridX=10,
+                                    gridY=10,
                                     batch=self.sprite_batch)
 
     def update(self, dt):
