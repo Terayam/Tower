@@ -3,6 +3,7 @@ import entity
 import constants
 import util
 import rm
+import math
 
 
 class Player(entity.Entity):
@@ -97,6 +98,11 @@ class Player(entity.Entity):
         # accelerate in the direction of movement
         self.xAcc = constants.MOVEACCEL * self.hMove
         self.yAcc = constants.MOVEACCEL * self.vMove
+
+        if(math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel) > 0):
+            self.image = self.spriteSheet[11]
+        else:
+            self.image = self.spriteSheet[0]
 
         super(Player, self).update(elapsed_s)
 
