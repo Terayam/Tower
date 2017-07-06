@@ -106,6 +106,9 @@ class Entity(pyglet.sprite.Sprite):
     def undraw(self, screen, background):
         screen.blit(background, self.rect, self.rect)
 
+    def set_clip(self, clipNum):
+        self.image = self.spriteSheet[clipNum]
+
     ###################
     # Sound Functions #
     ###################

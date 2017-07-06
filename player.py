@@ -33,6 +33,9 @@ class Player(entity.Entity):
         # Physics constants
         self.coef_friction = constants.NORMALDECCEL
 
+        # Drawing variables
+        self.current_frame = 0
+
     ###################
     # Sound Functions #
     ###################
@@ -100,9 +103,20 @@ class Player(entity.Entity):
         self.yAcc = constants.MOVEACCEL * self.vMove
 
         if(math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel) > 0):
-            self.image = self.spriteSheet[11]
+
+            if(self.current_frame == 0):
+                self.current_frame = 10
+
+            else:
+                self.current_frame = self.current_frame + 1
+
+            if(self.current_frame > 13):
+                self.current_frame = 10
+
         else:
-            self.image = self.spriteSheet[0]
+            self.current_frame = 0
+
+        self.set_clip(self.current_frame)
 
         super(Player, self).update(elapsed_s)
 
