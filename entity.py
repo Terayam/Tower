@@ -106,6 +106,9 @@ class Entity(pyglet.sprite.Sprite):
 
         return animation_sequences
 
+    def update_stateMachine(self, elapsed_s):
+        pass
+
     #####################
     # Drawing functions #
     #####################
@@ -194,6 +197,7 @@ class Entity(pyglet.sprite.Sprite):
 
         # Update statemachine state
         self.previous_state = self.current_state
+        self.update_stateMachine(elapsed_s)
 
     ###########################################################################
     # Name: Update Vel Pos

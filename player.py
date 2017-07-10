@@ -65,6 +65,16 @@ class Player(entity.Entity):
 
         return animation_sequences
 
+    def update_stateMachine(self, elapsed_s):
+
+        # Switch between moving and idle states
+        self.current_state = 'idle'
+
+        velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
+
+        if(velMag > self.idle_speed):
+            self.current_state = 'move'
+
     ####################
     # Inputs Functions #
     ####################
@@ -123,14 +133,6 @@ class Player(entity.Entity):
 
         # Cap maximum speed of player
         self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
-
-        # Switch between moving and idle states
-        self.current_state = 'idle'
-
-        velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
-
-        if(velMag > self.idle_speed):
-            self.current_state = 'move'
 
     #####################
     # Behavior functions
