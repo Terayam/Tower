@@ -3,7 +3,6 @@ import entity
 import constants
 import util
 import rm
-import math
 
 
 class Player(entity.Entity):
@@ -101,22 +100,6 @@ class Player(entity.Entity):
         # accelerate in the direction of movement
         self.xAcc = constants.MOVEACCEL * self.hMove
         self.yAcc = constants.MOVEACCEL * self.vMove
-
-        if(math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel) > 0):
-
-            if(self.current_frame == 0):
-                self.current_frame = 10
-
-            else:
-                self.current_frame = self.current_frame + 1
-
-            if(self.current_frame > 13):
-                self.current_frame = 10
-
-        else:
-            self.current_frame = 0
-
-        self.set_clip(self.current_frame)
 
         super(Player, self).update(elapsed_s)
 

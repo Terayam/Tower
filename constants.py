@@ -4,8 +4,10 @@ LEVELDIR = 'levels'
 
 # Drawing constatnts
 FRAMELIMIT_FPS = 60
+DEFAULTFRAMEDELAY_S = (1 / 24)
 COLORKEY = (255, 0, 255)
 DEBUGRECTCOLOR = (255, 255, 0)
+
 
 # Physics constants
 NORMALDECCEL = 350

@@ -1,5 +1,6 @@
 import math
 import pyglet
+import constants
 import rect
 import util
 
@@ -72,6 +73,9 @@ class Entity(pyglet.sprite.Sprite):
         ######################
         # Drawing parameters #
         ######################
+        self.animation_timer = 0
+        self.clip_sequence = [0]
+        self.clip_index = 0
         self.bbox.color = util.random_color()
 
         ####################
@@ -106,6 +110,30 @@ class Entity(pyglet.sprite.Sprite):
     def undraw(self, screen, background):
         screen.blit(background, self.rect, self.rect)
 
+    def update_animation(self, elapsed_s):
+
+        # Don't animate if there is no spriteSheet
+        if(self.spriteSheet):
+
+            # Update the animation timer
+            self.animation_timer = self.animation_timer + elapsed_s
+
+            # Move to the next clip if the timer elapsed
+            if(self.animation_timer > (1 / constants.DEFAULTFRAMEDELAY_S)):
+
+                # Go to the next clip
+                self.clip_index = self.clip_index + 1
+
+                # Reset if we past the end of the animation sequence
+                if(self.clip_index > len(self.clip_sequence)):
+                    self.clip_index = 0
+
+                # Set the new image
+                self.set_clip(self.clip_sequence[self.clip_index])
+
+                # Reset the timer
+                self.animation_timer = 0
+
     def set_clip(self, clipNum):
         self.image = self.spriteSheet[clipNum]
 
@@ -129,6 +157,9 @@ class Entity(pyglet.sprite.Sprite):
 
         # Slow down
         self.friction(elapsed_s)
+
+        # Update animations
+        self.update_animation(elapsed_s)
 
         # Update bounding boxes
         self.update_bbox()
