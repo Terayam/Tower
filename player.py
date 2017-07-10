@@ -49,7 +49,7 @@ class Player(entity.Entity):
     ####################
     # Drawing Functions
     ####################
-    def setup_state_animation_seq(self):
+    def setup_state_animations(self):
 
         animation_sequences = {'default': [10, 11, 12, 13]}
 

@@ -74,8 +74,8 @@ class Entity(pyglet.sprite.Sprite):
         # Drawing parameters #
         ######################
         self.animation_timer = 0
-        self.state_animation_sequences = self.setup_state_animation_seq()
-        self.clip_sequence = self.state_animation_sequences[self.current_state]
+        self.state_animations = self.setup_state_animations()
+        self.clip_sequence = self.state_animations[self.current_state]
         self.clip_index = 0
         self.bbox.color = util.random_color()
 
@@ -98,7 +98,7 @@ class Entity(pyglet.sprite.Sprite):
 
         return state_behaviors
 
-    def setup_state_animation_seq(self):
+    def setup_state_animations(self):
 
         animation_sequences = {'default': [0]}
 
@@ -119,13 +119,13 @@ class Entity(pyglet.sprite.Sprite):
 
     def update_animation(self, elapsed_s):
 
-        # Set current sequence to the current state's animation
-        if(self.state_animation_sequences):
-            state_sequence = self.state_animation_sequences[self.current_state]
-            self.clip_sequence = state_sequence
-
         # Don't animate if there is no spriteSheet
         if(self.spriteSheet):
+
+            # Set current sequence to the current state's animation
+            if(self.current_state in self.state_animations):
+                state_sequence = self.state_animations[self.current_state]
+                self.clip_sequence = state_sequence
 
             # Update the animation timer
             self.animation_timer = self.animation_timer + elapsed_s
