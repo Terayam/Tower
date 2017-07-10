@@ -41,6 +41,7 @@ class Entity(pyglet.sprite.Sprite):
         # State Machine Parameters #
         ############################
         self.current_state = 'default'
+        self.previous_state = self.current_state
         self.state_behaviors = self.setup_stateMachine()
 
         ######################
@@ -75,7 +76,7 @@ class Entity(pyglet.sprite.Sprite):
         ######################
         self.animation_timer = 0
         self.state_animations = self.setup_state_animations()
-        self.clip_sequence = self.state_animations[self.current_state]
+        self.clip_sequence = [0]
         self.clip_index = 0
         self.animation_fps = constants.DEFAULTFRAMEDELAY_FPS
         self.bbox.color = util.random_color()
@@ -101,7 +102,7 @@ class Entity(pyglet.sprite.Sprite):
 
     def setup_state_animations(self):
 
-        animation_sequences = {'default': [0]}
+        animation_sequences = {}
 
         return animation_sequences
 
@@ -123,15 +124,21 @@ class Entity(pyglet.sprite.Sprite):
         # Don't animate if there is no spriteSheet
         if(self.spriteSheet):
 
-            # Set current sequence to the current state's animation
-            if(self.current_state in self.state_animations):
-                state_sequence = self.state_animations[self.current_state]
-                self.clip_sequence = state_sequence
+            # If there was a state change, change to the new animation sequence
+            if(self.current_state != self.previous_state):
+
+                if(self.current_state in self.state_animations):
+
+                    state_sequence = self.state_animations[self.current_state]
+                    self.clip_sequence = state_sequence
+
+                    # Reset clip index
+                    self.clip_index = 0
 
             # Update the animation timer
             self.animation_timer = self.animation_timer + elapsed_s
 
-            # Don't animate if the current rate is zero
+            # Don't update animation timer if framerate is zero
             if(self.animation_fps > 0):
 
                 # Move to the next clip if the timer elapsed
@@ -149,6 +156,11 @@ class Entity(pyglet.sprite.Sprite):
 
                     # Reset the timer
                     self.animation_timer = 0
+
+            else:
+
+                # Set the new image
+                self.set_clip(self.clip_sequence[self.clip_index])
 
     def set_clip(self, clipNum):
         self.image = self.spriteSheet[clipNum]
@@ -179,6 +191,9 @@ class Entity(pyglet.sprite.Sprite):
 
         # Update bounding boxes
         self.update_bbox()
+
+        # Update statemachine state
+        self.previous_state = self.current_state
 
     ###########################################################################
     # Name: Update Vel Pos

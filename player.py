@@ -32,6 +32,7 @@ class Player(entity.Entity):
 
         # Physics constants
         self.coef_friction = constants.NORMALDECCEL
+        self.idle_speed = constants.MINSPEED
 
         # Drawing variables
 
@@ -47,12 +48,20 @@ class Player(entity.Entity):
 
         return sound_dict
 
-    ####################
-    # Drawing Functions
-    ####################
+    ###########################
+    # State Machine Functions #
+    ###########################
+    def setup_stateMachine(self):
+
+        state_behaviors = {'idle': self.behave_idle,
+                           'move': self.behave_move}
+
+        return state_behaviors
+
     def setup_state_animations(self):
 
-        animation_sequences = {'default': [10, 11, 12, 13]}
+        animation_sequences = {'idle': [0],
+                               'move': [10, 11, 12, 13]}
 
         return animation_sequences
 
@@ -114,6 +123,25 @@ class Player(entity.Entity):
 
         # Cap maximum speed of player
         self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
+
+        # Switch between moving and idle states
+        self.current_state = 'idle'
+
+        velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
+
+        if(velMag > self.idle_speed):
+            self.current_state = 'move'
+
+    #####################
+    # Behavior functions
+    #####################
+    def behave_idle(self, elapsed_s):
+
+        # Reset animation
+        self.animation_fps = 0
+        self.clip_index = 0
+
+    def behave_move(self, elapsed_s):
 
         velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
         self.animation_fps = (24 * (velMag / constants.MAXPLAYERSPEED))
