@@ -139,7 +139,6 @@ class Player(entity.Entity):
 
         # Reset animation
         self.animation_fps = 0
-        self.clip_index = 0
 
     def behave_move(self, elapsed_s):
 
