@@ -33,8 +33,6 @@ class Player(entity.Entity):
         self.coef_friction = constants.NORMALDECCEL
 
         # Drawing variables
-        self.current_frame = 0
-        self.clip_sequence = [10, 11, 12, 13]
 
     ###################
     # Sound Functions #
@@ -47,6 +45,15 @@ class Player(entity.Entity):
         sound_dict['collide'] = rm.load_sfx('./sound/joo.wav')
 
         return sound_dict
+
+    ####################
+    # Drawing Functions
+    ####################
+    def setup_state_animation_seq(self):
+
+        animation_sequences = {'default': [10, 11, 12, 13]}
+
+        return animation_sequences
 
     ####################
     # Inputs Functions #
