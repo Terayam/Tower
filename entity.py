@@ -77,6 +77,7 @@ class Entity(pyglet.sprite.Sprite):
         self.state_animations = self.setup_state_animations()
         self.clip_sequence = self.state_animations[self.current_state]
         self.clip_index = 0
+        self.animation_fps = constants.DEFAULTFRAMEDELAY_FPS
         self.bbox.color = util.random_color()
 
         ####################
@@ -131,7 +132,7 @@ class Entity(pyglet.sprite.Sprite):
             self.animation_timer = self.animation_timer + elapsed_s
 
             # Move to the next clip if the timer elapsed
-            if(self.animation_timer > (1 / constants.DEFAULTFRAMEDELAY_FPS)):
+            if(self.animation_timer > (1 / self.animation_fps)):
 
                 # Go to the next clip
                 self.clip_index = self.clip_index + 1
