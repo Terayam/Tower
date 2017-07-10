@@ -125,7 +125,7 @@ class Entity(pyglet.sprite.Sprite):
                 self.clip_index = self.clip_index + 1
 
                 # Reset if we past the end of the animation sequence
-                if(self.clip_index > len(self.clip_sequence)):
+                if(self.clip_index > (len(self.clip_sequence) - 1)):
                     self.clip_index = 0
 
                 # Set the new image
