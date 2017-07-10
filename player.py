@@ -34,6 +34,7 @@ class Player(entity.Entity):
 
         # Drawing variables
         self.current_frame = 0
+        self.clip_sequence = [10, 11, 12, 13]
 
     ###################
     # Sound Functions #

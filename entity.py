@@ -119,7 +119,7 @@ class Entity(pyglet.sprite.Sprite):
             self.animation_timer = self.animation_timer + elapsed_s
 
             # Move to the next clip if the timer elapsed
-            if(self.animation_timer > (1 / constants.DEFAULTFRAMEDELAY_S)):
+            if(self.animation_timer > (1 / constants.DEFAULTFRAMEDELAY_FPS)):
 
                 # Go to the next clip
                 self.clip_index = self.clip_index + 1
