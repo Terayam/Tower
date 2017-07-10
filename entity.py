@@ -131,21 +131,24 @@ class Entity(pyglet.sprite.Sprite):
             # Update the animation timer
             self.animation_timer = self.animation_timer + elapsed_s
 
-            # Move to the next clip if the timer elapsed
-            if(self.animation_timer > (1 / self.animation_fps)):
+            # Don't animate if the current rate is zero
+            if(self.animation_fps > 0):
 
-                # Go to the next clip
-                self.clip_index = self.clip_index + 1
+                # Move to the next clip if the timer elapsed
+                if(self.animation_timer > (1 / self.animation_fps)):
 
-                # Reset if we past the end of the animation sequence
-                if(self.clip_index > (len(self.clip_sequence) - 1)):
-                    self.clip_index = 0
+                    # Go to the next clip
+                    self.clip_index = self.clip_index + 1
 
-                # Set the new image
-                self.set_clip(self.clip_sequence[self.clip_index])
+                    # Reset if we past the end of the animation sequence
+                    if(self.clip_index > (len(self.clip_sequence) - 1)):
+                        self.clip_index = 0
 
-                # Reset the timer
-                self.animation_timer = 0
+                    # Set the new image
+                    self.set_clip(self.clip_sequence[self.clip_index])
+
+                    # Reset the timer
+                    self.animation_timer = 0
 
     def set_clip(self, clipNum):
         self.image = self.spriteSheet[clipNum]

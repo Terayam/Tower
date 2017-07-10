@@ -2,6 +2,7 @@ import pyglet
 import entity
 import constants
 import util
+import math
 import rm
 
 
@@ -113,6 +114,9 @@ class Player(entity.Entity):
 
         # Cap maximum speed of player
         self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
+
+        velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
+        self.animation_fps = (24 * (velMag / constants.MAXPLAYERSPEED))
 
     ################################
     # Collision Response functions #
