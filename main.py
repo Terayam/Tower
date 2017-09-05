@@ -108,6 +108,9 @@ class Game(pyglet.window.Window):
         # Draw the current level
         self.current_level.draw()
 
+        # Draw entities
+        self.draw_all_entities()
+
         # Draw bboxes if debug enabled
         if(self.debug_bbox):
 
@@ -120,9 +123,6 @@ class Game(pyglet.window.Window):
 
             # Draw bboxes of enemies and projectiles
             self.test_enemy.bbox.draw()
-
-        # Draw entities
-        self.draw_all_entities()
 
         # Flip is called automatically by the event loop
 

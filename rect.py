@@ -15,9 +15,16 @@ class Rect():
     def draw(self):
 
         pattern = pyglet.image.SolidColorImagePattern(color=self.color)
-        image = pattern.create_image(math.ceil(self.w),
-                                     math.ceil(self.h))
-        image.blit(self.x, self.y)
+
+        # Create an image for Horizontal sides and vertical sides
+        wimage = pattern.create_image(width=math.ceil(self.w), height=1)
+        himage = pattern.create_image(width=1, height=math.ceil(self.h))
+
+        # Draw all four sides
+        wimage.blit(x=self.x, y=self.y)
+        wimage.blit(x=self.x, y=(self.y + self.h))
+        himage.blit(x=self.x, y=self.y)
+        himage.blit(x=(self.x + self.w), y=self.y)
 
     # Easy-access functions
     def left(self):
