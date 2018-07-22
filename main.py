@@ -185,10 +185,8 @@ class Game(pyglet.window.Window):
         #      automaticall created in the False held state when it is checked
         #      here.
 
-        # Only process inputs if the state changed from Not Pressed to Pressed
+        # Actions activated on Press
         if(self.keyholdHandler[symbol] is False):
-
-            self.keyholdHandler[symbol] = True
 
             #########################
             # Specific input handlers
@@ -201,8 +199,24 @@ class Game(pyglet.window.Window):
                 else:
                     self.bgm.unmute()
 
+        # Actions activated on Held
+        else:
+            pass
+
+        # Set state to held
+        self.keyholdHandler[symbol] = True
+
     def handle_key_release(self, symbol):
 
+        # Actions activated on release
+        if(self.keyholdHandler[symbol] is True):
+            pass
+
+        # Actions activated on unheld
+        else:
+            pass
+
+        # Set state to unheld
         self.keyholdHandler[symbol] = False
 
     def run(self):
