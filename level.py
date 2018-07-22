@@ -4,9 +4,10 @@ import wall
 
 class Level:
 
-    def __init__(self, sprite_batch):
+    def __init__(self, sprite_batch, player):
 
         self.background = None
+        self.player = player
         self.sprite_batch = sprite_batch
         self.entities = []
 

@@ -20,6 +20,7 @@ class Debug1(level.Level):
     def add_entities(self):
 
         test_enemy = debt.Debt('img/enemy.png', batch=self.sprite_batch)
+        test_enemy.target = self.player
         self.entities.append(test_enemy)
 
 

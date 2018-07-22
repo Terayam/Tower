@@ -50,27 +50,25 @@ class Game(pyglet.window.Window):
         self.setup_joystick()
 
         ####################
-        # Load initial level
+        # Gameplay setup
         ####################
-        self.entities = []
-        self.current_level = None
-
-        # Set current level
-        self.current_level = levels.Debug1(self.sprite_batch)
-
-        # Get entities from level
-        self.entities.extend(self.current_level.entities)
 
         # Create the player object
         self.create_player()
+
+        # Create the current level
+        self.entities = []
+        self.current_level = None
+
+        self.current_level = levels.Debug1(self.sprite_batch, self.player)
+
+        # Get entities from level
+        self.entities.extend(self.current_level.entities)
 
         ########################
         # Debugging stuff
         ########################
         self.debug_bbox = True
-
-        # Create an enemy to test with
-        self.entities[3].target = self.player
 
     def setup_joystick(self):
 
