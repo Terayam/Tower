@@ -6,9 +6,7 @@ class Level:
 
     def __init__(self):
 
-        self.id = 0
         self.background = None
-        self.next_level = 0
         self.wall_sprite_batch = pyglet.graphics.Batch()
         self.walls = []
 
