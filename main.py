@@ -28,6 +28,11 @@ class Game(pyglet.window.Window):
         self.state = 'init'
 
         #########################
+        # Graphics initialization
+        #########################
+        self.sprite_batch = pyglet.graphics.Batch()
+
+        #########################
         # Initialize media player
         #########################
         rm.initialize_media()
@@ -36,9 +41,6 @@ class Game(pyglet.window.Window):
                                streaming=False))
         self.bgm.loop(True)
         self.bgm.play()
-
-        self.sprite_batch = pyglet.graphics.Batch()
-        self.current_level = None
 
         ##########################
         # Initialize input methods
