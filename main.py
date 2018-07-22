@@ -1,7 +1,6 @@
 import pyglet
 import constants
 import player
-import debt
 import rm
 import joystick_handler
 import bgmPlayer
