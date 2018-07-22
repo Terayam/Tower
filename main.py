@@ -1,5 +1,5 @@
-import pyglet
 import constants
+import pyglet
 import player
 import rm
 import joystick_handler
@@ -58,19 +58,17 @@ class Game(pyglet.window.Window):
         # Create the player object
         self.create_player()
 
+        # Create game-scope entities
+        self.game_entities = []
+
         # Create the current level
-        self.entities = []
         self.current_level = None
-
-        self.current_level = levels.Debug1(self.sprite_batch, self.player)
-
-        # Get entities from level
-        self.entities.extend(self.current_level.entities)
 
         ########################
         # Debugging stuff
         ########################
         self.debug_bbox = True
+        self.current_level = levels.Debug1(self.sprite_batch, self.player)
 
     def setup_joystick(self):
 
@@ -99,15 +97,19 @@ class Game(pyglet.window.Window):
         # Give joystate to Player
         self.player.read_joystate(self.joystick_handler)
 
-        # Call update on all enemies and projectiles
-        for entity in self.entities:
+        # Call update on all game-scope entities
+        for entity in self.game_entities:
+            entity.update(dt)
+
+        # Call update on all level entities
+        for entity in self.current_level.entities:
             entity.update(dt)
 
         # Call update on the player
         self.player.update(dt)
 
-        # Collide entities with the player
-        for entity in self.entities:
+        # Collide level entities with the player
+        for entity in self.current_level.entities:
             entity.collide(self.player)
 
         # Collide enemies and enemy projectiles with player projectiles
@@ -115,7 +117,7 @@ class Game(pyglet.window.Window):
         # Collide enemies and enemy projectiles with walls
 
         # Collide the player with enemies and projectiles
-        for entity in self.entities:
+        for entity in self.current_level.entities:
             self.player.collide(entity)
 
     def draw_all_entities(self):
@@ -137,8 +139,12 @@ class Game(pyglet.window.Window):
             # Draw player bounding boox
             self.player.bbox.draw()
 
-            # Draw bboxes of enemies and projectiles
-            for entity in self.entities:
+            # Draw bboxes of game-scope entities
+            for entity in self.game_entities:
+                entity.bbox.draw()
+
+            # Draw bboxes of level entities
+            for entity in self.current_level.entities:
                 entity.bbox.draw()
 
         # Flip is called automatically by the event loop
