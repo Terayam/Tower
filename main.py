@@ -19,6 +19,7 @@ class Game(pyglet.window.Window):
         self.bgm = bgmPlayer.BgmPlayer()
         self.bgm.change_source(pyglet.media.load('./sound/sample_song.wav',
                                streaming=False))
+        self.bgm.loop(True)
         self.bgm.play()
 
         self.sprite_batch = pyglet.graphics.Batch()
