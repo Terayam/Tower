@@ -2,6 +2,7 @@ import constants
 import pyglet
 import player
 import rm
+import collections
 import joystick_handler
 import bgmPlayer
 import levels
@@ -47,7 +48,7 @@ class Game(pyglet.window.Window):
         ##########################
 
         # Initialize key states
-        self.key_M_held = False
+        self.keyholdHandler = collections.defaultdict(bool)
 
         # Check for a joystick
         self.joystick = None
@@ -119,7 +120,7 @@ class Game(pyglet.window.Window):
 
         # Collide enemies and enemy projectiles with walls
 
-        # Collide the player with enemies and projectiles
+        # Collide the player with enemies and projec yettiles
         for entity in self.current_level.entities:
             self.player.collide(entity)
 
@@ -178,25 +179,31 @@ class Game(pyglet.window.Window):
 
     def handle_key_press(self, symbol):
 
-        if(symbol == pyglet.window.key.M):
+        # Note:
+        #      keyholdHandler is a defaultdict.  If the specified kery has not
+        #      yet been registered in the dictionary as a key, it will be
+        #      automaticall created in the False held state when it is checked
+        #      here.
 
-            if(self.key_M_held is False):
+        # Only process inputs if the state changed from Not Pressed to Pressed
+        if(self.keyholdHandler[symbol] is False):
 
-                self.key_M_held = True
+            self.keyholdHandler[symbol] = True
+
+            #########################
+            # Specific input handlers
+            #########################
+            if(symbol == pyglet.window.key.M):
 
                 if(self.bgm.muted is False):
-
-                    print("Mute")
                     self.bgm.mute()
 
                 else:
-                    print("Unmute")
                     self.bgm.unmute()
 
     def handle_key_release(self, symbol):
 
-        if(symbol == pyglet.window.key.M):
-            self.key_M_held = False
+        self.keyholdHandler[symbol] = False
 
     def run(self):
 
