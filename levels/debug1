@@ -1,6 +1,0 @@
-id: 1
-background: img/bg.png
-next_level: 2
-wall: 250, 200, 50, 200
-wall: 350, 200, 50, 200
-wall: 175, 150, 300, 10

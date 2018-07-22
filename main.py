@@ -5,6 +5,7 @@ import debt
 import rm
 import joystick_handler
 import bgmPlayer
+import levels
 
 
 class Game(pyglet.window.Window):
@@ -23,7 +24,6 @@ class Game(pyglet.window.Window):
         self.bgm.play()
 
         self.sprite_batch = pyglet.graphics.Batch()
-        self.levels = {}
         self.current_level = None
 
         ########################
@@ -40,12 +40,8 @@ class Game(pyglet.window.Window):
         pyglet.clock.schedule_interval(self.update,
                                        1 / constants.FRAMELIMIT_FPS)
 
-        # Load all levels
-        self.levels = rm.load_all_levels()
-
         # Set current level
-        # First level is at key 1
-        self.current_level = self.levels[1]
+        self.current_level = levels.debug1
 
         # Create the player object
         self.create_player()
