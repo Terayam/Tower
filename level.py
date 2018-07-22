@@ -7,6 +7,7 @@ class Level:
     def __init__(self):
 
         self.background = None
+        self.has_player = False
         self.wall_sprite_batch = pyglet.graphics.Batch()
         self.walls = []
 

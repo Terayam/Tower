@@ -15,7 +15,22 @@ class Game(pyglet.window.Window):
         # Call the base class initialize
         super(Game, self).__init__(*args, **kwargs)
 
+        ##############
+        # Engine Setup
+        ##############
+
+        # Scehdule the update function
+        pyglet.clock.schedule_interval(self.update,
+                                       1 / constants.FRAMELIMIT_FPS)
+
+        #####################
+        # State Machine Setup
+        #####################
+        self.state = 'init'
+
+        #########################
         # Initialize media player
+        #########################
         rm.initialize_media()
         self.bgm = bgmPlayer.BgmPlayer()
         self.bgm.change_source(pyglet.media.load('./sound/sample_song.wav',
@@ -26,22 +41,22 @@ class Game(pyglet.window.Window):
         self.sprite_batch = pyglet.graphics.Batch()
         self.current_level = None
 
-        ########################
-        # Debugging Parameters #
-        ########################
-        self.debug_bbox = True
+        ##########################
+        # Initialize input methods
+        ##########################
 
         # Check for a joystick
         self.joystick = None
         self.joystick_handler = joystick_handler.Joystick_handler()
         self.setup_joystick()
 
-        # Scehdule the update function
-        pyglet.clock.schedule_interval(self.update,
-                                       1 / constants.FRAMELIMIT_FPS)
+        ########################
+        # Debugging stuff
+        ########################
+        self.debug_bbox = True
 
         # Set current level
-        self.current_level = levels.debug1
+        self.current_level = levels.Debug1()
 
         # Create the player object
         self.create_player()
