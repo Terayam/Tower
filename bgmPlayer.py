@@ -19,6 +19,10 @@ class BgmPlayer:
         # set the default behavior to loop
         self.pyglet_player.eos_action = pyglet.media.SourceGroup.loop
 
+        # Set the default BGM volume
+        self.original_volume = 1.0
+        self.muted = False
+
     def change_source(self, source):
 
         # Clear the current source and start the next one
@@ -36,3 +40,19 @@ class BgmPlayer:
 
     def pause(self):
         self.pyglet_player.pause()
+
+    def playing(self):
+        return self.pyglet_player.playing
+
+    def set_volume(self, vol):
+        self.pyglet_player.volume = vol
+
+    def mute(self):
+
+        self.original_volume = self.pyglet_player.volume
+        self.muted = True
+        self.set_volume(0.0)
+
+    def unmute(self):
+        self.muted = False
+        self.set_volume(self.original_volume)

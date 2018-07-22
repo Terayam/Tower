@@ -46,6 +46,9 @@ class Game(pyglet.window.Window):
         # Initialize input methods
         ##########################
 
+        # Initialize key states
+        self.key_M_held = False
+
         # Check for a joystick
         self.joystick = None
         self.joystick_handler = joystick_handler.Joystick_handler()
@@ -151,13 +154,49 @@ class Game(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
 
-        # Send keypresses onto the player class
+        # Send keypresses to the Game class
+        self.handle_key_press(symbol)
+
+        # Send keypresses to the player class
         self.player.handle_key_press(symbol)
+
+        # Send keypresses to the game-scope entities
+
+        # Send keypresses to the level entities
 
     def on_key_release(self, symbol, modifiers):
 
-        # Send keypresses onto the player class
+        # Sec keypresses to the Game class
+        self.handle_key_release(symbol)
+
+        # Send keypresses to the player class
         self.player.handle_key_release(symbol)
+
+        # Send keypresses to the game-scope entities
+
+        # Send keypresses to the level entities
+
+    def handle_key_press(self, symbol):
+
+        if(symbol == pyglet.window.key.M):
+
+            if(self.key_M_held is False):
+
+                self.key_M_held = True
+
+                if(self.bgm.muted is False):
+
+                    print("Mute")
+                    self.bgm.mute()
+
+                else:
+                    print("Unmute")
+                    self.bgm.unmute()
+
+    def handle_key_release(self, symbol):
+
+        if(symbol == pyglet.window.key.M):
+            self.key_M_held = False
 
     def run(self):
 
