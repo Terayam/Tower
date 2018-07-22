@@ -1,4 +1,5 @@
 import level
+import debt
 
 
 class Debug1(level.Level):
@@ -14,6 +15,8 @@ class Debug1(level.Level):
         self.add_wall(350, 200, 50, 200)
         self.add_wall(175, 150, 300, 10)
 
+        test_enemy = debt.Debt('img/enemy.png', batch=self.sprite_batch)
+        self.entities.append(test_enemy)
 
 class Debug2(level.Level):
 

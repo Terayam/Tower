@@ -4,12 +4,13 @@ import wall
 
 class Level:
 
-    def __init__(self):
+    def __init__(self, sprite_batch):
 
         self.background = None
         self.has_player = False
-        self.wall_sprite_batch = pyglet.graphics.Batch()
+        self.sprite_batch = sprite_batch
         self.walls = []
+        self.entities = []
 
     def set_background(self, filename):
         self.background = pyglet.image.load(filename)
@@ -27,10 +28,7 @@ class Level:
     def reset_walls_sprite_group(self):
 
         for w in self.walls:
-            w.batch = self.wall_sprite_batch
+            w.batch = self.sprite_batch
 
     def draw(self):
         self.background.blit(0, 0)
-
-        # Draw wall Batch
-        self.wall_sprite_batch.draw()

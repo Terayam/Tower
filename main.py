@@ -50,21 +50,28 @@ class Game(pyglet.window.Window):
         self.joystick_handler = joystick_handler.Joystick_handler()
         self.setup_joystick()
 
+        ####################
+        # Load initial level
+        ####################
+        self.entities = []
+        self.current_level = None
+
+        # Set current level
+        self.current_level = levels.Debug1(self.sprite_batch)
+
+        # Get entities from level
+        self.entities.extend(self.current_level.entities)
+
+        # Create the player object
+        self.create_player()
+
         ########################
         # Debugging stuff
         ########################
         self.debug_bbox = True
 
-        # Set current level
-        self.current_level = levels.Debug1()
-
-        # Create the player object
-        self.create_player()
-
         # Create an enemy to test with
-        self.test_enemy = debt.Debt('img/enemy.png',
-                                    batch=self.sprite_batch)
-        self.test_enemy.target = self.player
+        self.entities[0].target = self.player
 
     def setup_joystick(self):
 
@@ -94,7 +101,8 @@ class Game(pyglet.window.Window):
         self.player.read_joystate(self.joystick_handler)
 
         # Call update on all enemies and projectiles
-        self.test_enemy.update(dt)
+        for entity in self.entities:
+            entity.update(dt)
 
         # Call update on the player
         self.player.update(dt)
@@ -108,7 +116,8 @@ class Game(pyglet.window.Window):
         # Collide enemies and enemy projectiles with walls
 
         # Collide the player with enemies and projectiles
-        self.player.collide(self.test_enemy)
+        for entity in self.entities:
+            self.player.collide(entity)
 
     def draw_all_entities(self):
 
@@ -134,7 +143,8 @@ class Game(pyglet.window.Window):
             self.player.bbox.draw()
 
             # Draw bboxes of enemies and projectiles
-            self.test_enemy.bbox.draw()
+            for entity in self.entities:
+                entity.bbox.draw()
 
         # Flip is called automatically by the event loop
 
