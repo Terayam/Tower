@@ -9,7 +9,6 @@ class Level:
         self.background = None
         self.has_player = False
         self.sprite_batch = sprite_batch
-        self.walls = []
         self.entities = []
 
     def set_background(self, filename):
@@ -23,12 +22,7 @@ class Level:
         # Set wall dimensions
         new_wall.set_pos_size_bbox(wallX, wallY, wallW, wallH)
 
-        self.walls.append(new_wall)
-
-    def reset_walls_sprite_group(self):
-
-        for w in self.walls:
-            w.batch = self.sprite_batch
+        self.entities.append(new_wall)
 
     def draw(self):
         self.background.blit(0, 0)

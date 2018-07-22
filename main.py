@@ -71,7 +71,7 @@ class Game(pyglet.window.Window):
         self.debug_bbox = True
 
         # Create an enemy to test with
-        self.entities[0].target = self.player
+        self.entities[3].target = self.player
 
     def setup_joystick(self):
 
@@ -107,9 +107,9 @@ class Game(pyglet.window.Window):
         # Call update on the player
         self.player.update(dt)
 
-        # collide the player with the walls
-        for w in self.current_level.walls:
-            w.collide(self.player)
+        # Collide entities with the player
+        for entity in self.entities:
+            entity.collide(self.player)
 
         # Collide enemies and enemy projectiles with player projectiles
 
@@ -134,10 +134,6 @@ class Game(pyglet.window.Window):
 
         # Draw bboxes if debug enabled
         if(self.debug_bbox):
-
-            # draw all wall bounding boxes
-            for w in self.current_level.walls:
-                w.bbox.draw()
 
             # Draw player bounding boox
             self.player.bbox.draw()
