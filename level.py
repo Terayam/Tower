@@ -20,14 +20,8 @@ class Level:
         # Create a new wall to add to the list
         new_wall = wall.Wall()
 
-        # TODO: A level should not need to know how to build a wall.  Move
-        # this to the wall class
-        new_wall.bbox.x = wallX
-        new_wall.x = wallX
-        new_wall.bbox.y = wallY
-        new_wall.y = wallY
-        new_wall.bbox.w = wallW
-        new_wall.bbox.h = wallH
+        # Set wall dimensions
+        new_wall.set_pos_size_bbox(wallX, wallY, wallW, wallH)
 
         self.walls.append(new_wall)
 

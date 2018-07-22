@@ -91,6 +91,23 @@ class Entity(pyglet.sprite.Sprite):
         ########################
         self.debug_overlap = True
 
+    ####################
+    # Utilit Functions #
+    ####################
+    def set_pos_size_bbox(self, x, y, w, h):
+
+        self.bbox.x = x
+        self.x = x
+
+        self.bbox.y = y
+        self.y = y
+
+        self.resize_bbox(w, h)
+
+    def resize_bbox(self, w, h):
+        self.bbox.w = w
+        self.bbox.h = h
+
     ###########################
     # State Machine Functions #
     ###########################
