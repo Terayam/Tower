@@ -49,7 +49,7 @@ class Player(entity.Entity):
         # Create a new dictionary of sounds
         sound_dict = {}
 
-        sound_dict['collide'] = rm.load_sfx('./sound/joo.wav')
+        sound_dict['collide'] = rm.load_sfx('./media/sound/joo.wav')
 
         return sound_dict
 

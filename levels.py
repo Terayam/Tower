@@ -10,7 +10,7 @@ class Debug1(level.Level):
         # Call the base class initializer
         super(Debug1, self).__init__(*args, **kwargs)
 
-        self.set_background("img/bg.png")
+        self.set_background("media/img/bg.png")
 
     def add_walls(self):
 
@@ -20,7 +20,7 @@ class Debug1(level.Level):
 
     def add_entities(self):
 
-        test_enemy = debt.Debt('img/enemy.png', batch=self.sprite_batch)
+        test_enemy = debt.Debt('media/img/enemy.png', batch=self.sprite_batch)
         test_enemy.target = self.player
         self.entities.append(test_enemy)
 
@@ -32,4 +32,4 @@ class Debug2(level.Level):
         # Call the base class initializer
         super(Debug2, self).__init__(*args, **kwargs)
 
-        self.set_background("img/bg2.png")
+        self.set_background("media/img/bg2.png")
