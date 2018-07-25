@@ -1,8 +1,8 @@
 import math
 import pyglet
 import constants
-import rect
 
+from primitives import rect
 from util import util_functions
 
 
