@@ -3,9 +3,9 @@ import player
 import rm
 import collections
 import joystick_handler
-import bgmPlayer
 import levels
 
+from sound import bgmPlayer
 from util import constants
 
 class Game(pyglet.window.Window):
