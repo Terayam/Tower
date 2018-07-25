@@ -1,5 +1,6 @@
 import pyglet
-import wall
+
+from entities import wall
 
 
 class Level:
