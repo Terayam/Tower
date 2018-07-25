@@ -1,4 +1,3 @@
-import constants
 import pyglet
 import player
 import rm
@@ -7,6 +6,7 @@ import joystick_handler
 import bgmPlayer
 import levels
 
+from util import constants
 
 class Game(pyglet.window.Window):
 

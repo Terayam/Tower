@@ -1,9 +1,9 @@
 import math
 import pyglet
-import constants
 
 from primitives import rect
 from util import util_functions
+from util import constants
 
 
 class Entity(pyglet.sprite.Sprite):

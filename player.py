@@ -1,11 +1,11 @@
 import pyglet
-import constants
 import collections
 import math
 import rm
 
 from primitives import entity
 from util import util_functions
+from util import constants
 
 
 class Player(entity.Entity):
