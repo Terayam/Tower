@@ -2,11 +2,12 @@ import pyglet
 import player
 import rm
 import collections
-import joystick_handler
 import levels
 
+from input_handling import joystick_handler
 from sound import bgmPlayer
 from util import constants
+
 
 class Game(pyglet.window.Window):
 
