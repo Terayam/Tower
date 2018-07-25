@@ -38,9 +38,14 @@ class Game(pyglet.window.Window):
         # Initialize media player
         #########################
         rm.initialize_media()
+
+        # Load music file to play
+        bgmMusic = pyglet.media.load('assets/sound/sample_song.wav',
+                                     streaming=False)
+
+        # Create bgmplayer and set it up
         self.bgm = bgmPlayer.BgmPlayer()
-        self.bgm.change_source(pyglet.media.load('assets/sound/sample_song.wav',
-                               streaming=False))
+        self.bgm.change_source(bgmMusic)
         self.bgm.loop(True)
         self.bgm.play()
 
