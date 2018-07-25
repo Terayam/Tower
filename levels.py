@@ -1,5 +1,6 @@
 import level
-import debt
+
+from entities import debt
 
 
 class Debug1(level.Level):

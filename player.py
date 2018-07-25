@@ -1,9 +1,11 @@
 import pyglet
-import entity
 import constants
-import util
+import collections
 import math
 import rm
+
+from primitives import entity
+from util import util_functions
 
 
 class Player(entity.Entity):
@@ -15,7 +17,7 @@ class Player(entity.Entity):
 
         # default bbox to image
         super(Player, self).bbox_to_image()
-        self.bbox.color = util.random_color()
+        self.bbox.color = util_functions.random_color()
 
         self.collidable = True
         self.collide_latch = False
@@ -25,6 +27,9 @@ class Player(entity.Entity):
         self.moveRightDigital = False
         self.moveUpDigital = False
         self.moveDownDigital = False
+
+        # Initialize key states
+        self.keyholdHandler = collections.defaultdict(bool)
 
         # Initialize state variables
         self.hMove = 0.0
@@ -90,7 +95,18 @@ class Player(entity.Entity):
         elif(symbol == pyglet.window.key.S):
             self.moveDownDigital = True
 
+        # Set key to held
+        self.keyholdHandler[symbol] = True
+
     def handle_key_release(self, symbol):
+
+        # Actions activated on release
+        if(self.keyholdHandler[symbol] is True):
+            pass
+
+        # Actions activated on unheld
+        else:
+            pass
 
         if(symbol == pyglet.window.key.A):
             self.moveLeftDigital = False
@@ -100,6 +116,9 @@ class Player(entity.Entity):
             self.moveUpDigital = False
         elif(symbol == pyglet.window.key.S):
             self.moveDownDigital = False
+
+        # Set key to unheld
+        self.keyholdHandler[symbol] = False
 
     def read_joystate(self, joystick_handler):
 
@@ -120,8 +139,8 @@ class Player(entity.Entity):
         else:
             temp_vMove = 0.0
 
-        self.hMove = util.biggest([temp_hMove, joystick_handler.x])
-        self.vMove = util.biggest([temp_vMove, joystick_handler.y])
+        self.hMove = util_functions.biggest([temp_hMove, joystick_handler.x])
+        self.vMove = util_functions.biggest([temp_vMove, joystick_handler.y])
 
     def update(self, elapsed_s):
 

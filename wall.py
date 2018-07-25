@@ -1,5 +1,5 @@
-import entity
-import util
+from primitives import entity
+from util import util_functions
 
 
 class Wall(entity.Entity):
@@ -11,7 +11,7 @@ class Wall(entity.Entity):
 
         # default bbox to image
         super(Wall, self).bbox_to_image()
-        self.bbox.color = util.random_color()
+        self.bbox.color = util_functions.random_color()
 
         self.collidable = True
 

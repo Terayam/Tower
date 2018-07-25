@@ -2,7 +2,8 @@ import math
 import pyglet
 import constants
 import rect
-import util
+
+from util import util_functions
 
 
 class Entity(pyglet.sprite.Sprite):
@@ -79,7 +80,7 @@ class Entity(pyglet.sprite.Sprite):
         self.clip_sequence = [0]
         self.clip_index = 0
         self.animation_fps = constants.DEFAULTFRAMEDELAY_FPS
-        self.bbox.color = util.random_color()
+        self.bbox.color = util_functions.random_color()
 
         ####################
         # Sound Parameters #

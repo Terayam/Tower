@@ -1,4 +1,4 @@
-import entity
+from primitives import entity
 
 
 class Debt(entity.Entity):
