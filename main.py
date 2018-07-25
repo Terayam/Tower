@@ -5,6 +5,7 @@ import collections
 import levels
 
 from input_handling import joystick_handler
+from ui import button
 from sound import bgmPlayer
 from util import constants
 
@@ -32,7 +33,8 @@ class Game(pyglet.window.Window):
         #########################
         # Graphics initialization
         #########################
-        self.sprite_batch = pyglet.graphics.Batch()
+        self.sprite_batch_game = pyglet.graphics.Batch()
+        self.sprite_batch_ui = pyglet.graphics.Batch()
 
         #########################
         # Initialize media player
@@ -78,7 +80,17 @@ class Game(pyglet.window.Window):
         # Debugging stuff
         ########################
         self.debug_bbox = True
-        self.current_level = levels.Debug1(self.sprite_batch, self.player)
+        self.current_level = levels.Debug1(self.sprite_batch_game,
+                                           self.player)
+
+        # Create a new ui button to interact with
+        self.test_button = button.Button('assets/img/TestButton.png',
+                                         gridX=1,
+                                         gridY=3,
+                                         batch=self.sprite_batch_ui)
+
+        self.test_button.x = 250
+        self.test_button.y = 25
 
     def setup_joystick(self):
 
@@ -96,7 +108,7 @@ class Game(pyglet.window.Window):
         self.player = player.Player('assets/img/guy.png',
                                     gridX=10,
                                     gridY=10,
-                                    batch=self.sprite_batch)
+                                    batch=self.sprite_batch_game)
 
     def update(self, dt):
 
@@ -132,8 +144,11 @@ class Game(pyglet.window.Window):
 
     def draw_all_entities(self):
 
-        # Draw main sprite group
-        self.sprite_batch.draw()
+        # Draw game entities first
+        self.sprite_batch_game.draw()
+
+        # Draw UI on top
+        self.sprite_batch_ui.draw()
 
     def on_draw(self):
 
