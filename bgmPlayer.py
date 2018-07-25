@@ -1,5 +1,6 @@
 import pyglet
-import defaults
+
+from util import defaults
 
 
 class BgmPlayer:
