@@ -5,7 +5,8 @@ import collections
 import levels
 
 from input_handling import joystick_handler
-from ui import button
+from ui import test_button
+from ui import ui_handler
 from sound import bgmPlayer
 from util import constants
 
@@ -84,13 +85,16 @@ class Game(pyglet.window.Window):
                                            self.player)
 
         # Create a new ui button to interact with
-        self.test_button = button.Button('assets/img/TestButton.png',
-                                         gridX=1,
-                                         gridY=3,
-                                         batch=self.sprite_batch_ui)
+        tb = test_button.Test_Button('assets/img/TestButton.png',
+                                     gridX=1,
+                                     gridY=3,
+                                     batch=self.sprite_batch_ui)
 
-        self.test_button.x = 250
-        self.test_button.y = 25
+        tb.x = 250
+        tb.y = 25
+
+        self.ui_handler = ui_handler.Ui_handler()
+        self.ui_handler.add(tb)
 
     def setup_joystick(self):
 
@@ -239,6 +243,40 @@ class Game(pyglet.window.Window):
 
         # Set state to unheld
         self.keyholdHandler[symbol] = False
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.ui_handler.distribute_mouse_move(x, y)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+
+        # Actions activated on Press
+        if(self.keyholdHandler[button] is False):
+
+            self.ui_handler.distribute_mouse_click(x, y, button)
+
+        # Actions for held
+        else:
+            pass
+
+        # Set state to held
+        self.keyholdHandler[button] = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+
+        # Actions activated on release
+        if(self.keyholdHandler[button] is True):
+
+            self.ui_handler.distribute_mouse_release(x, y, button)
+
+        # Actions activated on unheld
+        else:
+            pass
+
+        # Set state to unheld
+        self.keyholdHandler[button] = False
+
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        pass
 
     def run(self):
 

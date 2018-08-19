@@ -279,6 +279,14 @@ class Entity(pyglet.sprite.Sprite):
     #######################
     # Collision functions #
     #######################
+    def point_inside(self, x, y):
+
+        if(x > self.x and x < (self.x + self.bbox.w)):
+            if(y > self.y and y < (self.y + self.bbox.h)):
+                return True
+
+        return False
+
     def collide(self, other):
 
         # Don't collide if either sprite is not collidable
