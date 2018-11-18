@@ -96,18 +96,21 @@ class Game(pyglet.window.Window):
         tb.x = 250
         tb.y = 25
 
-        # Create a pause button to work with
-        # Create a new ui button to interact with
-        self.pb = test_button.Test_Button('assets/img/TestButton.png',
-                                          gridX=1,
-                                          gridY=3,
-                                          batch=self.pause_batch_ui)
-
-        self.pb.x = 400
-        self.pb.y = 0
-
         self.ui_handler = ui_handler.Ui_handler()
         self.ui_handler.add(tb)
+
+        # Create a pause button to work with
+        # Create a new ui button to interact with
+        pb = test_button.Test_Button('assets/img/TestButton.png',
+                                     gridX=1,
+                                     gridY=3,
+                                     batch=self.pause_batch_ui)
+
+        pb.x = 400
+        pb.y = 0
+
+        self.pause_ui_handler = ui_handler.Ui_handler()
+        self.pause_ui_handler.add(pb)
 
     def setup_joystick(self):
 
@@ -241,14 +244,23 @@ class Game(pyglet.window.Window):
         self.keyholdHandler[symbol] = False
 
     def on_mouse_motion(self, x, y, dx, dy):
-        self.ui_handler.distribute_mouse_move(x, y)
+
+        if(self.state == 'pause'):
+            self.pause_ui_handler.distribute_mouse_move(x, y)
+
+        else:
+            self.ui_handler.distribute_mouse_move(x, y)
 
     def on_mouse_press(self, x, y, button, modifiers):
 
         # Actions activated on Press
         if(self.keyholdHandler[button] is False):
 
-            self.ui_handler.distribute_mouse_click(x, y, button)
+            if(self.state == 'pause'):
+                self.pause_ui_handler.distribute_mouse_click(x, y, button)
+
+            else:
+                self.ui_handler.distribute_mouse_click(x, y, button)
 
         # Actions for held
         else:
@@ -262,7 +274,11 @@ class Game(pyglet.window.Window):
         # Actions activated on release
         if(self.keyholdHandler[button] is True):
 
-            self.ui_handler.distribute_mouse_release(x, y, button)
+            if(self.state == 'pause'):
+                self.pause_ui_handler.distribute_mouse_release(x, y, button)
+
+            else:
+                self.ui_handler.distribute_mouse_release(x, y, button)
 
         # Actions activated on unheld
         else:
@@ -318,7 +334,7 @@ class Game(pyglet.window.Window):
         if(self.joystick):
             self.joystick_handler.update_joystate()
 
-        # Call update on all GUI Elements
+        # Call update on all pause GUI Elements
 
     def run(self):
 
