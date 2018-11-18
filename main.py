@@ -164,7 +164,7 @@ class Game(pyglet.window.Window):
         self.sprite_batch_ui.draw()
 
     def draw_pause_screen(self):
-        self.pause_batch_ui()
+        self.pause_batch_ui.draw()
 
     def on_key_press(self, symbol, modifiers):
 
@@ -211,6 +211,14 @@ class Game(pyglet.window.Window):
 
                 else:
                     self.bgm.unmute()
+
+            if(symbol == pyglet.window.key.ESCAPE):
+
+                if(self.state == 'pause'):
+                    self.state = 'run'
+
+                else:
+                    self.state = 'pause'
 
         # Actions activated on Held
         else:
