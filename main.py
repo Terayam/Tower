@@ -299,6 +299,10 @@ class Game(pyglet.window.Window):
         self.stateUpdateFunctions[self.state](dt)
 
     def updateRun(self, dt):
+
+        # update the GUI
+        self.ui_handler.update(dt)
+
         # Update joystick events
         if(self.joystick):
             self.joystick_handler.update_joystate()
@@ -335,6 +339,7 @@ class Game(pyglet.window.Window):
             self.joystick_handler.update_joystate()
 
         # Call update on all pause GUI Elements
+        self.pause_ui_handler.update(dt)
 
     def run(self):
 

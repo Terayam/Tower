@@ -7,6 +7,10 @@ class Ui_handler():
     def add(self, element):
         self.elements.append(element)
 
+    def update(self, dt):
+        for element in self.elements:
+            element.update(dt)
+
     def distribute_mouse_move(self, x, y):
         for element in self.elements:
             element.handle_mouse_move(x, y)

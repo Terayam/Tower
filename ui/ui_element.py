@@ -1,3 +1,4 @@
+import collections
 from primitives import entity
 
 
@@ -11,27 +12,59 @@ class Ui_element(entity.Entity):
         # default bbox to image
         super(Ui_element, self).bbox_to_image()
 
-    def update(self, elapsed_s):
-        pass
+        # Current mouse state
+        self.mouse_x = 0
+        self.mouse_y = 0
+        self.was_clicked = False
+        self.was_released = False
+        self.mouse_buttons = collections.defaultdict(bool)
 
-    def handle_mouse_move(self, x, y):
+    def update_mouse(self, x, y):
+        self.mouse_x = x
+        self.mouse_y = y
+
+    def update(self, elapsed_s):
 
         # Change to the hover state if the mouse is in the bounding box
-        if(self.point_inside(x, y)):
-            self.hover()
+        if(self.point_inside(self.mouse_x, self.mouse_y)):
+
+            if(self.was_clicked):
+                self.clicked(self.mouse_buttons)
+
+            elif(self.was_released):
+                self.was_released = False
+                self.unclicked(self.mouse_buttons)
+
+            else:
+                self.hover()
 
         else:
             self.unhover()
 
+    def handle_mouse_move(self, x, y):
+        self.update_mouse(x, y)
+
     def handle_click(self, x, y, button):
 
+        self.update_mouse(x, y)
+        self.mouse_buttons[button] = True
+
         # Perform click action if the click happened within the bounding box
-        if(self.point_inside(x, y)):
-            self.clicked(button)
+        if(self.point_inside(self.mouse_x, self.mouse_y)):
+
+            self.was_clicked = True
 
     def handle_release(self, x, y, button):
 
-        self.unclicked(button)
+        self.update_mouse(x, y)
+        self.mouse_buttons[button] = False
+
+        if(self.was_clicked):
+
+            self.was_clicked = False
+
+            if(self.point_inside(self.mouse_x, self.mouse_y)):
+                self.was_released = True
 
     #####################
     # Behavior functions
