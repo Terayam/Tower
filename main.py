@@ -30,12 +30,15 @@ class Game(pyglet.window.Window):
         # State Machine Setup
         #####################
         self.state = 'init'
+        self.stateUpdateFunctions = {'run': self.updateRun,
+                                     'pause': self.updatePause}
 
         #########################
         # Graphics initialization
         #########################
         self.sprite_batch_game = pyglet.graphics.Batch()
         self.sprite_batch_ui = pyglet.graphics.Batch()
+        self.pause_batch_ui = pyglet.graphics.Batch()
 
         #########################
         # Initialize media player
@@ -93,6 +96,16 @@ class Game(pyglet.window.Window):
         tb.x = 250
         tb.y = 25
 
+        # Create a pause button to work with
+        # Create a new ui button to interact with
+        self.pb = test_button.Test_Button('assets/img/TestButton.png',
+                                          gridX=1,
+                                          gridY=3,
+                                          batch=self.pause_batch_ui)
+
+        self.pb.x = 400
+        self.pb.y = 0
+
         self.ui_handler = ui_handler.Ui_handler()
         self.ui_handler.add(tb)
 
@@ -114,46 +127,6 @@ class Game(pyglet.window.Window):
                                     gridY=10,
                                     batch=self.sprite_batch_game)
 
-    def update(self, dt):
-
-        # Update joystick events
-        if(self.joystick):
-            self.joystick_handler.update_joystate()
-
-        # Give joystate to Player
-        self.player.read_joystate(self.joystick_handler)
-
-        # Call update on all game-scope entities
-        for entity in self.game_entities:
-            entity.update(dt)
-
-        # Call update on all level entities
-        for entity in self.current_level.entities:
-            entity.update(dt)
-
-        # Call update on the player
-        self.player.update(dt)
-
-        # Collide level entities with the player
-        for entity in self.current_level.entities:
-            entity.collide(self.player)
-
-        # Collide enemies and enemy projectiles with player projectiles
-
-        # Collide enemies and enemy projectiles with walls
-
-        # Collide the player with enemies and projec yettiles
-        for entity in self.current_level.entities:
-            self.player.collide(entity)
-
-    def draw_all_entities(self):
-
-        # Draw game entities first
-        self.sprite_batch_game.draw()
-
-        # Draw UI on top
-        self.sprite_batch_ui.draw()
-
     def on_draw(self):
 
         # Draw the current level
@@ -161,6 +134,10 @@ class Game(pyglet.window.Window):
 
         # Draw entities
         self.draw_all_entities()
+
+        # If in the paused state, draw GUI
+        if(self.state == 'pause'):
+            self.draw_pause_screen()
 
         # Draw bboxes if debug enabled
         if(self.debug_bbox):
@@ -177,6 +154,17 @@ class Game(pyglet.window.Window):
                 entity.bbox.draw()
 
         # Flip is called automatically by the event loop
+
+    def draw_all_entities(self):
+
+        # Draw game entities first
+        self.sprite_batch_game.draw()
+
+        # Draw UI on top
+        self.sprite_batch_ui.draw()
+
+    def draw_pause_screen(self):
+        self.pause_batch_ui()
 
     def on_key_press(self, symbol, modifiers):
 
@@ -278,7 +266,56 @@ class Game(pyglet.window.Window):
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         pass
 
+    ###########################################################################
+    # Update functions
+    ###########################################################################
+    def update(self, dt):
+
+        # Call update function of current state
+        self.stateUpdateFunctions[self.state](dt)
+
+    def updateRun(self, dt):
+        # Update joystick events
+        if(self.joystick):
+            self.joystick_handler.update_joystate()
+
+        # Give joystate to Player
+        self.player.read_joystate(self.joystick_handler)
+
+        # Call update on all game-scope entities
+        for entity in self.game_entities:
+            entity.update(dt)
+
+        # Call update on all level entities
+        for entity in self.current_level.entities:
+            entity.update(dt)
+
+        # Call update on the player
+        self.player.update(dt)
+
+        # Collide level entities with the player
+        for entity in self.current_level.entities:
+            entity.collide(self.player)
+
+        # Collide enemies and enemy projectiles with player projectiles
+
+        # Collide enemies and enemy projectiles with walls
+
+        # Collide the player with enemies and projec yettiles
+        for entity in self.current_level.entities:
+            self.player.collide(entity)
+
+    def updatePause(self, dt):
+        # Update joystick events
+        if(self.joystick):
+            self.joystick_handler.update_joystate()
+
+        # Call update on all GUI Elements
+
     def run(self):
+
+        # Set statemachine to running
+        self.state = 'run'
 
         # Run Pyglet
         pyglet.app.run()
