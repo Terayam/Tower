@@ -39,6 +39,13 @@ class Ui_element(entity.Entity):
                 self.hover()
 
         else:
+
+            # If the mouse was clicked, but is now outside the button without
+            # being released, clear the clicked state without calling the
+            # clicked or released action
+            if(self.was_clicked):
+                self.was_clicked = False
+
             self.unhover()
 
     def handle_mouse_move(self, x, y):

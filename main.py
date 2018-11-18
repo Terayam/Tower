@@ -245,11 +245,10 @@ class Game(pyglet.window.Window):
 
     def on_mouse_motion(self, x, y, dx, dy):
 
-        if(self.state == 'pause'):
-            self.pause_ui_handler.distribute_mouse_move(x, y)
-
-        else:
-            self.ui_handler.distribute_mouse_move(x, y)
+        # Update mouse position for all gui elements so the mouse isn't lost
+        # when the game gets paused
+        self.pause_ui_handler.distribute_mouse_move(x, y)
+        self.ui_handler.distribute_mouse_move(x, y)
 
     def on_mouse_press(self, x, y, button, modifiers):
 
