@@ -1,11 +1,11 @@
-from ui import ui_element
+from ui import menu_element
 
 
-class Ui_button(ui_element.Ui_element):
+class Menu_button(menu_element.Menu_element):
 
     def __init__(self, *args, **kwargs):
         # Call the base class initializer
-        super(Ui_button, self).__init__(*args, **kwargs)
+        super(Menu_button, self).__init__(*args, **kwargs)
 
     #####################
     # Behavior functions

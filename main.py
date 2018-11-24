@@ -5,7 +5,7 @@ import collections
 import levels
 
 from input_handling import joystick_handler
-from ui import ui_button
+from ui import menu_button
 from ui import ui_handler
 from sound import bgmPlayer
 from util import constants
@@ -87,43 +87,44 @@ class Game(pyglet.window.Window):
         self.current_level = levels.Debug1(self.sprite_batch_game,
                                            self.player)
 
-        # Create a new ui button to interact with
-        tb = ui_button.Ui_button('assets/img/TestButton.png',
-                                 gridX=1,
-                                 gridY=3,
-                                 batch=self.sprite_batch_ui)
-
-        tb.x = 250
-        tb.y = 25
-
+        # Running UI Handler
         self.ui_handler = ui_handler.Ui_handler()
-        self.ui_handler.add(tb)
 
         # Create a pause button to work with
         # Create a new ui button to interact with
-        pb = ui_button.Ui_button('assets/img/TestButton.png',
-                                 gridX=1,
-                                 gridY=3,
-                                 batch=self.pause_batch_ui)
+        pb = menu_button.Menu_button('assets/img/TestButton.png',
+                                     gridX=1,
+                                     gridY=3,
+                                     batch=self.pause_batch_ui)
 
         pb.x = 100
         pb.y = 0
 
-        pbU = ui_button.Ui_button('assets/img/TestButton.png',
-                                  gridX=1,
-                                  gridY=3,
-                                  batch=self.pause_batch_ui)
+        pbU = menu_button.Menu_button('assets/img/TestButton.png',
+                                      gridX=1,
+                                      gridY=3,
+                                      batch=self.pause_batch_ui)
 
         pbU.x = 100
         pbU.y = 300
 
-        pbR = ui_button.Ui_button('assets/img/TestButton.png',
-                                  gridX=1,
-                                  gridY=3,
-                                  batch=self.pause_batch_ui)
+        pbR = menu_button.Menu_button('assets/img/TestButton.png',
+                                      gridX=1,
+                                      gridY=3,
+                                      batch=self.pause_batch_ui)
 
         pbR.x = 400
         pbR.y = 0
+
+        # Connect pb
+        pb.connection_nodes[0] = pbU
+        pb.connection_nodes[1] = pbR
+
+        # Connect pbU
+        pb.connection_nodes[2] = pb
+
+        # Connect pbR
+        pb.connection_nodes[3] = pb
 
         self.pause_ui_handler = ui_handler.Ui_handler()
         self.pause_ui_handler.add(pb)
