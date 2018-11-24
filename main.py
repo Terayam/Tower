@@ -121,10 +121,10 @@ class Game(pyglet.window.Window):
         pb.connection_nodes[1] = pbR
 
         # Connect pbU
-        pb.connection_nodes[2] = pb
+        pbU.connection_nodes[2] = pb
 
         # Connect pbR
-        pb.connection_nodes[3] = pb
+        pbR.connection_nodes[3] = pb
 
         self.pause_ui_handler = ui_handler.Ui_handler()
         self.pause_ui_handler.add(pb)
