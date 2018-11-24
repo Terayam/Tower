@@ -11,6 +11,14 @@ class Ui_handler():
         for element in self.elements:
             element.update(dt)
 
+    def distribute_key_press(self, button):
+        for element in self.elements:
+            element.handle_key_press(button)
+
+    def distribute_key_release(self, button):
+        for element in self.elements:
+            element.handle_key_release(button)
+
     def distribute_mouse_move(self, x, y):
         for element in self.elements:
             element.handle_mouse_move(x, y)

@@ -48,6 +48,12 @@ class Ui_element(entity.Entity):
 
             self.unhover()
 
+    def handle_key_press(self, button):
+        pass
+
+    def handle_key_release(self, button):
+        pass
+
     def handle_mouse_move(self, x, y):
         self.update_mouse(x, y)
 
