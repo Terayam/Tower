@@ -11,13 +11,25 @@ class Ui_handler():
         for element in self.elements:
             element.update(dt)
 
-    def distribute_key_press(self, button):
-        for element in self.elements:
-            element.handle_key_press(button)
+    def distribute_key_press(self, symbol):
 
-    def distribute_key_release(self, button):
+        # If nothing is active, set the first element to active_element
+        found_active = False
         for element in self.elements:
-            element.handle_key_release(button)
+
+            if(element.active_element):
+                found_active = True
+                break
+
+        if(found_active is False):
+            self.elements[0].active_element = True
+
+        for element in self.elements:
+            element.handle_key_press(symbol)
+
+    def distribute_key_release(self, symbol):
+        for element in self.elements:
+            element.handle_key_release(symbol)
 
     def distribute_mouse_move(self, x, y):
         for element in self.elements:

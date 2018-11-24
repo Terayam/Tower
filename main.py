@@ -106,11 +106,29 @@ class Game(pyglet.window.Window):
                                  gridY=3,
                                  batch=self.pause_batch_ui)
 
-        pb.x = 400
+        pb.x = 100
         pb.y = 0
+
+        pbU = ui_button.Ui_button('assets/img/TestButton.png',
+                                  gridX=1,
+                                  gridY=3,
+                                  batch=self.pause_batch_ui)
+
+        pbU.x = 100
+        pbU.y = 300
+
+        pbR = ui_button.Ui_button('assets/img/TestButton.png',
+                                  gridX=1,
+                                  gridY=3,
+                                  batch=self.pause_batch_ui)
+
+        pbR.x = 400
+        pbR.y = 0
 
         self.pause_ui_handler = ui_handler.Ui_handler()
         self.pause_ui_handler.add(pb)
+        self.pause_ui_handler.add(pbU)
+        self.pause_ui_handler.add(pbR)
 
     def setup_joystick(self):
 
@@ -171,27 +189,53 @@ class Game(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
 
+        # Always handled
+
         # Send keypresses to the Game class
         self.handle_key_press(symbol)
 
-        # Send keypresses to the player class
-        self.player.handle_key_press(symbol)
+        # Running handlers
+        if(self.state == 'run'):
 
-        # Send keypresses to the game-scope entities
+            # Send keypresses to the player class
+            self.player.handle_key_press(symbol)
 
-        # Send keypresses to the level entities
+            # Send keypresses to the game-scope entities
+
+            # Send keypresses to the level entities
+
+            # Send keypresses to ui elements
+
+        # Paused Handlers
+        elif(self.state == 'pause'):
+
+            # Send keypresses to ui elements
+            self.pause_ui_handler.distribute_key_press(symbol)
 
     def on_key_release(self, symbol, modifiers):
 
-        # Sec keypresses to the Game class
+        # Always handled
+
+        # Send key release to the Game class
         self.handle_key_release(symbol)
 
-        # Send keypresses to the player class
-        self.player.handle_key_release(symbol)
+        # Running handlers
+        if(self.state == 'run'):
 
-        # Send keypresses to the game-scope entities
+            # Send key release to the player class
+            self.player.handle_key_release(symbol)
 
-        # Send keypresses to the level entities
+            # Send key relese to ui elements
+
+            # Send key release to the game-scope entities
+
+            # Send key release to the level entities
+
+        # Paused Handlers
+        elif(self.state == 'pause'):
+
+            # Send keypresses to ui elements
+            self.pause_ui_handler.distribute_key_release(symbol)
 
     def handle_key_press(self, symbol):
 

@@ -15,9 +15,16 @@ class Ui_element(entity.Entity):
         # Current mouse state
         self.mouse_x = 0
         self.mouse_y = 0
+        self.active_element = False
         self.was_clicked = False
         self.was_released = False
         self.mouse_buttons = collections.defaultdict(bool)
+
+        # UI connected nodes
+        self.connection_nodes = {'up': None,
+                                 'right': None,
+                                 'down': None,
+                                 'left': None}
 
     def update_mouse(self, x, y):
         self.mouse_x = x
@@ -25,8 +32,12 @@ class Ui_element(entity.Entity):
 
     def update(self, elapsed_s):
 
+        # If this element is the active element, set to hovered
+        if(self.active_element):
+            self.hover()
+
         # Change to the hover state if the mouse is in the bounding box
-        if(self.point_inside(self.mouse_x, self.mouse_y)):
+        elif(self.point_inside(self.mouse_x, self.mouse_y)):
 
             if(self.was_clicked):
                 self.clicked(self.mouse_buttons)
@@ -48,10 +59,10 @@ class Ui_element(entity.Entity):
 
             self.unhover()
 
-    def handle_key_press(self, button):
+    def handle_key_press(self, symbol):
         pass
 
-    def handle_key_release(self, button):
+    def handle_key_release(self, symbol):
         pass
 
     def handle_mouse_move(self, x, y):
