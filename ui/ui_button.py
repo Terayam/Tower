@@ -1,11 +1,11 @@
 from ui import ui_element
 
 
-class Test_Button(ui_element.Ui_element):
+class Ui_button(ui_element.Ui_element):
 
     def __init__(self, *args, **kwargs):
         # Call the base class initializer
-        super(Test_Button, self).__init__(*args, **kwargs)
+        super(Ui_button, self).__init__(*args, **kwargs)
 
     #####################
     # Behavior functions

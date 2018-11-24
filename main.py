@@ -5,7 +5,7 @@ import collections
 import levels
 
 from input_handling import joystick_handler
-from ui import test_button
+from ui import ui_button
 from ui import ui_handler
 from sound import bgmPlayer
 from util import constants
@@ -88,10 +88,10 @@ class Game(pyglet.window.Window):
                                            self.player)
 
         # Create a new ui button to interact with
-        tb = test_button.Test_Button('assets/img/TestButton.png',
-                                     gridX=1,
-                                     gridY=3,
-                                     batch=self.sprite_batch_ui)
+        tb = ui_button.Ui_button('assets/img/TestButton.png',
+                                 gridX=1,
+                                 gridY=3,
+                                 batch=self.sprite_batch_ui)
 
         tb.x = 250
         tb.y = 25
@@ -101,10 +101,10 @@ class Game(pyglet.window.Window):
 
         # Create a pause button to work with
         # Create a new ui button to interact with
-        pb = test_button.Test_Button('assets/img/TestButton.png',
-                                     gridX=1,
-                                     gridY=3,
-                                     batch=self.pause_batch_ui)
+        pb = ui_button.Ui_button('assets/img/TestButton.png',
+                                 gridX=1,
+                                 gridY=3,
+                                 batch=self.pause_batch_ui)
 
         pb.x = 400
         pb.y = 0
