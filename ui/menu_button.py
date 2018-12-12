@@ -1,7 +1,7 @@
-from ui import menu_element
+from ui import ui_element
 
 
-class Menu_button(menu_element.Menu_element):
+class Menu_button(ui_element.Ui_element):
 
     def __init__(self, *args, **kwargs):
         # Call the base class initializer

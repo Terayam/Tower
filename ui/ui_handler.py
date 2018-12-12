@@ -1,28 +1,57 @@
+import pyglet
+
+
 class Ui_handler():
 
     def __init__(self):
 
+        self.keypress_response = {pyglet.window.key.W: self.menu_up,
+                                  pyglet.window.key.D: self.menu_right,
+                                  pyglet.window.key.S: self.menu_down,
+                                  pyglet.window.key.A: self.menu_left}
+
         self.elements = []
+        self.active_element = None
 
     def add(self, element):
         self.elements.append(element)
+
+        if(self.active_element is None):
+            self.active_element = self.elements[0]
+            self.active_element.is_active = True
 
     def update(self, dt):
         for element in self.elements:
             element.update(dt)
 
+    # Key press reaction functions
+    def menu_up(self):
+        self.switch_node(0)
+
+    def menu_right(self):
+        self.switch_node(1)
+
+    def menu_down(self):
+        self.switch_node(2)
+
+    def menu_left(self):
+        self.switch_node(3)
+
+    def switch_node(self, node_num):
+
+        if(self.active_element.connection_nodes[node_num] is not None):
+
+            destination_node = self.active_element.connection_nodes[node_num]
+
+            self.active_element.is_active = False
+            self.active_element = destination_node
+            self.active_element.is_active = True
+
     def distribute_key_press(self, symbol):
 
-        # If nothing is active, set the first element to active_element
-        found_active = False
-        for element in self.elements:
-
-            if(element.active_element):
-                found_active = True
-                break
-
-        if(found_active is False):
-            self.elements[0].active_element = True
+        # Do any keypresses that this class is supposed to respond to
+        if(symbol in self.keypress_response):
+            self.keypress_response[symbol]()
 
         for element in self.elements:
             element.handle_key_press(symbol)
