@@ -22,12 +22,6 @@ class Player(entity.Entity):
         self.collidable = True
         self.collide_latch = False
 
-        # Movement keys
-        self.moveLeftDigital = False
-        self.moveRightDigital = False
-        self.moveUpDigital = False
-        self.moveDownDigital = False
-
         # Initialize key states
         self.keyholdHandler = collections.defaultdict(bool)
 
@@ -86,15 +80,6 @@ class Player(entity.Entity):
 
     def handle_key_press(self, symbol):
 
-        if(symbol == pyglet.window.key.A):
-            self.moveLeftDigital = True
-        elif(symbol == pyglet.window.key.D):
-            self.moveRightDigital = True
-        elif(symbol == pyglet.window.key.W):
-            self.moveUpDigital = True
-        elif(symbol == pyglet.window.key.S):
-            self.moveDownDigital = True
-
         # Set key to held
         self.keyholdHandler[symbol] = True
 
@@ -108,15 +93,6 @@ class Player(entity.Entity):
         else:
             pass
 
-        if(symbol == pyglet.window.key.A):
-            self.moveLeftDigital = False
-        elif(symbol == pyglet.window.key.D):
-            self.moveRightDigital = False
-        elif(symbol == pyglet.window.key.W):
-            self.moveUpDigital = False
-        elif(symbol == pyglet.window.key.S):
-            self.moveDownDigital = False
-
         # Set key to unheld
         self.keyholdHandler[symbol] = False
 
@@ -125,16 +101,20 @@ class Player(entity.Entity):
         temp_hMove = 0.0
         temp_vMove = 0.0
 
-        if(self.moveLeftDigital or joystick_handler.moveLeft):
+        if(self.keyholdHandler[pyglet.window.key.A] or
+           joystick_handler.moveLeft):
             temp_hMove = -1.0
-        elif(self.moveRightDigital or joystick_handler.moveRight):
+        elif(self.keyholdHandler[pyglet.window.key.D] or
+             joystick_handler.moveRight):
             temp_hMove = 1.0
         else:
             temp_hMove = 0.0
 
-        if(self.moveUpDigital or joystick_handler.moveUp):
+        if(self.keyholdHandler[pyglet.window.key.W] or
+           joystick_handler.moveUp):
             temp_vMove = 1.0
-        elif(self.moveDownDigital or joystick_handler.moveDown):
+        elif(self.keyholdHandler[pyglet.window.key.D] or
+             joystick_handler.moveDown):
             temp_vMove = -1.0
         else:
             temp_vMove = 0.0
