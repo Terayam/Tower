@@ -12,8 +12,6 @@ class Quit_button(menu_button.Menu_button):
         self.keypress_reaction = {pyglet.window.key.ENTER: self.quit,
                                   pyglet.window.key.NUM_ENTER: self.quit}
 
-        self.quitting = False
-
     def unclicked(self, button):
 
         self.set_clip(1)
