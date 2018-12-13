@@ -38,12 +38,6 @@ class Entity(pyglet.sprite.Sprite):
         # Call the sprite initializer, but don't set an image
         super(Entity, self).__init__(img=image, batch=batch)
 
-        ##################
-        # Input Handling #
-        ##################
-        self.keypress_reaction = {}
-        self.key_release_reaction = {}
-
         ############################
         # State Machine Parameters #
         ############################
