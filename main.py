@@ -6,6 +6,7 @@ import levels
 
 from input_handling import joystick_handler
 from ui import menu_button
+from ui import quit_button
 from ui import ui_handler
 from sound import bgmPlayer
 from util import constants
@@ -92,13 +93,13 @@ class Game(pyglet.window.Window):
 
         # Create a pause button to work with
         # Create a new ui button to interact with
-        pb = menu_button.Menu_button('assets/img/TestButton.png',
+        qb = quit_button.Quit_button('assets/img/QuitButton.png',
                                      gridX=1,
                                      gridY=3,
                                      batch=self.pause_batch_ui)
 
-        pb.x = 100
-        pb.y = 0
+        qb.x = 100
+        qb.y = 0
 
         pbU = menu_button.Menu_button('assets/img/TestButton.png',
                                       gridX=1,
@@ -117,17 +118,17 @@ class Game(pyglet.window.Window):
         pbR.y = 0
 
         # Connect pb
-        pb.connection_nodes[0] = pbU
-        pb.connection_nodes[1] = pbR
+        qb.connection_nodes[0] = pbU
+        qb.connection_nodes[1] = pbR
 
         # Connect pbU
-        pbU.connection_nodes[2] = pb
+        pbU.connection_nodes[2] = qb
 
         # Connect pbR
-        pbR.connection_nodes[3] = pb
+        pbR.connection_nodes[3] = qb
 
         self.pause_ui_handler = ui_handler.Ui_handler()
-        self.pause_ui_handler.add(pb)
+        self.pause_ui_handler.add(qb)
         self.pause_ui_handler.add(pbU)
         self.pause_ui_handler.add(pbR)
 
@@ -392,6 +393,9 @@ class Game(pyglet.window.Window):
 
         # Run Pyglet
         pyglet.app.run()
+
+    def quit(self):
+        pyglet.app.exit()
 
 
 if __name__ == "__main__":
