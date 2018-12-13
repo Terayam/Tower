@@ -9,9 +9,8 @@ class Quit_button(menu_button.Menu_button):
         super(Quit_button, self).__init__(*args, **kwargs)
 
     def handle_key_press(self, symbol):
-
-        if((symbol is pyglet.window.key.ENTER) or
-           (symbol is pyglet.window.key.NUM_ENTER)):
+        if((symbol == pyglet.window.key.ENTER) or
+           (symbol == pyglet.window.key.NUM_ENTER)):
             self.quit()
 
     def unclicked(self, button):
@@ -19,5 +18,5 @@ class Quit_button(menu_button.Menu_button):
 
     def quit(self):
 
-        if(self.is_active):
+        if(self.is_active or self.is_hovered):
             pyglet.app.exit()

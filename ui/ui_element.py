@@ -16,6 +16,7 @@ class Ui_element(entity.Entity):
         self.mouse_x = 0
         self.mouse_y = 0
         self.is_active = False
+        self.is_hovered = False
         self.was_clicked = False
         self.was_released = False
         self.mouse_buttons = collections.defaultdict(bool)
@@ -95,10 +96,10 @@ class Ui_element(entity.Entity):
     # Behavior functions
     #####################
     def hover(self):
-        pass
+        self.is_hovered = True
 
     def unhover(self):
-        pass
+        self.is_hovered = False
 
     def clicked(self, button):
         pass
