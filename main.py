@@ -209,7 +209,7 @@ class Game(pyglet.window.Window):
         elif(self.state == 'pause'):
 
             # Send keypresses to ui elements
-            self.pause_ui_handler.distribute_key_press(symbol)
+            self.pause_ui_handler.handle_key_press(symbol)
 
     def on_key_release(self, symbol, modifiers):
 
@@ -234,7 +234,7 @@ class Game(pyglet.window.Window):
         elif(self.state == 'pause'):
 
             # Send keypresses to ui elements
-            self.pause_ui_handler.distribute_key_release(symbol)
+            self.pause_ui_handler.handle_key_release(symbol)
 
     def handle_key_press(self, symbol):
 
@@ -299,10 +299,10 @@ class Game(pyglet.window.Window):
         if(self.keyholdHandler[button] is False):
 
             if(self.state == 'pause'):
-                self.pause_ui_handler.distribute_mouse_click(x, y, button)
+                self.pause_ui_handler.handle_mouse_click(x, y, button)
 
             else:
-                self.ui_handler.distribute_mouse_click(x, y, button)
+                self.ui_handler.handle_mouse_click(x, y, button)
 
         # Actions for held
         else:
@@ -317,10 +317,10 @@ class Game(pyglet.window.Window):
         if(self.keyholdHandler[button] is True):
 
             if(self.state == 'pause'):
-                self.pause_ui_handler.distribute_mouse_release(x, y, button)
+                self.pause_ui_handler.handle_mouse_release(x, y, button)
 
             else:
-                self.ui_handler.distribute_mouse_release(x, y, button)
+                self.ui_handler.handle_mouse_release(x, y, button)
 
         # Actions activated on unheld
         else:

@@ -357,12 +357,10 @@ class Entity(pyglet.sprite.Sprite):
     # Input handling functions #
     ############################
     def handle_key_press(self, symbol):
-        if(symbol in self.keypress_reaction):
-            self.keypress_reaction[symbol]()
+        pass
 
     def handle_key_release(self, symbol):
-        if(symbol in self.key_release_reaction):
-            self.key_release_reaction[symbol]()
+        pass
 
     ######################
     # Behavior Functions #

@@ -5,6 +5,9 @@ class Ui_handler():
 
     def __init__(self):
 
+        self.elements = []
+        self.active_element = None
+
         self.keypress_response = {pyglet.window.key.W: self.menu_up,
                                   pyglet.window.key.D: self.menu_right,
                                   pyglet.window.key.S: self.menu_down,
@@ -14,9 +17,6 @@ class Ui_handler():
                                   pyglet.window.key.RIGHT: self.menu_right,
                                   pyglet.window.key.DOWN: self.menu_down,
                                   pyglet.window.key.LEFT: self.menu_left}
-
-        self.elements = []
-        self.active_element = None
 
     def add(self, element):
 
@@ -53,7 +53,7 @@ class Ui_handler():
             self.active_element = destination_node
             self.active_element.is_active = True
 
-    def distribute_key_press(self, symbol):
+    def handle_key_press(self, symbol):
 
         # Do any keypresses that this class is supposed to respond to
         if(symbol in self.keypress_response):
@@ -62,7 +62,7 @@ class Ui_handler():
         for element in self.elements:
             element.handle_key_press(symbol)
 
-    def distribute_key_release(self, symbol):
+    def handle_key_release(self, symbol):
         for element in self.elements:
             element.handle_key_release(symbol)
 
@@ -70,12 +70,12 @@ class Ui_handler():
         for element in self.elements:
             element.handle_mouse_move(x, y)
 
-    def distribute_mouse_click(self, x, y, button):
+    def handle_mouse_click(self, x, y, button):
 
         for element in self.elements:
             element.handle_click(x, y, button)
 
-    def distribute_mouse_release(self, x, y, button):
+    def handle_mouse_release(self, x, y, button):
 
         for element in self.elements:
             element.handle_release(x, y, button)
