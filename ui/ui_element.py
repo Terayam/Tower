@@ -1,3 +1,4 @@
+import collections
 from primitives import entity
 
 
@@ -12,15 +13,22 @@ class Ui_element(entity.Entity):
         super(Ui_element, self).bbox_to_image()
 
         # Current mouse state
+        self.mouse_x = 0
+        self.mouse_y = 0
         self.is_active = False
         self.was_clicked = False
         self.was_released = False
+        self.mouse_buttons = collections.defaultdict(bool)
 
         # UI connected nodes
         self.connection_nodes = [None,  # Up
                                  None,  # Right
                                  None,  # Down
                                  None]  # Left
+
+    def update_mouse(self, x, y):
+        self.mouse_x = x
+        self.mouse_y = y
 
     def update(self, elapsed_s):
 
@@ -51,6 +59,9 @@ class Ui_element(entity.Entity):
 
             if(not self.is_active):
                 self.unhover()
+
+    def handle_mouse_move(self, x, y):
+        self.update_mouse(x, y)
 
     def handle_click(self, x, y, button):
 
