@@ -23,7 +23,7 @@ class Player(entity.Entity):
         self.collide_latch = False
 
         # Initialize key states
-        self.keyholdHandler = collections.defaultdict(bool)
+        self.movementButtons = collections.defaultdict(bool)
 
         # Initialize state variables
         self.hMove = 0.0
@@ -81,39 +81,31 @@ class Player(entity.Entity):
     def handle_key_press(self, symbol):
 
         # Set key to held
-        self.keyholdHandler[symbol] = True
+        self.movementButtons[symbol] = True
 
     def handle_key_release(self, symbol):
 
-        # Actions activated on release
-        if(self.keyholdHandler[symbol] is True):
-            pass
-
-        # Actions activated on unheld
-        else:
-            pass
-
         # Set key to unheld
-        self.keyholdHandler[symbol] = False
+        self.movementButtons[symbol] = False
 
     def read_joystate(self, joystick_handler):
 
         temp_hMove = 0.0
         temp_vMove = 0.0
 
-        if(self.keyholdHandler[pyglet.window.key.A] or
+        if(self.movementButtons[pyglet.window.key.A] or
            joystick_handler.moveLeft):
             temp_hMove = -1.0
-        elif(self.keyholdHandler[pyglet.window.key.D] or
+        elif(self.movementButtons[pyglet.window.key.D] or
              joystick_handler.moveRight):
             temp_hMove = 1.0
         else:
             temp_hMove = 0.0
 
-        if(self.keyholdHandler[pyglet.window.key.W] or
+        if(self.movementButtons[pyglet.window.key.W] or
            joystick_handler.moveUp):
             temp_vMove = 1.0
-        elif(self.keyholdHandler[pyglet.window.key.D] or
+        elif(self.movementButtons[pyglet.window.key.S] or
              joystick_handler.moveDown):
             temp_vMove = -1.0
         else:
