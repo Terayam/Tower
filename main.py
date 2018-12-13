@@ -91,46 +91,11 @@ class Game(pyglet.window.Window):
         # Running UI Handler
         self.ui_handler = ui_handler.Ui_handler()
 
-        # Create a pause button to work with
-        # Create a new ui button to interact with
-        qb = quit_button.Quit_button('assets/img/QuitButton.png',
-                                     gridX=1,
-                                     gridY=3,
-                                     batch=self.pause_batch_ui)
-
-        qb.x = 100
-        qb.y = 0
-
-        pbU = menu_button.Menu_button('assets/img/TestButton.png',
-                                      gridX=1,
-                                      gridY=3,
-                                      batch=self.pause_batch_ui)
-
-        pbU.x = 100
-        pbU.y = 300
-
-        pbR = menu_button.Menu_button('assets/img/TestButton.png',
-                                      gridX=1,
-                                      gridY=3,
-                                      batch=self.pause_batch_ui)
-
-        pbR.x = 400
-        pbR.y = 0
-
-        # Connect pb
-        qb.connection_nodes[0] = pbU
-        qb.connection_nodes[1] = pbR
-
-        # Connect pbU
-        pbU.connection_nodes[2] = qb
-
-        # Connect pbR
-        pbR.connection_nodes[3] = qb
-
+        # Pause UI Handler
         self.pause_ui_handler = ui_handler.Ui_handler()
-        self.pause_ui_handler.add(qb)
-        self.pause_ui_handler.add(pbU)
-        self.pause_ui_handler.add(pbR)
+
+        for element in self.build_pause_menu():
+            self.pause_ui_handler.add(element)
 
     def setup_joystick(self):
 
@@ -142,6 +107,44 @@ class Game(pyglet.window.Window):
             self.joystick = joysticks[0]
             self.joystick.open()
             self.joystick_handler.set_joystick(self.joystick)
+
+    def build_pause_menu(self):
+
+        pbUU = menu_button.Menu_button('assets/img/TestButton.png',
+                                      gridX=1,
+                                      gridY=3,
+                                      batch=self.pause_batch_ui)
+
+        pbUU.x = 250
+        pbUU.y = 300
+
+        pbU = menu_button.Menu_button('assets/img/TestButton.png',
+                                       gridX=1,
+                                       gridY=3,
+                                       batch=self.pause_batch_ui)
+
+        pbU.x = 250
+        pbU.y = 175
+
+        qb = quit_button.Quit_button('assets/img/QuitButton.png',
+                                     gridX=1,
+                                     gridY=3,
+                                     batch=self.pause_batch_ui)
+
+        qb.x = 250
+        qb.y = 50
+
+        # Connect qb
+        qb.connection_nodes[0] = pbU
+
+        # Connect pbU
+        pbU.connection_nodes[0] = pbUU
+        pbU.connection_nodes[2] = qb
+
+        # Connect pbUU
+        pbUU.connection_nodes[2] = pbU
+
+        return [pbUU, pbU, qb]
 
     def create_player(self):
 
