@@ -41,7 +41,7 @@ class Ui_element(entity.Entity):
             self.hover()
 
         # Change to the hover state if the mouse is in the bounding box
-        elif(self.point_inside(self.mouse_x, self.mouse_y)):
+        if(self.point_inside(self.mouse_x, self.mouse_y)):
 
             if(self.was_clicked):
                 self.clicked(self.mouse_buttons)
@@ -50,7 +50,7 @@ class Ui_element(entity.Entity):
                 self.was_released = False
                 self.unclicked(self.mouse_buttons)
 
-            else:
+            elif(not self.is_active):
                 self.hover()
 
         else:
@@ -61,7 +61,8 @@ class Ui_element(entity.Entity):
             if(self.was_clicked):
                 self.was_clicked = False
 
-            self.unhover()
+            if(not self.is_active):
+                self.unhover()
 
     def handle_key_press(self, symbol):
         if(symbol in self.keypress_reaction):

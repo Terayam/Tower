@@ -9,7 +9,8 @@ class Quit_button(menu_button.Menu_button):
         super(Quit_button, self).__init__(*args, **kwargs)
 
         # Keyboard reaction matrix
-        self.keypress_reaction = {pyglet.window.key.ENTER: self.quit}
+        self.keypress_reaction = {pyglet.window.key.ENTER: self.quit,
+                                  pyglet.window.key.NUM_ENTER: self.quit}
 
         self.quitting = False
 
