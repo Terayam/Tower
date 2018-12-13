@@ -8,17 +8,16 @@ class Quit_button(menu_button.Menu_button):
         # Call the base class initializer
         super(Quit_button, self).__init__(*args, **kwargs)
 
-        # Keyboard reaction matrix
-        self.keypress_reaction = {pyglet.window.key.ENTER: self.quit,
-                                  pyglet.window.key.NUM_ENTER: self.quit}
+    def handle_key_press(self, symbol):
+
+        if((symbol is pyglet.window.key.ENTER) or
+           (symbol is pyglet.window.key.NUM_ENTER)):
+            self.quit()
 
     def unclicked(self, button):
-
-        self.set_clip(1)
-
-        # Quit the game
         self.quit()
 
     def quit(self):
+
         if(self.is_active):
             pyglet.app.exit()
