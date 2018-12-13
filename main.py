@@ -93,9 +93,7 @@ class Game(pyglet.window.Window):
 
         # Pause UI Handler
         self.pause_ui_handler = ui_handler.Ui_handler()
-
-        for element in self.build_pause_menu():
-            self.pause_ui_handler.add(element)
+        self.pause_ui_handler.add(self.build_pause_menu())
 
     def setup_joystick(self):
 

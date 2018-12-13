@@ -19,7 +19,11 @@ class Ui_handler():
         self.active_element = None
 
     def add(self, element):
-        self.elements.append(element)
+
+        if(type(element) is list):
+            self.elements.extend(element)
+        else:
+            self.elements.append(element)
 
         if(self.active_element is None):
             self.active_element = self.elements[0]
