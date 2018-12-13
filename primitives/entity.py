@@ -38,6 +38,12 @@ class Entity(pyglet.sprite.Sprite):
         # Call the sprite initializer, but don't set an image
         super(Entity, self).__init__(img=image, batch=batch)
 
+        ##################
+        # Input Handling #
+        ##################
+        self.keypress_reaction = {}
+        self.key_release_reaction = {}
+
         ############################
         # State Machine Parameters #
         ############################
@@ -346,6 +352,17 @@ class Entity(pyglet.sprite.Sprite):
 
         # Update bbox position since we moved normal X position
         self.update_bbox()
+
+    ############################
+    # Input handling functions #
+    ############################
+    def handle_key_press(self, symbol):
+        if(symbol in self.keypress_reaction):
+            self.keypress_reaction[symbol]()
+
+    def handle_key_release(self, symbol):
+        if(symbol in self.key_release_reaction):
+            self.key_release_reaction[symbol]()
 
     ######################
     # Behavior Functions #

@@ -20,10 +20,6 @@ class Ui_element(entity.Entity):
         self.was_released = False
         self.mouse_buttons = collections.defaultdict(bool)
 
-        # Keyboard reaction matrix
-        self.keypress_reaction = {}
-        self.key_release_reaction = {}
-
         # UI connected nodes
         self.connection_nodes = [None,  # Up
                                  None,  # Right
@@ -63,14 +59,6 @@ class Ui_element(entity.Entity):
 
             if(not self.is_active):
                 self.unhover()
-
-    def handle_key_press(self, symbol):
-        if(symbol in self.keypress_reaction):
-            self.keypress_reaction[symbol]()
-
-    def handle_key_release(self, symbol):
-        if(symbol in self.key_release_reaction):
-            self.keypress_reaction[symbol]()
 
     def handle_mouse_move(self, x, y):
         self.update_mouse(x, y)
