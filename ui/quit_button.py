@@ -21,4 +21,5 @@ class Quit_button(menu_button.Menu_button):
         self.quit()
 
     def quit(self):
-        pyglet.app.exit()
+        if(self.is_active):
+            pyglet.app.exit()

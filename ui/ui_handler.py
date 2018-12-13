@@ -8,7 +8,12 @@ class Ui_handler():
         self.keypress_response = {pyglet.window.key.W: self.menu_up,
                                   pyglet.window.key.D: self.menu_right,
                                   pyglet.window.key.S: self.menu_down,
-                                  pyglet.window.key.A: self.menu_left}
+                                  pyglet.window.key.A: self.menu_left,
+
+                                  pyglet.window.key.UP: self.menu_up,
+                                  pyglet.window.key.RIGHT: self.menu_right,
+                                  pyglet.window.key.DOWN: self.menu_down,
+                                  pyglet.window.key.LEFT: self.menu_left}
 
         self.elements = []
         self.active_element = None
