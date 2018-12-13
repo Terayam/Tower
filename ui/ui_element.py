@@ -97,6 +97,12 @@ class Ui_element(entity.Entity):
             if(self.point_inside(self.mouse_x, self.mouse_y)):
                 self.was_released = True
 
+    def connect(self, up=None, right=None, down=None, left=None):
+        self.connection_nodes[0] = up
+        self.connection_nodes[1] = right
+        self.connection_nodes[2] = down
+        self.connection_nodes[3] = left
+
     #####################
     # Behavior functions
     #####################

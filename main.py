@@ -111,18 +111,16 @@ class Game(pyglet.window.Window):
     def build_pause_menu(self):
 
         pbUU = menu_button.Menu_button('assets/img/TestButton.png',
-                                      gridX=1,
-                                      gridY=3,
-                                      batch=self.pause_batch_ui)
-
+                                       gridX=1,
+                                       gridY=3,
+                                       batch=self.pause_batch_ui)
         pbUU.x = 250
         pbUU.y = 300
 
         pbU = menu_button.Menu_button('assets/img/TestButton.png',
-                                       gridX=1,
-                                       gridY=3,
-                                       batch=self.pause_batch_ui)
-
+                                      gridX=1,
+                                      gridY=3,
+                                      batch=self.pause_batch_ui)
         pbU.x = 250
         pbU.y = 175
 
@@ -130,19 +128,17 @@ class Game(pyglet.window.Window):
                                      gridX=1,
                                      gridY=3,
                                      batch=self.pause_batch_ui)
-
         qb.x = 250
         qb.y = 50
 
         # Connect qb
-        qb.connection_nodes[0] = pbU
+        qb.connect(up=pbU)
 
         # Connect pbU
-        pbU.connection_nodes[0] = pbUU
-        pbU.connection_nodes[2] = qb
+        pbU.connect(up=pbUU, down=qb)
 
         # Connect pbUU
-        pbUU.connection_nodes[2] = pbU
+        pbUU.connect(down=pbU)
 
         return [pbUU, pbU, qb]
 
