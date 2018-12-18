@@ -29,6 +29,9 @@ class Player(entity.Entity):
         self.hMove = 0.0
         self.vMove = 0.0
 
+        # Timers
+        self.attack_timeout = 0.0
+
         # Physics constants
         self.coef_friction = constants.NORMALDECCEL
         self.idle_speed = constants.MINSPEED
@@ -53,21 +56,26 @@ class Player(entity.Entity):
     def setup_stateMachine(self):
 
         state_behaviors = {'idle': self.behave_idle,
-                           'move': self.behave_move}
+                           'move': self.behave_move,
+                           'attack': self.behave_attack}
 
         return state_behaviors
 
     def setup_state_animations(self):
 
         animation_sequences = {'idle': [0],
-                               'move': [10, 11, 12, 13]}
+                               'move': [10, 11, 12, 13],
+                               'attack': range(20, 28)}
 
         return animation_sequences
 
     def update_stateMachine(self, elapsed_s):
 
-        # Switch between moving and idle states
-        self.current_state = 'idle'
+        if(self.current_state == 'attack'):
+            if(self.attack_timeout <= 0.0):
+                self.current_state = 'idle'
+        else:
+            self.current_state = 'idle'
 
         velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
 
@@ -82,6 +90,11 @@ class Player(entity.Entity):
 
         # Set key to held
         self.movementButtons[symbol] = True
+
+        if(symbol == pyglet.window.key.Z):
+            if(self.attack_timeout <= 0.0):
+                self.attack_timeout = 2.0
+                self.current_state = 'attack'
 
     def handle_key_release(self, symbol):
 
@@ -116,6 +129,8 @@ class Player(entity.Entity):
 
     def update(self, elapsed_s):
 
+        self.update_timers(elapsed_s)
+
         # accelerate in the direction of movement
         self.xAcc = constants.MOVEACCEL * self.hMove
         self.yAcc = constants.MOVEACCEL * self.vMove
@@ -124,6 +139,9 @@ class Player(entity.Entity):
 
         # Cap maximum speed of player
         self.cap_normal_move_speed(constants.MAXPLAYERSPEED)
+
+    def update_timers(self, elapsed_s):
+        self.attack_timeout -= elapsed_s
 
     #####################
     # Behavior functions
@@ -137,6 +155,9 @@ class Player(entity.Entity):
 
         velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
         self.animation_fps = (24 * (velMag / constants.MAXPLAYERSPEED))
+
+    def behave_attack(self, elapsed_s):
+        self.animation_fps = 24
 
     ################################
     # Collision Response functions #
