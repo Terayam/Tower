@@ -80,6 +80,7 @@ class Entity(pyglet.sprite.Sprite):
         self.clip_sequence = [0]
         self.clip_index = 0
         self.animation_fps = constants.DEFAULTFRAMEDELAY_FPS
+        self.animation_style = constants.ANIMATE_LOOP
         self.bbox.color = util_functions.random_color()
 
         ####################
@@ -168,9 +169,16 @@ class Entity(pyglet.sprite.Sprite):
                     # Go to the next clip
                     self.clip_index = self.clip_index + 1
 
-                    # Reset if we past the end of the animation sequence
+                    # If we reach the end of the sequence
                     if(self.clip_index > (len(self.clip_sequence) - 1)):
-                        self.clip_index = 0
+
+                        # Reset to the first index if the style is LOOP
+                        if(self.animation_style == constants.ANIMATE_LOOP):
+                            self.clip_index = 0
+
+                        # Stay at the final index if style is ONCE
+                        elif(self.animation_style == constants.ANIMATE_ONCE):
+                            self.clip_index = (len(self.clip_sequence) - 1)
 
                     # Set the new image
                     self.set_clip(self.clip_sequence[self.clip_index])

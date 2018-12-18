@@ -150,14 +150,17 @@ class Player(entity.Entity):
 
         # Reset animation
         self.animation_fps = 0
+        self.animation_style = constants.ANIMATE_LOOP
 
     def behave_move(self, elapsed_s):
 
         velMag = math.sqrt(self.xVel * self.xVel + self.yVel * self.yVel)
         self.animation_fps = (24 * (velMag / constants.MAXPLAYERSPEED))
+        self.animation_style = constants.ANIMATE_LOOP
 
     def behave_attack(self, elapsed_s):
         self.animation_fps = 24
+        self.animation_style = constants.ANIMATE_ONCE
 
     ################################
     # Collision Response functions #
