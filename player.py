@@ -8,6 +8,8 @@ from primitives import entity
 from util import util_functions
 from util import constants
 
+from attacks import cardAttack
+
 
 class Player(entity.Entity):
 
@@ -171,19 +173,11 @@ class Player(entity.Entity):
             self.animation_fps = 24
             self.animation_style = constants.ANIMATE_ONCE
 
-            cardAttack = entity.Entity('assets/img/card_attack.png',
-                                       gridX=10,
-                                       gridY=10,
-                                       batch=self.sprite_batch)
-            cardAttack.state_animations = {'default': [0, 1, 2, 3]}
-            cardAttack.animation_style = constants.ANIMATE_ONCE
-            cardAttack.x = self.x + 20
-            cardAttack.y = self.y + 25
-            cardAttack.bbox_to_image()
-            cardAttack.collidable = False
-            cardAttack.debugAnimation = True
+            cA = cardAttack.CardAttack(batch=self.sprite_batch,
+                                       x=self.x + 20,
+                                       y=self.y + 25)
 
-            globalVars.game_entities.append(cardAttack)
+            globalVars.game_entities.append(cA)
 
             self.entering_attack = False
 
