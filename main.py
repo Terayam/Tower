@@ -177,7 +177,6 @@ class Game(pyglet.window.Window):
     def draw_all_entities(self):
 
         # Draw game entities first
-        print(self.sprite_batch_game)
         self.sprite_batch_game.draw()
 
         # Draw UI on top
