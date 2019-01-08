@@ -38,6 +38,9 @@ class Entity(pyglet.sprite.Sprite):
         # Call the sprite initializer, but don't set an image
         super(Entity, self).__init__(img=image, batch=batch)
 
+        # Save the sprite batch
+        self.sprite_batch = batch
+
         ############################
         # State Machine Parameters #
         ############################
@@ -68,6 +71,7 @@ class Entity(pyglet.sprite.Sprite):
         ###############################
         # Default Behavior Parameters #
         ###############################
+        self.target = None
         self.tracking_accel = 0.0
         self.min_tracking_distance = 0
         self.max_tracking_distance = 0

@@ -2,10 +2,12 @@ import pyglet
 import collections
 import math
 import rm
+import globalVars
 
 from primitives import entity
 from util import util_functions
 from util import constants
+from entities import debt
 
 
 class Player(entity.Entity):
@@ -31,6 +33,9 @@ class Player(entity.Entity):
 
         # Timers
         self.attack_timeout = 0.0
+
+        # Switches
+        self.entering_attack = False
 
         # Physics constants
         self.coef_friction = constants.NORMALDECCEL
@@ -65,7 +70,7 @@ class Player(entity.Entity):
 
         animation_sequences = {'idle': [0],
                                'move': [10, 11, 12, 13],
-                               'attack': range(20, 28)}
+                               'attack': range(20, 30)}
 
         return animation_sequences
 
@@ -95,6 +100,7 @@ class Player(entity.Entity):
             if(self.attack_timeout <= 0.0):
                 self.attack_timeout = 2.0
                 self.current_state = 'attack'
+                self.entering_attack = True
 
     def handle_key_release(self, symbol):
 
@@ -159,8 +165,21 @@ class Player(entity.Entity):
         self.animation_style = constants.ANIMATE_LOOP
 
     def behave_attack(self, elapsed_s):
-        self.animation_fps = 24
-        self.animation_style = constants.ANIMATE_ONCE
+
+        # Setup during the first frame of the attack animation
+        if(self.entering_attack):
+
+            self.animation_fps = 24
+            self.animation_style = constants.ANIMATE_ONCE
+
+            newDebt = debt.Debt('assets/img/enemy.png', batch=self.sprite_batch)
+            newDebt.x = self.x + 20
+            newDebt.y = self.y + 25 
+            newDebt.target = self
+
+            globalVars.game_entities.append(newDebt)
+
+            self.entering_attack = False
 
     ################################
     # Collision Response functions #

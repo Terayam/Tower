@@ -4,6 +4,8 @@ import rm
 import collections
 import levels
 
+import globalVars
+
 from input_handling import joystick_handler
 from ui import menu_button
 from ui import quit_button
@@ -74,9 +76,6 @@ class Game(pyglet.window.Window):
 
         # Create the player object
         self.create_player()
-
-        # Create game-scope entities
-        self.game_entities = []
 
         # Create the current level
         self.current_level = None
@@ -166,7 +165,7 @@ class Game(pyglet.window.Window):
             self.player.bbox.draw()
 
             # Draw bboxes of game-scope entities
-            for entity in self.game_entities:
+            for entity in globalVars.game_entities:
                 entity.bbox.draw()
 
             # Draw bboxes of level entities
@@ -178,6 +177,7 @@ class Game(pyglet.window.Window):
     def draw_all_entities(self):
 
         # Draw game entities first
+        print(self.sprite_batch_game)
         self.sprite_batch_game.draw()
 
         # Draw UI on top
@@ -353,7 +353,7 @@ class Game(pyglet.window.Window):
         self.player.read_joystate(self.joystick_handler)
 
         # Call update on all game-scope entities
-        for entity in self.game_entities:
+        for entity in globalVars.game_entities:
             entity.update(dt)
 
         # Call update on all level entities
