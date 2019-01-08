@@ -45,7 +45,7 @@ class Entity(pyglet.sprite.Sprite):
         # State Machine Parameters #
         ############################
         self.current_state = 'default'
-        self.previous_state = self.current_state
+        self.previous_state = None
         self.state_behaviors = self.setup_stateMachine()
 
         ######################

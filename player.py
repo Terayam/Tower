@@ -7,7 +7,6 @@ import globalVars
 from primitives import entity
 from util import util_functions
 from util import constants
-from entities import debt
 
 
 class Player(entity.Entity):
@@ -172,12 +171,19 @@ class Player(entity.Entity):
             self.animation_fps = 24
             self.animation_style = constants.ANIMATE_ONCE
 
-            newDebt = debt.Debt('assets/img/enemy.png', batch=self.sprite_batch)
-            newDebt.x = self.x + 20
-            newDebt.y = self.y + 25 
-            newDebt.target = self
+            cardAttack = entity.Entity('assets/img/card_attack.png',
+                                       gridX=10,
+                                       gridY=10,
+                                       batch=self.sprite_batch)
+            cardAttack.state_animations = {'default': [0, 1, 2, 3]}
+            cardAttack.animation_style = constants.ANIMATE_ONCE
+            cardAttack.x = self.x + 20
+            cardAttack.y = self.y + 25
+            cardAttack.bbox_to_image()
+            cardAttack.collidable = False
+            cardAttack.debugAnimation = True
 
-            globalVars.game_entities.append(newDebt)
+            globalVars.game_entities.append(cardAttack)
 
             self.entering_attack = False
 
