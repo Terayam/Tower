@@ -1,5 +1,7 @@
 from util import constants
+from util import util_functions
 from primitives import entity
+import math
 
 
 class CardAttack(entity.Entity):
@@ -24,6 +26,12 @@ class CardAttack(entity.Entity):
 
         self.stick_offset_x = 20.0
         self.stick_offset_y = 25.0
+        self.stick_offset_animation = [(0.00, 00.0, 50.0),
+                                       (0.15, 50.0, 25.0),
+                                       (0.20, 45.0, 00.0),
+                                       (0.30, 45.0, 00.0),
+                                       (0.55, 35.0, 00.0),
+                                       (2.00, 35.0, 00.0)]
 
         self.aliveTimer = 0
         self.lifetime = 2.0
@@ -49,5 +57,14 @@ class CardAttack(entity.Entity):
 
         if(self.aliveTimer >= self.lifetime):
             self.current_state = 'delete'
+
+        new_stick_offset = util_functions.linear_interp_tuple_list(self.stick_offset_animation,
+                                                                   self.aliveTimer)
+        self.stick_offset_x = new_stick_offset[0]
+        self.stick_offset_y = new_stick_offset[1]
+
+        print("{}: {}, {}".format(self.aliveTimer,
+                                  self.stick_offset_x,
+                                  self.stick_offset_y))
 
         super(CardAttack, self).update(elapsed_s)
