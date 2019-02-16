@@ -177,6 +177,8 @@ class Player(entity.Entity):
                                        x=self.x + 20,
                                        y=self.y + 25)
 
+            cA.target = self
+
             globalVars.game_entities.append(cA)
 
             self.entering_attack = False

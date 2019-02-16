@@ -76,6 +76,9 @@ class Entity(pyglet.sprite.Sprite):
         self.min_tracking_distance = 0
         self.max_tracking_distance = 0
 
+        self.stick_offset_x = 0.0
+        self.stick_offset_y = 0.0
+
         ######################
         # Drawing parameters #
         ######################
@@ -409,3 +412,12 @@ class Entity(pyglet.sprite.Sprite):
                         # Apply a gain to accelerate
                         self.xAcc = dx * self.tracking_accel
                         self.yAcc = dy * self.tracking_accel
+
+    def stick_target(self, elapsed_s):
+
+        # Don't do anything if I don't have a target
+        # (Target is expected to be an entity)
+        if(self.target):
+
+            self.x = self.target.x + self.stick_offset_x
+            self.y = self.target.y + self.stick_offset_y

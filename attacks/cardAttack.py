@@ -19,8 +19,14 @@ class CardAttack(entity.Entity):
 
         self.animation_style = constants.ANIMATE_ONCE
 
+        self.birthX = x
+        self.birthY = y
+
         self.x = x
         self.y = y
+
+        self.stick_offset_x = 20.0
+        self.stick_offset_y = 25.0
 
         self.aliveTimer = 0
         self.lifetime = 2.0
@@ -28,6 +34,11 @@ class CardAttack(entity.Entity):
     ###########################
     # State Machine Functions #
     ###########################
+    def setup_stateMachine(self):
+
+        state_behaviors = {'default': self.stick_target}
+
+        return state_behaviors
 
     def update_stateMachine(self, elapsed_s):
 
