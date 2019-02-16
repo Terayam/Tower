@@ -23,7 +23,7 @@ class CardAttack(entity.Entity):
         self.y = y
 
         self.aliveTimer = 0
-        self.lifetime = 1.0
+        self.lifetime = 2.0
 
     ###########################
     # State Machine Functions #
