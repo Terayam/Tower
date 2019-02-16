@@ -19,9 +19,6 @@ class CardAttack(entity.Entity):
 
         self.animation_style = constants.ANIMATE_ONCE
 
-        self.birthX = x
-        self.birthY = y
-
         self.x = x
         self.y = y
 
