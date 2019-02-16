@@ -37,15 +37,17 @@ class CardAttack(entity.Entity):
 
         return state_behaviors
 
-    def update_stateMachine(self, elapsed_s):
+    def setup_state_animations(self):
+
+        animation_sequences = {'default': [0, 1, 2, 3]}
+
+        return animation_sequences
+
+    def update(self, elapsed_s):
 
         self.aliveTimer += elapsed_s
 
         if(self.aliveTimer >= self.lifetime):
             self.current_state = 'delete'
 
-    def setup_state_animations(self):
-
-        animation_sequences = {'default': [0, 1, 2, 3]}
-
-        return animation_sequences
+        super(CardAttack, self).update(elapsed_s)
