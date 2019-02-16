@@ -374,6 +374,9 @@ class Game(pyglet.window.Window):
         for entity in self.current_level.entities:
             self.player.collide(entity)
 
+        # Cull any dead entities
+        self.cull_entities()
+
     def updatePause(self, dt):
         # Update joystick events
         if(self.joystick):
@@ -381,6 +384,18 @@ class Game(pyglet.window.Window):
 
         # Call update on all pause GUI Elements
         self.pause_ui_handler.update(dt)
+
+    def cull_entities(self):
+
+        filteredEntities = filter(lambda x: x.current_state != 'delete',
+                                  globalVars.game_entities)
+
+        globalVars.game_entities = list(filteredEntities)
+
+        filteredEntities = filter(lambda x: x.current_state != 'delete',
+                                  self.current_level.entities)
+
+        self.current_level.entities = list(filteredEntities)
 
     def run(self):
 

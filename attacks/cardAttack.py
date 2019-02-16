@@ -22,9 +22,20 @@ class CardAttack(entity.Entity):
         self.x = x
         self.y = y
 
+        self.aliveTimer = 0
+        self.lifetime = 1.0
+
     ###########################
     # State Machine Functions #
     ###########################
+
+    def update_stateMachine(self, elapsed_s):
+
+        self.aliveTimer += elapsed_s
+
+        if(self.aliveTimer >= self.lifetime):
+            self.current_state = 'delete'
+
     def setup_state_animations(self):
 
         animation_sequences = {'default': [0, 1, 2, 3]}
