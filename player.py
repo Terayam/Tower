@@ -9,6 +9,7 @@ from util import util_functions
 from util import constants
 
 from attacks import cardAttack
+from entities import wall
 
 
 class Player(entity.Entity):
@@ -43,6 +44,8 @@ class Player(entity.Entity):
         self.idle_speed = constants.MINSPEED
 
         # Drawing variables
+
+        self.interaction_map = {type(wall.Wall): self.collide_with_wall}
 
     ###################
     # Sound Functions #
@@ -186,23 +189,6 @@ class Player(entity.Entity):
     ################################
     # Collision Response functions #
     ################################
-    def collide(self, other):
-
-        # Don't collide if either sprite is not collidable
-        if(self.collidable and other.collidable):
-
-            # Get the rectangle overlap
-            overlap = self.bbox.union(other.bbox)
-
-            if(overlap and self.debug_overlap):
-                overlap.color = (255, 0, 0, 255)
-                overlap.draw()
-
-            if(overlap):
-
-                # Call the collide with player function
-                # of the other sprite with this sprite
-                other.collide_with_player(overlap)
 
     def collide_with_wall(self, player, overlap):
         self.exit_collision(overlap)

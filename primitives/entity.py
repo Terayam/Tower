@@ -48,6 +48,11 @@ class Entity(pyglet.sprite.Sprite):
         self.previous_state = None
         self.state_behaviors = self.setup_stateMachine()
 
+        #########################
+        # Interaction functions #
+        #########################
+        self.interaction_map = {}
+
         ######################
         # Physics Parameters #
         ######################
@@ -314,16 +319,11 @@ class Entity(pyglet.sprite.Sprite):
                 overlap.color = (255, 0, 0, 255)
                 overlap.draw()
 
+            # Call the matching interact function based on the other's type
+            if(type(other) in self.interaction_map.keys()):
+                self.interaction_map[type(other)](overlap)
+
         # Base class doesn't do anything with the collision
-
-    def collide_with_player(self, overlap):
-        pass
-
-    def collide_with_wall(self, overlap):
-        pass
-
-    def collide_with_enemy(self, overlap):
-        pass
 
     def exit_collision(self, overlap):
 
