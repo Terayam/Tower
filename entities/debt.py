@@ -20,7 +20,7 @@ class Debt(entity.Entity):
         # Set up tracking
         self.tracking_accel = 600
         self.min_tracking_distance = 5
-        self.max_tracking_distance = 150
+        self.max_tracking_distance = 300
 
         # Class-specific properties
         self.birth_limit = 2
@@ -40,10 +40,7 @@ class Debt(entity.Entity):
 
     def after_collision(self, elapsed_s):
 
-        self.xAcc = 0
-        self.yAcc = 0
-        self.xVel = 10
-        self.yVel = 10
+        self.current_state = 'default'
 
     #########################
     # Interaction Functions #
@@ -60,18 +57,13 @@ class Debt(entity.Entity):
     def collide_with_card(self, overlap):
         self.current_state = 'collided'
 
-        self.xAcc /= 2
-        self.yAcc /= 2
-        self.xVel /= 2
-        self.yVel /= 2
-
         if(self.birth_limit > 0):
 
           self.birth_limit = self.birth_limit - 1
 
           new_debt = Debt('assets/img/enemy.png', batch=self.sprite_batch)
-          new_debt.x = self.x + (100 * (2 * random.random() - 1))
-          new_debt.y = self.y + (100 * (2 * random.random() - 1))
+          new_debt.x = self.x + (200 * (2 * random.random() - 1))
+          new_debt.y = self.y + (200 * (2 * random.random() - 1))
 
           # Prevent birth explosion
           new_debt.collidable = False

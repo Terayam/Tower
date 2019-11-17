@@ -65,8 +65,8 @@ class CardAttack(entity.Entity):
         self.stick_offset_x = new_stick_offset[0]
         self.stick_offset_y = new_stick_offset[1]
 
-        print("{}: {}, {}".format(self.aliveTimer,
-                                  self.stick_offset_x,
-                                  self.stick_offset_y))
+        #print("{}: {}, {}".format(self.aliveTimer,
+        #                          self.stick_offset_x,
+        #                          self.stick_offset_y))
 
         super(CardAttack, self).update(elapsed_s)

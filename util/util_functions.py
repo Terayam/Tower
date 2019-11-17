@@ -15,8 +15,6 @@ def linear_interp_tuple_list(table, lookup):
 
         last_index = index
 
-    print("ci: {}, li: {}".format(closest_index, last_index))
-
     # interpolate x
     inter_x = linear_interp(table[last_index][0],
                             table[closest_index][0],
