@@ -1,4 +1,6 @@
 from primitives import entity
+import globalVars
+import random
 
 
 class Debt(entity.Entity):
@@ -48,3 +50,11 @@ class Debt(entity.Entity):
         self.yAcc /= 2
         self.xVel /= 2
         self.yVel /= 2
+
+        new_debt = Debt('assets/img/enemy.png', batch=self.sprite_batch)
+        new_debt.x = self.x + (100 * (2 * random.random() - 1))
+        new_debt.y = self.y + (100 * (2 * random.random() - 1))
+        new_debt.target = self.target
+
+
+        globalVars.game_entities.append(new_debt)
