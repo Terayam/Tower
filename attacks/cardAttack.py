@@ -36,6 +36,8 @@ class CardAttack(entity.Entity):
         self.aliveTimer = 0
         self.lifetime = 2.0
 
+        self.interaction_name = 'Card'
+
     ###########################
     # State Machine Functions #
     ###########################

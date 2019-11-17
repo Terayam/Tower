@@ -368,6 +368,15 @@ class Game(pyglet.window.Window):
             entity.collide(self.player)
 
         # Collide enemies and enemy projectiles with player projectiles
+        for gameEntity in globalVars.game_entities:
+            for levelEntity in globalVars.level_entities:
+                gameEntity.collide(levelEntity)
+
+        for levelEntity in globalVars.level_entities:
+            for otherLevelEntity in globalVars.level_entities:
+                if(otherLevelEntity is not levelEntity):
+                    levelEntity.collide(otherLevelEntity)
+                    otherLevelEntity.collide(levelEntity)
 
         # Collide enemies and enemy projectiles with walls
 

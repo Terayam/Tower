@@ -192,7 +192,7 @@ class Player(entity.Entity):
 
             cA.target = self
 
-            globalVars.game_entities.append(cA)
+            globalVars.level_entities.append(cA)
 
             self.entering_attack = False
 

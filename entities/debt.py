@@ -50,14 +50,14 @@ class Debt(entity.Entity):
     #########################
     def setup_interactionMap(self):
 
-        interaction_map = {'Player': self.collide_with_player}
+        interaction_map = {'Card': self.collide_with_card}
 
         return interaction_map
 
     #######################
     # Collision functions #
     #######################
-    def collide_with_player(self, overlap):
+    def collide_with_card(self, overlap):
         self.current_state = 'collided'
 
         self.xAcc /= 2
