@@ -1,4 +1,5 @@
 import pyglet
+import globalVars
 
 from entities import wall
 
@@ -10,7 +11,6 @@ class Level:
         self.background = None
         self.player = player
         self.sprite_batch = sprite_batch
-        self.entities = []
 
         # Create all level objects
         self.build_level()
@@ -32,7 +32,7 @@ class Level:
         # Set wall dimensions
         new_wall.set_pos_size_bbox(wallX, wallY, wallW, wallH)
 
-        self.entities.append(new_wall)
+        globalVars.level_entities.append(new_wall)
 
     def draw(self):
         self.background.blit(0, 0)

@@ -1,4 +1,5 @@
 import level
+import globalVars
 
 from entities import debt
 
@@ -22,7 +23,7 @@ class Debug1(level.Level):
 
         test_enemy = debt.Debt('assets/img/enemy.png', batch=self.sprite_batch)
         test_enemy.target = self.player
-        self.entities.append(test_enemy)
+        globalVars.level_entities.append(test_enemy)
 
 
 class Debug2(level.Level):

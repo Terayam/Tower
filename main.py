@@ -169,7 +169,7 @@ class Game(pyglet.window.Window):
                 entity.bbox.draw()
 
             # Draw bboxes of level entities
-            for entity in self.current_level.entities:
+            for entity in globalVars.level_entities:
                 entity.bbox.draw()
 
         # Flip is called automatically by the event loop
@@ -356,26 +356,26 @@ class Game(pyglet.window.Window):
             entity.update(dt)
 
         # Call update on all level entities
-        for entity in self.current_level.entities:
+        for entity in globalVars.level_entities:
             entity.update(dt)
 
         # Call update on the player
         self.player.update(dt)
 
         # Collide level entities with the player
-        for entity in self.current_level.entities:
+        for entity in globalVars.level_entities:
             entity.collide(self.player)
 
         # Collide enemies and enemy projectiles with player projectiles
 
         # Collide enemies and enemy projectiles with walls
 
-        # Collide the player with enemies and projec yettiles
-        for entity in self.current_level.entities:
+        # Collide the player with enemies and projectiles
+        for entity in globalVars.level_entities:
             self.player.collide(entity)
 
         # Cull any dead entities
-        self.cull_entities()
+        #self.cull_entities()
 
     def updatePause(self, dt):
         # Update joystick events
@@ -388,7 +388,7 @@ class Game(pyglet.window.Window):
     def cull_entities(self):
 
         # Call the delete function on anything in the delete state
-        for entity in globalVars.game_entities + self.current_level.entities:
+        for entity in globalVars.game_entities + globalVars.level_entities:
             if(entity.current_state == 'delete'):
                 entity.delete()
 
@@ -397,9 +397,9 @@ class Game(pyglet.window.Window):
                                     for entity in globalVars.game_entities
                                     if entity.current_state != 'delete']
 
-        self.current_level.entities = [entity
-                                       for entity in self.current_level.entities
-                                       if entity.current_state != 'delete']
+        globalVars.level_entities = [entity
+                                     for entity in globalVars.level_entities
+                                     if entity.current_state != 'delete']
 
     def run(self):
 

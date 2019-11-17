@@ -22,6 +22,9 @@ class Debt(entity.Entity):
         self.min_tracking_distance = 5
         self.max_tracking_distance = 150
 
+        # Class-specific properties
+        self.birth_limit = 2
+
     ###########################
     # State Machine Functions #
     ###########################
@@ -51,10 +54,16 @@ class Debt(entity.Entity):
         self.xVel /= 2
         self.yVel /= 2
 
-        new_debt = Debt('assets/img/enemy.png', batch=self.sprite_batch)
-        new_debt.x = self.x + (100 * (2 * random.random() - 1))
-        new_debt.y = self.y + (100 * (2 * random.random() - 1))
-        new_debt.target = self.target
+        if(self.birth_limit > 0):
 
+          self.birth_limit = self.birth_limit - 1
 
-        globalVars.game_entities.append(new_debt)
+          new_debt = Debt('assets/img/enemy.png', batch=self.sprite_batch)
+          new_debt.x = self.x + (100 * (2 * random.random() - 1))
+          new_debt.y = self.y + (100 * (2 * random.random() - 1))
+
+          # Prevent birth explosion
+          new_debt.collidable = False
+          new_debt.target = self.target
+
+          globalVars.level_entities.append(new_debt)
