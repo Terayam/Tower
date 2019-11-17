@@ -177,6 +177,7 @@ class Game(pyglet.window.Window):
 
         globalVars.entity_lock.release()
 
+
     def draw_all_entities(self):
 
         # Draw game entities first
@@ -398,13 +399,13 @@ class Game(pyglet.window.Window):
         globalVars.entity_lock.acquire()
 
         # Remove deleted entities from the global and level lists
-        #globalVars.game_entities = [entity
-        #                            for entity in globalVars.game_entities
-        #                            if entity.current_state != 'delete']
+        globalVars.game_entities = [entity
+                                    for entity in globalVars.game_entities
+                                    if entity.current_state != 'delete']
 
-        #globalVars.level_entities = [entity
-        #                             for entity in globalVars.level_entities
-        #                             if entity.current_state != 'delete']
+        globalVars.level_entities = [entity
+                                     for entity in globalVars.level_entities
+                                     if entity.current_state != 'delete']
 
         globalVars.entity_lock.release()
 
