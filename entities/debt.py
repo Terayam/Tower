@@ -25,6 +25,8 @@ class Debt(entity.Entity):
         # Class-specific properties
         self.birth_limit = 2
 
+        self.interaction_name = 'Debt'
+
     ###########################
     # State Machine Functions #
     ###########################
@@ -42,6 +44,15 @@ class Debt(entity.Entity):
         self.yAcc = 0
         self.xVel = 10
         self.yVel = 10
+
+    #########################
+    # Interaction Functions #
+    #########################
+    def setup_interactionMap(self):
+
+        interaction_map = {'Player': self.collide_with_player}
+
+        return interaction_map
 
     #######################
     # Collision functions #

@@ -51,7 +51,8 @@ class Entity(pyglet.sprite.Sprite):
         #########################
         # Interaction functions #
         #########################
-        self.interaction_map = {}
+        self.interaction_name = 'Entity'
+        self.interaction_map = self.setup_interactionMap()
 
         ######################
         # Physics Parameters #
@@ -139,6 +140,15 @@ class Entity(pyglet.sprite.Sprite):
 
     def update_stateMachine(self, elapsed_s):
         pass
+
+    #########################
+    # Interaction Functions #
+    #########################
+    def setup_interactionMap(self):
+
+        interaction_map = {}
+
+        return interaction_map
 
     #####################
     # Drawing functions #
@@ -315,13 +325,14 @@ class Entity(pyglet.sprite.Sprite):
             # Get the rectangle overlap
             overlap = self.bbox.union(other.bbox)
 
-            if(overlap and self.debug_overlap):
-                overlap.color = (255, 0, 0, 255)
-                overlap.draw()
+            if(overlap):
+                if(self.debug_overlap):
+                    overlap.color = (255, 0, 0, 255)
+                    overlap.draw()
 
-            # Call the matching interact function based on the other's type
-            if(type(other) in self.interaction_map.keys()):
-                self.interaction_map[type(other)](overlap)
+                # Call the matching interact function based on the other's type
+                if(other.interaction_name in self.interaction_map.keys()):
+                    self.interaction_map[other.interaction_name](overlap)
 
         # Base class doesn't do anything with the collision
 

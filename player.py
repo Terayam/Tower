@@ -43,9 +43,9 @@ class Player(entity.Entity):
         self.coef_friction = constants.NORMALDECCEL
         self.idle_speed = constants.MINSPEED
 
-        # Drawing variables
+        self.interaction_name = 'Player'
 
-        self.interaction_map = {type(wall.Wall): self.collide_with_wall}
+        # Drawing variables
 
     ###################
     # Sound Functions #
@@ -90,6 +90,16 @@ class Player(entity.Entity):
 
         if(velMag > self.idle_speed):
             self.current_state = 'move'
+
+
+    #########################
+    # Interaction Functions #
+    #########################
+    def setup_interactionMap(self):
+
+        interaction_map = {'Wall': self.collide_with_wall}
+
+        return interaction_map
 
     ####################
     # Inputs Functions #
@@ -190,7 +200,7 @@ class Player(entity.Entity):
     # Collision Response functions #
     ################################
 
-    def collide_with_wall(self, player, overlap):
+    def collide_with_wall(self, overlap):
         self.exit_collision(overlap)
 
         if(not self.collide_latch):
