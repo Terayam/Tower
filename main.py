@@ -1,11 +1,10 @@
 import pyglet
+
 import player
 import rm
 import collections
 import levels
-
 import globalVars
-
 from input_handling import joystick_handler
 from ui import menu_button
 from ui import quit_button
@@ -148,6 +147,10 @@ class Game(pyglet.window.Window):
 
     def on_draw(self):
 
+        globalVars.entity_lock.acquire()
+
+        print('d', end='')
+
         # Draw the current level
         self.current_level.draw()
 
@@ -173,6 +176,8 @@ class Game(pyglet.window.Window):
                 entity.bbox.draw()
 
         # Flip is called automatically by the event loop
+
+        globalVars.entity_lock.release()
 
     def draw_all_entities(self):
 
@@ -341,6 +346,8 @@ class Game(pyglet.window.Window):
 
     def updateRun(self, dt):
 
+        print('u', end='')
+
         # update the GUI
         self.ui_handler.update(dt)
 
@@ -375,7 +382,7 @@ class Game(pyglet.window.Window):
             self.player.collide(entity)
 
         # Cull any dead entities
-        #self.cull_entities()
+        self.cull_entities()
 
     def updatePause(self, dt):
         # Update joystick events
@@ -392,14 +399,18 @@ class Game(pyglet.window.Window):
             if(entity.current_state == 'delete'):
                 entity.delete()
 
+        globalVars.entity_lock.acquire()
+
         # Remove deleted entities from the global and level lists
-        globalVars.game_entities = [entity
-                                    for entity in globalVars.game_entities
-                                    if entity.current_state != 'delete']
+        #globalVars.game_entities = [entity
+        #                            for entity in globalVars.game_entities
+        #                            if entity.current_state != 'delete']
 
         globalVars.level_entities = [entity
                                      for entity in globalVars.level_entities
                                      if entity.current_state != 'delete']
+
+        globalVars.entity_lock.release()
 
     def run(self):
 
