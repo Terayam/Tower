@@ -388,13 +388,15 @@ class Game(pyglet.window.Window):
 
     def cull_entities(self):
 
+
+
+        # Call the delete function on anything in the delete state
+        for entity in globalVars.game_entities + globalVars.level_entities:
+            if(entity.current_state == 'delete'):
+                entity.delete()
+
         # Take Entity list lock
         with globalVars.entity_lock:
-
-            # Call the delete function on anything in the delete state
-            for entity in globalVars.game_entities + globalVars.level_entities:
-                if(entity.current_state == 'delete'):
-                    entity.delete()
 
             # Remove deleted entities from the global and level lists
             globalVars.game_entities = [entity
