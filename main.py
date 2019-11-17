@@ -147,36 +147,33 @@ class Game(pyglet.window.Window):
 
     def on_draw(self):
 
-        globalVars.entity_lock.acquire()
+        with globalVars.entity_lock:
 
-        # Draw the current level
-        self.current_level.draw()
+            # Draw the current level
+            self.current_level.draw()
 
-        # Draw entities
-        self.draw_all_entities()
+            # Draw entities
+            self.draw_all_entities()
 
-        # If in the paused state, draw GUI
-        if(self.state == 'pause'):
-            self.draw_pause_screen()
+            # If in the paused state, draw GUI
+            if(self.state == 'pause'):
+                self.draw_pause_screen()
 
-        # Draw bboxes if debug enabled
-        if(self.debug_bbox):
+            # Draw bboxes if debug enabled
+            if(self.debug_bbox):
 
-            # Draw player bounding boox
-            self.player.bbox.draw()
+                # Draw player bounding boox
+                self.player.bbox.draw()
 
-            # Draw bboxes of game-scope entities
-            for entity in globalVars.game_entities:
-                entity.bbox.draw()
+                # Draw bboxes of game-scope entities
+                for entity in globalVars.game_entities:
+                    entity.bbox.draw()
 
-            # Draw bboxes of level entities
-            for entity in globalVars.level_entities:
-                entity.bbox.draw()
+                # Draw bboxes of level entities
+                for entity in globalVars.level_entities:
+                    entity.bbox.draw()
 
-        # Flip is called automatically by the event loop
-
-        globalVars.entity_lock.release()
-
+            # Flip is called automatically by the event loop
 
     def draw_all_entities(self):
 
@@ -391,23 +388,22 @@ class Game(pyglet.window.Window):
 
     def cull_entities(self):
 
-        # Call the delete function on anything in the delete state
-        for entity in globalVars.game_entities + globalVars.level_entities:
-            if(entity.current_state == 'delete'):
-                entity.delete()
+        # Take Entity list lock
+        with globalVars.entity_lock:
 
-        globalVars.entity_lock.acquire()
+            # Call the delete function on anything in the delete state
+            for entity in globalVars.game_entities + globalVars.level_entities:
+                if(entity.current_state == 'delete'):
+                    entity.delete()
 
-        # Remove deleted entities from the global and level lists
-        globalVars.game_entities = [entity
-                                    for entity in globalVars.game_entities
-                                    if entity.current_state != 'delete']
+            # Remove deleted entities from the global and level lists
+            globalVars.game_entities = [entity
+                                        for entity in globalVars.game_entities
+                                        if entity.current_state != 'delete']
 
-        globalVars.level_entities = [entity
-                                     for entity in globalVars.level_entities
-                                     if entity.current_state != 'delete']
-
-        globalVars.entity_lock.release()
+            globalVars.level_entities = [entity
+                                         for entity in globalVars.level_entities
+                                         if entity.current_state != 'delete']
 
     def run(self):
 
