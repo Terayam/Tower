@@ -149,8 +149,6 @@ class Game(pyglet.window.Window):
 
         globalVars.entity_lock.acquire()
 
-        print('d', end='')
-
         # Draw the current level
         self.current_level.draw()
 
@@ -346,8 +344,6 @@ class Game(pyglet.window.Window):
 
     def updateRun(self, dt):
 
-        print('u', end='')
-
         # update the GUI
         self.ui_handler.update(dt)
 
@@ -406,9 +402,9 @@ class Game(pyglet.window.Window):
         #                            for entity in globalVars.game_entities
         #                            if entity.current_state != 'delete']
 
-        globalVars.level_entities = [entity
-                                     for entity in globalVars.level_entities
-                                     if entity.current_state != 'delete']
+        #globalVars.level_entities = [entity
+        #                             for entity in globalVars.level_entities
+        #                             if entity.current_state != 'delete']
 
         globalVars.entity_lock.release()
 
