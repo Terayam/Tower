@@ -352,37 +352,20 @@ class Game(pyglet.window.Window):
         # Give joystate to Player
         self.player.read_joystate(self.joystick_handler)
 
+        allEntities = globalVars.game_entities + globalVars.level_entities + [self.player]
+
         # Call update on all game-scope entities
-        for entity in globalVars.game_entities:
+        for entity in allEntities:
             entity.update(dt)
 
-        # Call update on all level entities
-        for entity in globalVars.level_entities:
-            entity.update(dt)
+        # Collide all entities with all other entities
+        for firstEntity in allEntities:
 
-        # Call update on the player
-        self.player.update(dt)
+            for secondEntity in allEntities:
 
-        # Collide level entities with the player
-        for entity in globalVars.level_entities:
-            entity.collide(self.player)
-
-        # Collide enemies and enemy projectiles with player projectiles
-        for gameEntity in globalVars.game_entities:
-            for levelEntity in globalVars.level_entities:
-                gameEntity.collide(levelEntity)
-
-        for levelEntity in globalVars.level_entities:
-            for otherLevelEntity in globalVars.level_entities:
-                if(otherLevelEntity is not levelEntity):
-                    levelEntity.collide(otherLevelEntity)
-                    otherLevelEntity.collide(levelEntity)
-
-        # Collide enemies and enemy projectiles with walls
-
-        # Collide the player with enemies and projectiles
-        for entity in globalVars.level_entities:
-            self.player.collide(entity)
+                if(secondEntity is not firstEntity):
+                    firstEntity.collide(secondEntity)
+                    secondEntity.collide(firstEntity)
 
         # Cull any dead entities
         self.cull_entities()
