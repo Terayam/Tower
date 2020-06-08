@@ -9,8 +9,7 @@ class BgmPlayer:
 
         # Create a new source group to hold the music queue using the
         # default Audio format and no video format
-        self.srcGroup = pyglet.media.SourceGroup(defaults.defaultAudioFormat,
-                                                 None)
+        self.srcGroup = pyglet.media.SourceGroup()
 
         # create a new pyglet player
         # note: this class assumes that the pyglet media subsystem has already
@@ -18,7 +17,7 @@ class BgmPlayer:
         self.pyglet_player = pyglet.media.Player()
 
         # set the default behavior to loop
-        self.pyglet_player.eos_action = pyglet.media.SourceGroup.loop
+        #self.pyglet_player.eos_action = pyglet.media.SourceGroup.loop
 
         # Set the default BGM volume
         self.original_volume = 1.0
@@ -26,15 +25,15 @@ class BgmPlayer:
 
     def change_source(self, source):
 
-        # Clear the current source and start the next one
-        self.srcGroup.next_source()
-        self.srcGroup.queue(source)
+        # Clear the current source and start the new one
+        self.srcGroup = pyglet.media.SourceGroup()
+        self.srcGroup.add(source)
 
         self.pyglet_player.next_source()
         self.pyglet_player.queue(self.srcGroup)
 
     def loop(self, looping):
-        self.srcGroup.loop = looping
+        self.pyglet_player.loop = looping
 
     def play(self):
         self.pyglet_player.play()
